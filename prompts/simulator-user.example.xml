@@ -1,0 +1,23 @@
+<input>
+    <memory type="coarse" comment="Summary of previous events">
+        {$COARSE_MEMORY}
+    </memory>
+    <memory type="precise" comment="Summary of recent events">
+        {$PRECISE_MEMORY}
+    </memory>
+
+    <simulator>simulator output</simulator>
+    <conducting-department>user action</conducting-department>
+    <simulator>simulator output</simulator>
+    <conducting-department>user action</conducting-department>
+
+    <simulator>simulator output</simulator>
+    <status comment="Most up-to-date world state. Use as the basis for simulation.">previous status bar</status>
+    <conducting-department>user action</conducting-department>
+
+    <instruction>
+    - DO NOT copy content from preceding <simulator />, <conducting-department />, or <status /> tags.
+    - DO NOT output an "updated status bar". Output ONLY newly generated story content.
+    - Output in {$LANGUAGE_SELECTOR} regardless of prompt language.
+    </instruction>
+</input>

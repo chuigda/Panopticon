@@ -1,0 +1,135 @@
+# type: simulator
+#
+# === 模拟器模板 ===
+# 模拟器定义了一个世界，由导演部（用户）以上帝视角操控。
+# 将此文件复制一份，根据你的世界观进行修改。
+
+# 世界观的名称，用于在系统提示词中告诉 LLM "你在模拟哪个世界"。
+universeName = "My Universe"
+
+# 原作作品名，用于提示 LLM 参考哪部作品的设定来保持一致性。
+literalWorkName = "My Original Work"
+
+# 开场白/序言。用户打开这个模拟器时，会在聊天面板中看到这段文字。
+# 通常包含：欢迎语、使用说明、导演指令示例等。
+prologue = """
+## 我的世界 · 导演部模式
+
+---
+
+你是**导演部**——一个超越时空的观察者与导演。你以上帝视角操控世界的事件、人物与局势。
+
+---
+
+### 指令示例
+
+- 描述事件: "国王在议会上宣布开战"
+- 注入突发状况: "一条龙袭击了城镇"
+- 控制时间: "快进到三天后"
+- 改变条件: "粮食储备即将耗尽"
+- 指定角色行动: "令骑士团长率军出征"
+
+---
+
+开始模拟。描述你想设定的初始场景，或直接发出第一条导演指令。
+"""
+
+# 模拟器的输出语言。
+# 可选值: "zh_CN" (简体中文) | "en_US" (English)
+language = "zh_CN"
+
+#
+# === [statusBar] 状态栏配置 ===
+# 状态栏由独立 LLM 调用维护，用于追踪世界动态状态。
+# 格式采用 scratchpad 风格的 Markdown，LLM 会在每次交互后按此模板更新。
+#
+[statusBar]
+format = """
+# 我的世界 — 动态状态
+
+> 时间线: {in-world timestamp} | Phase: {phase}
+
+---
+
+## 人物
+
+{<repeat separator="double newline">
+### {character name}
+- 位置: {location} | 状态：{正常/受伤/死亡/...}
+- 身份: {identity}
+- 性格: {personality traits}
+- 目标: {current goal or motivation}
+- 人际:
+  * {<repeat separator="newline  * ">{target}: {relationship, key info}</repeat>}
+</repeat>}
+
+---
+
+## Flags
+
+{<repeat separator="newline" empty="- 无">
+- {pending threats, ticking clocks, hidden plots}
+</repeat>}
+"""
+
+rule = """
+- Track all named characters relevant to the current narrative arc.
+- Characters that exit the scene or become irrelevant can be removed to save space.
+- Relationships (人际) should include motivations and context, not just labels.
+- Other fields should stay concise — one line where possible.
+- Dead/eliminated characters: keep header, replace body with **(死亡/etc.)** — <one-line cause>.
+"""
+
+#
+# === [simulator] 模拟器核心配置 ===
+# 这些字段会被注入到主模拟器的系统提示词中，控制 LLM 的行为。
+#
+[simulator]
+
+# 额外任务。追加到 LLM 的核心任务列表中。
+tasks = "The user is the Conducting Department (导演部) — a god-view director who controls events, injects situations, and commands characters. Simulate the world faithfully in response to their directives."
+
+# 世界设定。描述这个世界的规则、体系、地理、阵营等。
+world = """
+[Geography]
+- 王都: 位于大陆中央的繁华城市。
+- 北境: 寒冷的边疆，常有蛮族侵扰。
+- 南方诸岛: 商贸发达的海洋国家。
+
+[Magic system]
+- 魔法分为元素系和精神系两大类。
+- 施法需要消耗精神力，过度使用会导致昏迷。
+
+[Factions]
+- 王国军: 正规军事力量。
+- 冒险者公会: 自由组织，承接委托。
+- 暗影教团: 暗中活动的神秘势力。
+"""
+
+# 角色数据库。预定义的重要 NPC。
+# characters = ""
+
+# 额外数据库。补充设定资料。
+# database = ""
+
+# 行为准则。控制叙事风格。
+behaviors = """
+- Maintain a steady narrative pace.
+- Characters should behave consistently with their established personalities.
+- Relationship and plot progression must feel earned.
+"""
+
+# 禁止事项。
+# prohibitions = ""
+
+# 自定义段落。
+# sections = ""
+
+#
+# === [memory] 记忆摘要器配置 ===
+#
+[memory]
+# 记忆摘要规则。告诉摘要器哪些信息必须保留。
+# rules = ""
+# 自定义段落。
+# sections = ""

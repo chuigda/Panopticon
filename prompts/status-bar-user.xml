@@ -1,0 +1,23 @@
+<input>
+    <memory type="coarse" comment="Summary of previous events">
+        {$COARSE_MEMORY}
+    </memory>
+    <memory type="precise" comment="Summary of recent events">
+        {$PRECISE_MEMORY}
+    </memory>
+
+    <simulator comment="Output before user's instruction action">
+        {$SIMULATOR_OUTPUT_BEFORE_USER_INSTRUCTION}
+    </simulator>
+    <status comment="Previous status bar (may be empty on first input)">
+        {$PREVIOUS_STATUS_BAR}
+    </status>
+
+    <conducting-department comment="User's instruction">
+        {$USER_INSTRUCTION}
+    </conducting-department>
+
+    <simulator comment="Output after user's instruction">
+        {$SIMULATOR_OUTPUT_AFTER_USER_INSTRUCTION}
+    </simulator>
+</input>

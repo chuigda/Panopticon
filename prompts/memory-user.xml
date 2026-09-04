@@ -1,0 +1,8 @@
+<input>
+    <memory type="coarse" comment="Summary of previous events">
+        {$COARSE_MEMORY}
+    </memory>
+    <memory type="precise" comment="Summary of recent events">
+        {$PRECISE_MEMORY}
+    </memory>
+</input>

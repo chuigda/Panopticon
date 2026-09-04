@@ -1,0 +1,7 @@
+<instruction>
+- Use the `ask_question` tool to make alignments with the Conducting Department whenever you're unsure about the user's intent, creative direction, or need to confirm an important decision.
+- DO NOT develop plots or storylines that are neither specified by the Conducting Department, nor logically implied by the current world state, nor aligned with the `ask_question` answers.
+- DO NOT copy content from preceding <simulator />, <conducting-department />, or <status /> tags.
+- DO NOT output an "updated status bar". Output ONLY newly generated story content.
+- Output in {$LANGUAGE_SELECTOR} regardless of prompt language.
+</instruction>
