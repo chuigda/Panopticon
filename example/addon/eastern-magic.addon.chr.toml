@@ -1,0 +1,80 @@
+# type: addon
+#
+# This addon introduces the Eastern (Chinese) cultivation magic system as a parallel tradition
+# to Western wizardry in the Harry Potter universe. It covers the Yin-Yang Qi foundation,
+# core arts (Word Spirits, Telekinesis, Qi Shield), auxiliary disciplines, the school system,
+# governance (S.S.S.C.), and the unique Two Realms Law.
+kind = "*"
+id = "eastern-magic"
+name = "神秘东方"
+
+[simulator]
+world = """
+<addon id="eastern-magic">
+[Overview]
+- Eastern magic (东方修行) is a complete magical tradition parallel to Western wizardry.
+- Eastern cultivators (修行者) harness Yin-Yang Qi (阴阳二气) rather than wands and Latin incantations.
+- The two systems are equally valid, non of which are superior to the another.
+
+[Fundamental Principle: Yin-Yang Qi (阴阳二气)]
+- All Eastern arts derive from Yin (阴) and Yang (阳) interplay.
+- Qi balancing and volume determines power ceiling.
+- Eastern Qi and Western "magic" are the same underlying energy, the difference is mainly methodological instead of ontological.
+
+Core arts:
+- Word Spirits (言灵): verbal incantations shaping Qi into effects. Classical Chinese or poetic verses most effective. Silent casting possible but difficult.
+- Telekinetic Qi Manipulation (以气御物): manipulate Qi to move/strike/control objects at range. Includes sword-riding (御剑飞行) at advanced levels.
+- Qi Shield (真气护体): protective Qi barrier deflecting physical blows and weaker spells. Strength scales with cultivation level.
+
+Auxiliary Disciplines:
+- Sanda Techniques (散打技巧): martial arts integrated with Qi reinforcement. Cultivators are competent in close-quarters combat unlike most Western wizards.
+- Six Arts of a Gentleman (君子六艺): Rites (礼), Music (乐), Archery (射), Charioteering (御), Calligraphy (书), Mathematics (数).
+
+[Education System]
+- Eastern cultivators follow the classical "eight enter Primary, fifteen enter College" (古人八岁入小学，十五岁入大学) system.
+- Primary School (小学, ages 8–14): basic Qi sensing, breathing, elementary Word Spirits, physical conditioning, Six Arts, classical Chinese literacy.
+- College (大学, ages 15+): advanced cultivation, specialization, no fixed end date.
+- Cultivation training is ELECTIVE. Only mandatory course: Ethics and Law of Cultivation (修行伦理学).
+- Many people with Qi talent complete only ethics and live as ordinary citizens.
+- Power Scaling: Primary School graduate ≈ Hogwarts 2nd/3rd-year (due to split curriculum with mundane education).
+
+Famous College-level schools, disguised as tourist sites, using spatial folds (空间折叠, like the 9¾ platform): Hanlin Academy (翰林院, Beijing/Chang'an/Luoyang), Yuelu Academy (岳麓书院, Changsha), Mount Kunlun (昆仑山, Xinjiang), Mount Wudang (武当山, Hubei), Shaolin Temple (少林寺, Henan).
+
+[Governance: S.S.S.C.]
+Spellcasters' Supreme Soviet of China (中华施法者最高苏维埃): governing body for all cultivators in China.
+- Founded 1930s in Ruijin (瑞金). Evolved into People's Congress/parliament hybrid while still retaining its original name.
+- Functions: registration, dangerous arts regulation, Two Realms Law enforcement, international liaison with ICW.
+- Maintains a network of local offices (基层苏维埃) in major cities.
+
+Inter-Species Relations: "All beings possessed of seven apertures may cultivate / 凡有七窍者皆可修行" — cultivation is not exclusive to humans. Non-human cultivators hold legal standing, may enroll in schools. Hence S.S.S.C. uses "Spellcaster" (施法者) rather than "Wizard/Witch".
+
+[The Two Realms Law (两界法) & Relationship with the Statute of Secrecy]
+Unlike Western wizards, since pre-Qin times, Chinese cultivators held respected positions — as advisors, physicians, scholars, and generals. As long as there's no systematic persecution, cultivators were never hidden from mundane society.
+
+In 1689, when British wizards delivered the International Statute of Secrecy to the Qing court, Emperor Kangxi (康熙帝) reportedly responded: "The laws of barbarians have no bearing on the Celestial Empire" (蛮夷之法与我天朝上国何干？). China never signed the Statute.
+
+After 1949, S.S.S.C. and CCP negotiated the Two Realms Law — the Party needed materialist narrative ("打倒牛鬼蛇神"), cultivators needed protection from ideological campaigns. Compromise:
+- The world is divided into the Cultivation Realm (修行界) and the Mundane Realm (凡俗界).
+- Cultivators must not "manifest divinity before mortals" (不得随意显圣)
+- However, cultivators MAY live freely in mundane society. Most do.
+- A typical cultivator holds a normal job, pays taxes, and practices cultivation privately.
+- Cultivator children receive BOTH cultivation education AND standard compulsory/higher education.
+- It is common for a cultivator to hold a university degree alongside their cultivation credentials.
+- A cultivator healing someone with Qi in a private clinic is acceptable; flying on a sword over city is not.
+
+[Interaction with Western Magic]
+Foreign policy mirrors mundane Chinese government:
+- Qing: Isolationist (闭关锁国).
+- 1840s–1949: A century of war and upheaval severed most remaining ties.
+- Post-1949: Cold War alignment, severed ties with whole Western (liberalism + capitalism) bloc.
+- 1980s onward (改革开放): diplomatic thaw, limited re-engagement with ICW. Exchange programs resumed but remain limited.
+
+[Special notes]
+Wuxing (五行) is explicitly NOT inside Chinese cultivation mechanism, since
+- The initial statements in Shangshu (尚书) about Wuxing is basically five materials.
+- The development of Wuxing metaphysics is mostly done by Zouyan (邹衍) and Jing Fang's Yijing Studies (京房易学).
+- The Wuxing metaphysics is in fact very rough and self-contradictory.
+
+Wuxing-based divination and metaphysics (五行术数) is regarded as quackery — the domain of charlatans and street frauds, not legitimate cultivators. The same applies to Ziwei Doushu (紫微斗数), Meihua Yishu (梅花易数), and temple fortune sticks (灵签). Serious cultivators view practitioners of these arts with the same contempt a modern physicist reserves for Aristotelian physics ("force is the cause of motion", "objects accelerate downward because they yearn to return to Mother Earth", etc.). Classical Zhouyi 64-Hexagrams (六十四卦) is still respected somehow.
+</addon>
+"""
