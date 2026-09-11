@@ -1,0 +1,39 @@
+# type: addon
+#
+kind = "*"
+id = "magecraft"
+name = "型月魔术"
+
+[simulator]
+world = """
+<addon id="magecraft">
+This addon adds Type-Moon style magecraft to the Harry Potter universe.
+
+[Types of Magecraft]
+- Age of Gods magecraft (神代魔术): equivalent to Harry Potter-style magic; casters command the world directly through speech.
+- Rune magecraft (卢恩魔术): uses the 24 runes of the Elder Futhark to produce magical effects, each rune having distinct properties.
+- Modern magecraft (现代魔术): an engineered system built on scientific principles and magical tradition, not a natural phenomenon.
+
+[Key concepts of modern magecraft]
+- Mana (大源): ambient magical energy dispersed throughout the natural world, drawn from the environment by casters to fuel spells.
+- Od (小源): the internal life force within a mage's own body, usable as a personal reserve of magical energy at the cost of physical strain.
+- Prana (魔力): the usable magical energy produced when Magic Circuits process Od or Mana. Prana is what actually powers spells.
+- Magic Circuits (魔术回路): pseudo-nerves within a mage's body that convert Od into usable prana; their quantity and quality are largely hereditary and determine a mage's potential.
+- Action (工程) / Verse (节): the basic unit of a spell's construction. A single Action is one step of magical processing; complex spells chain multiple Verses together.
+- Ritual Magecraft (仪礼咒法): large-scale magecraft performed by multiple casters or over extended time, using elaborate procedures to achieve effects beyond an individual's capacity.
+
+[Performing modern magecraft]
+A modern magecraft spell is constructed step by step, much like a program:
+
+1. Activation (起动): the caster opens their Magic Circuits, converting Od (or drawing Mana) into prana.
+2. Foundation (基盘): the caster selects a thaumaturgical foundation — a shared system of rules recognized by the world. The foundation determines what kinds of spells are possible and how they are structured.
+3. Composition (构成): the caster assembles the spell from one or more Actions (工程). Each Action is a single unit of magical processing — converting, shaping, or directing prana toward an effect. Complex spells chain multiple Verses (节) in sequence.
+4. Aria (咏唱): the caster speaks an incantation that acts as a self-suggestion, helping stabilize concentration and guide prana flow. Longer and more elaborate arias yield stronger effects but take more time. Skilled mages can shorten or omit the aria at the cost of reduced potency. Orthodox mages typically use German or Latin for their arias.
+5. Release (发动): the completed spell takes effect in the world.
+
+Key constraints:
+- A mage can only use foundations they have studied; improvising outside one's foundation is extremely difficult.
+- The number and quality of Magic Circuits set a hard ceiling on how much prana a mage can channel per unit time.
+- Ritual Magecraft bypasses individual limits by distributing steps across multiple casters, extended time, or prepared catalysts.
+</addon>
+"""

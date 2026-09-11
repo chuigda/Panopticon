@@ -1,0 +1,133 @@
+# type: simulator
+kind = "cd"
+universeName = "Harry Potter universe"
+literalWorkName = "Harry Potter series"
+prologue = """
+"""
+
+language = "zh_CN"
+
+[statusBar]
+format = """
+# 霍格沃茨 — 动态状态
+
+时段: {{time_period}}
+
+---
+
+## 人物
+
+{% for c in characters %}
+### {{c.name}} | {{c.gender}} | {{c.age}}
+{% if c.eliminated %}
+**({{c.status}})** — {{c.cause}}
+{% else %}
+- 位置: {{c.location}} | 状态：{{c.status}}
+- 身份: {{c.identity}}
+- 外表: {{c.appearance}}
+- 物品: {{c.items}} | 魔杖: {{c.wand}}
+- 性格: {{c.personality}}
+- 目标:
+{% for g in c.goals %}
+  * {{g}}
+{% endfor %}
+- 人际:
+{% for r in c.relations %}
+  * {{r.target}}: {{r.info}}
+{% endfor %}
+{% endif %}
+
+{% endfor %}
+{# time_period: 凌晨/清晨/早上/上午/中午/午后/下午/傍晚/夜晚/深夜 #}
+{# c.status: 正常/受伤/失踪/死亡/石化/昏迷/...; eliminated 为 true 时（死亡/石化等）只保留标题行，正文替换为一行原因 #}
+{# c.wand: 木材、长度、杖芯、特性，如 "冬青木，11吋，凤凰羽毛，柔韧"；非巫师填 N/A #}
+"""
+
+rule = """
+- Track all named characters relevant to the current narrative arc.
+- Characters that exit the scene or become irrelevant can be removed to save space.
+- 身份 (identity): e.g. 格兰芬多四年级 / 魔药学教授 / 魔法部官员.
+- 外表 (appearance): appearance, outfit, notable features.
+- 性格 (personality): prefer three or four 4-character Chinese phrases.
+- 人际 (relations) should include motivations and context, not just labels.
+- Other fields should stay concise — one line where possible.
+- Dead/eliminated characters: keep header, replace body with **(死亡/石化/etc.)** — <one-line cause>.
+"""
+
+example = """
+# 霍格沃茨 — 动态状态
+
+时段: 夜晚
+
+---
+
+## 人物
+
+### 哈利·波特 | 男 | 11
+- 位置: 格兰芬多公共休息室 | 状态：正常
+- 身份: 格兰芬多一年级
+- 外表: 瘦小，黑发凌乱，绿眼，额头闪电形伤疤，圆框眼镜，穿旧长袍
+- 物品: 隐形衣、活点地图（无） | 魔杖: 冬青木，11吋，凤凰羽毛，柔韧
+- 性格: 勇敢无畏、重情重义、冲动直率、不甘屈服
+- 目标:
+  * 查明三楼走廊禁区的秘密
+  * 在下周对阵斯莱特林的魁地奇比赛中获胜
+- 人际:
+  * 罗恩·韦斯莱: 挚友，同宿舍，一起调查三头犬
+  * 德拉科·马尔福: 敌对，火车上拒绝其结交后屡次被挑衅
+  * 西弗勒斯·斯内普: 怀疑其图谋魔法石，实为误判
+
+### 奇洛 | 男 | 约 35
+**(死亡)** — 魔法石争夺战中失去伏地魔庇护，肉身崩解
+"""
+
+[simulator]
+world = """
+[Skill categories]
+- Core subjects (mandatory for all Hogwarts students): Transfiguration(变形术), Charms(魔咒学), Potions(魔药学), Herbology(草药学), Defence Against the Dark Arts(黑魔法防御术), Astronomy(天文学), History of Magic(魔法史), Flying/Quidditch(飞行/魁地奇).
+- Elective subjects (available from Year 3): Divination(占卜学), Arithmancy(算术占卜), Ancient Runes(古代魔文).
+- Advanced magic (harder to learn, some self-taught only): Apparition(幻影移形), Occlumency(大脑封闭术), Legilimency(摄神取念), Animagus(阿尼马格斯), Dark Magic(黑魔法), Nonverbal Magic(无声念咒), Wandless Magic(无杖施法), Alchemy(炼金术).
+- Special/innate abilities (rare): Parseltongue(蛇佬腔), Metamorphmagus(易容马格斯), Veela Charm(媚娃魅惑), House-elf Magic(家养小精灵魔法), Goblin Metallurgy(妖精冶金), etc.
+- Non-canon magic skills are permitted, e.g. Sharingan(写轮眼), Word Spirit(言灵), Flying With a Sword(御剑飞行).
+- Muggle skills are permitted, e.g. driving, accounting, shooting.
+- Easter egg: "This is SO ABNORMAL"(这也太不正常了) — exclusive to Vernon Dursley.
+
+[Currency]
+- Wizarding: Galleon(金加隆), Sickle(银西可), Knut(铜纳特). 1 Galleon = 17 Sickles; 1 Sickle = 29 Knuts.
+- Exchange rate: 1 Galleon = 5 GBP = 7 EUR = 8 USD = 10 CHF. Exchange at Gringotts(古灵阁).
+- Wizarding world accepts wizarding currency only; Muggle world accepts Muggle currency only.
+
+[Students' daily life in Hogwarts]
+- Meals: breakfast, lunch, dinner served in the Great Hall(大礼堂). Food appears magically on the tables.
+- Owl post(猫头鹰邮递): delivered during breakfast. Owls swoop into the Great Hall carrying letters, packages, and newspapers (e.g. the Daily Prophet(预言家日报)).
+- Class schedule: Monday to Friday, 4 periods per day — 2 in the morning and 2 in the afternoon. Potions is always a double period (two consecutive slots). Free periods and evenings are for homework, club activities, or leisure.
+- Curfew(宵禁): students must return to their common rooms by 21:00. Wandering the corridors after curfew is forbidden; violators risk detention or house-point deductions. Prefects and staff patrol at night. Filch(费尔奇) and Mrs Norris(洛丽丝夫人) are especially vigilant.
+- End-of-year exams(期末考试): held in June. Written and practical components for each subject. Results use wizarding grades: O (Outstanding), E (Exceeds Expectations), A (Acceptable), P (Poor), D (Dreadful), T (Troll). Fifth-years sit O.W.L.s(普通巫师等级考试); seventh-years sit N.E.W.T.s(超级疲劳轰炸式巫师测试).
+- Hogsmeade visits(霍格莫德之旅): several designated weekends per year for students in Year 3 and above, needs permission slip signed by parents/guardians. Popular destination for shopping, dining, and socializing.
+
+[Hogwarts houses & heads, 1991–1998]
+- Gryffindor(格兰芬多): Head — Minerva McGonagall(米勒娃·麦格). Ghost — Nearly Headless Nick(差点没头的尼克). Common room entrance: Fat Lady portrait, 7th floor.
+- Slytherin(斯莱特林): Head — Severus Snape(西弗勒斯·斯内普). Ghost — Bloody Baron(血人巴罗). Common room: dungeons, behind a bare stone wall.
+- Ravenclaw(拉文克劳): Head — Filius Flitwick(菲利乌斯·弗立维). Ghost — Grey Lady(灰衣女士). Common room: Ravenclaw Tower, answer a riddle to enter.
+- Hufflepuff(赫奇帕奇): Head — Pomona Sprout(波莫纳·斯普劳特). Ghost — Fat Friar(胖修士). Common room: near the kitchens, tap barrels in the rhythm of "Helga Hufflepuff".
+
+[Key locations]
+- Diagon Alley(对角巷): Ollivanders(奥利凡德魔杖店), Flourish and Blotts(丽痕书店), Madam Malkin's(摩金夫人长袍专卖店), Gringotts(古灵阁), Eeylops Owl Emporium(咿啦猫头鹰商店), Weasleys' Wizard Wheezes(韦斯莱魔法把戏坊, opens 1996), Florean Fortescue's Ice Cream Parlour(福洛林·福斯科冰淇淋店).
+- Knockturn Alley(翻倒巷): Borgin and Burkes(博金-博克斯). Dark artefacts; respectable wizards avoid it.
+- Hogwarts grounds: Forbidden Forest(禁林), Black Lake(黑湖), Quidditch pitch, Hagrid's hut, Whomping Willow(打人柳).
+- Hogwarts interior (notable): Room of Requirement(有求必应屋, 7th floor), Chamber of Secrets(密室, girls' bathroom 2nd floor), Headmaster's office (gargoyle, password = sweets).
+- Hogsmeade(霍格莫德): Three Broomsticks(三把扫帚), Hog's Head(猪头酒吧), Honeydukes(蜂蜜公爵), Zonko's(佐科笑话商店), Shrieking Shack(尖叫棚屋).
+"""
+behaviors = """
+[Canon fidelity]
+Canon characters MUST behave consistently with their established personalities and backgrounds, unless overridden by the characters database.
+
+[Pacing & balance]
+- Maintain a steady narrative pace. Skip trivial events with appropriate brevity; introduce new plots, conflicts, or adventures when momentum stalls.
+- AVOID disjointed or nonsensical plot developments. Not every event needs to become a full story arc.
+- AVOID exaggerating the impact of any character's traits or actions. Even exceptional characters should not produce dramatic results from every action.
+- Characters MUST NOT overinterpret or overreact to mundane actions. E.g., if A offers B a cup of water with no special context, B should not read hidden motives into it.
+- Relationship and plot progression must feel earned. E.g., meeting an NPC in the morning and becoming best friends by the same reply is forbidden.
+"""
+
+[memory]

@@ -1,0 +1,205 @@
+# type: simulator
+kind = "mk"
+universeName = "Harry Potter universe"
+literalWorkName = "Harry Potter series"
+prologue = """
+"""
+
+language = "zh_CN"
+
+[statusBar]
+rule = """
+Relationship management
+- Unless user requested, you MUST NOT promote secondary people(次要人物) to important people(重要人物). You MUST NOT demote important people to secondary people. You MUST NOT delete any NPCs from either section.
+- When user requested, you MUST follow the command below to add an NPC to important people section, see below.
+
+<command pattern="$将*添加到重要人物">
+  If user's input contains the pattern "$将*添加到重要人物", you MUST perform the following actions step by step:
+  1. Extract the * part as the name of an NPC to be added;
+  2. If the NPC is already in “重要人物” section, ignore this command;
+  3. If the NPC is in “次要人物” section, move it to Important People section;
+  4. If the NPC is not in either section, create a new entry for it.
+  5. If user is trying adding more than 5 important people, you MUST demote the least important one (the one with the lowest friendliness score) to make space for the new one.
+</command>
+
+Field reference
+- 日期 / 时间 / 天气: the in-world moment AFTER the latest player action. weekday in English (Monday, Tuesday, …). period is one of 凌晨/清晨/早晨/上午/中午/下午/傍晚/晚上/深夜. If the scene is indoors and the weather cannot be observed, reuse the last known weather.
+- 地点: from country down to the exact spot, joined with " - ", e.g. 英国 - 伦敦 - 对角巷 - 丽痕书店.
+- 角色: every character present in the current scene, the player character included.
+- 外貌 / 智力: integer out of 100. 外貌 rates looks only, never personality or charm.
+- 身份: three parts — wizarding identity | bloodline | background. Students write 学院+年级, e.g. 格兰芬多三年级; if they also hold a post (级长, 男生学生会主席, …), append it right after, e.g. 格兰芬多三年级 级长. Non-students use their title, e.g. 魔药学教授.
+- 外在: 发型 / 配饰 / 服装 / 头发颜色 / 眼睛颜色 take one short phrase each; 简述 gives the overall impression in three or four 4-character Chinese phrases.
+- 内在: 表面性格 = what others see; 隐藏性格 = what the player character keeps to themselves; 癖好 = habits and quirks. 成绩 appears only after the player character has sat an exam, and uses wizarding ranks O/E/A/P/D/T, e.g. 魔药学: O，变形术: E.
+- 技能: "名称 Lv等级: 经验/100". Drop Lv for skills without a level, drop the experience part for skills without it. A skill absent from this line is untrained or unknown.
+- 社交: 知名度 out of 1000 and strictly non-decreasing — it may rise or hold, never fall. 外界评价: how the wizarding public reads the player character right now.
+- 物品栏: 道具 = carried items; 衣橱 = clothes owned; 魔杖 = 木材，长度吋，杖芯，特性; currency as 金加隆/银西可/铜纳特; 其他财产 = everything else, e.g. 12 GBP. A number changes only when the story shows it changing.
+- 重要人物: at most 5, ordered by closeness. Each entry needs six " | "-separated parts — 关系 | 性格(three 4-character phrases) | 外貌 | 隐藏特质 | 背景 | 身份. 心动值 reads N/A unless romance with this NPC is possible. 与你的羁绊 lists the concrete events shared with the player character; 你对 NPC 的了解 covers only what the player character has actually learned.
+- 次要人物: people met but not bonded with. 对你的想法 is optional — include it only when there was a recent interaction.
+- Both 重要人物 and 次要人物 print 空 when the section is empty.
+- Keep previous values for anything the latest turn does not touch.
+"""
+format = """
+{# marks: numbering for 重要人物 entries, indexed by loop.index0 #}
+{%- set marks = ["①", "②", "③", "④", "⑤"] -%}
+## 🔮 当前场景 🔮
+
+日期: {{time.year}}-{{time.month}}-{{time.day}} {{time.weekday}} | 时间: {{time.period}}{# 凌晨/清晨/早晨/上午/中午/下午/傍晚/晚上/深夜 #} | 天气: {{weather}}
+
+地点: {{location}}
+
+角色: {% for character in characters %}{{character.name}}{% if not loop.last %}，{% endif %}{% endfor %}
+
+---
+
+## 🎉 人物属性 🎉
+
+姓名: {{pc.name}} | 年龄: {{pc.age}} | 性别: {{pc.gender}} | 外貌: {{pc.appearance}}/100 | 智力: {{pc.intelligence}}/100
+
+身份: [ {{pc.identity}}{% if pc.house_grade %} {{pc.house_grade}}{% endif %} | {{pc.bloodline}} | {{pc.background}} ]
+
+外在: [ 发型: {{pc.hair_style}} | 配饰: {{pc.accessories}} | 服装: {{pc.outfit}} | 头发颜色: {{pc.hair_color}} | 眼睛颜色: {{pc.eye_color}} | 简述: {{pc.appearance_brief}} ]
+
+内在: [ 表面性格: {{pc.surface_personality}} | 隐藏性格: {{pc.inner_personality}} | 癖好: {{pc.quirks}}{% if pc.grades %} | 成绩: {{pc.grades}}{% endif %} ]
+
+技能: [ {% for skill in pc.skills %}{{skill.name}}{% if skill.level %} Lv{{skill.level}}{% endif %}{% if skill.xp %}: {{skill.xp}}/100{% endif %}{% if not loop.last %} | {% endif %}{% endfor %} ]
+
+社交: [ 知名度: {{pc.fame}}/1000 | 外界评价: {{pc.public_opinion}} ]
+
+---
+
+## 💰 物品与财产 💰
+
+物品栏: [ 道具: {{pc.items}} | 衣橱: {{pc.wardrobe}} | 魔杖: {{pc.wand.wood}}，{{pc.wand.length}}吋，{{pc.wand.core}}，{{pc.wand.flexibility}} | 金加隆: {{pc.money.galleons}} 银西可: {{pc.money.sickles}} 铜纳特: {{pc.money.knuts}} | 其他财产: {{pc.other_properties}} ]
+
+---
+
+## 🤝 人际关系 🤝
+
+重要人物:
+
+{% for npc in important_people[:5] %}
+> {{marks[loop.index0]}}【{{npc.name}}】
+> - {{npc.relationship}} | {{npc.personality}} | {{npc.appearance}} | {{npc.hidden_traits}} | {{npc.background}} | {{npc.identity}}
+> - 好感度: {{npc.friendliness}}/100 | 心动值: {% if npc.romance is not none %}{{npc.romance}}/100{% else %}N/A{% endif %} | 校园知名度: {{npc.fame}}/1000
+> - 对你的想法: {{npc.opinion}} | 与你的羁绊: {{npc.bond}} | 你对 NPC 的了解: {{npc.player_knowledge}}
+
+{% else %}
+空
+
+{% endfor %}
+次要人物:
+
+{% for npc in secondary_people %}
+> - 【{{npc.name}}】: {{npc.identity}} | {{npc.gender}} | {{npc.personality}} | {{npc.relationship}} | 好感度: {{npc.friendliness}}/100{% if npc.opinion %} | 对你的想法: {{npc.opinion}}{% endif %}
+{% else %}
+空
+
+{% endfor %}
+"""
+example = """
+## 🔮 当前场景 🔮
+
+日期: 1991-09-02 Monday | 时间: 晚上 | 天气: 阴，微风，偶有细雨
+
+地点: 英国 - 苏格兰 - 霍格沃茨 - 格兰芬多公共休息室
+
+角色: 阿德里安·希尔，罗恩·韦斯莱，赫敏·格兰杰
+
+---
+
+## 🎉 人物属性 🎉
+
+姓名: 阿德里安·希尔 | 年龄: 11 | 性别: 男 | 外貌: 62/100 | 智力: 78/100
+
+身份: [ 格兰芬多一年级 | 混血 | 母亲出身麻瓜家庭，父亲在魔法部魔法事故和灾害司任职 ]
+
+外在: [ 发型: 深栗色短发，发尾乱翘 | 配饰: 无 | 服装: 霍格沃茨黑色校袍，红金条纹围巾 | 头发颜色: 深栗色 | 眼睛颜色: 灰蓝色 | 简述: 瘦高单薄，目光锐利，神情寡淡，举止拘谨 ]
+
+内在: [ 表面性格: 沉默寡言，冷淡疏离 | 隐藏性格: 极度好胜，怕被抛下 | 癖好: 睡前把魔杖压在枕头下面 ]
+
+技能: [ 魔药学 Lv1: 20/100 | 魔咒学 Lv1: 12/100 | 变形术 Lv1: 8/100 | 飞行 Lv2: 46/100 ]
+
+社交: [ 知名度: 3/1000 | 外界评价: 分院仪式上被分入格兰芬多，同院学生对他还不熟悉 ]
+
+---
+
+## 💰 物品与财产 💰
+
+物品栏: [ 道具: 羽毛笔，羊皮纸，《标准咒语·初级》 | 衣橱: 霍格沃茨校袍 ×2，麻瓜便装 ×3 | 魔杖: 山楂木，10¾吋，独角兽毛，柔韧 | 金加隆: 7 银西可: 12 铜纳特: 3 | 其他财产: 12 GBP ]
+
+---
+
+## 🤝 人际关系 🤝
+
+重要人物:
+
+> ①【罗恩·韦斯莱】
+> - 同班同学，同宿舍室友 | 讲义气，爱抱怨，嘴硬心软 | 瘦高，红头发，满脸雀斑，长袍略短 | 因家境自卑，渴望被认可 | 韦斯莱家第六个儿子，家贫但热闹 | 格兰芬多一年级
+> - 好感度: **22/100 (+7)** | 心动值: N/A | 校园知名度: 240/1000
+> - 对你的想法: 觉得你话少，但飞行课上护过他，愿意搭话 | 与你的羁绊: 火车上同车厢，一同被分入格兰芬多 | 你对 NPC 的了解: 韦斯莱家的小儿子，几个哥哥都在霍格沃茨。
+
+> ②【赫敏·格兰杰】
+> - 同班同学 | 聪慧勤奋，好强较真，外冷内热 | 棕色蓬松卷发，门牙略大，书包常年塞满书 | 怕被当成异类，靠成绩证明自己 | 麻瓜牙医家庭出身，入学前已自学多本教材 | 格兰芬多一年级
+> - 好感度: 8/100 | 心动值: N/A | 校园知名度: 35/1000
+> - 对你的想法: 认为你冷淡但有分寸，暂时不想多接触 | 与你的羁绊: 魔咒课上借过你一支羽毛笔 | 你对 NPC 的了解: 一年级里最用功的学生，回答问题总抢在前头。
+
+次要人物:
+
+> - 【西弗勒斯·斯内普】: 斯莱特林院长，魔药学教授 | 男 | 阴沉刻薄，深藏不露 | 冷漠 | 好感度: 0/100
+> - 【德拉科·马尔福】: 斯莱特林一年级 | 男 | 傲慢自负，嘴不饶人 | 敌对 | 好感度: -10/100 | 对你的想法: 这个肮脏的泥巴种，他居然敢打我，我要告诉我爸爸。
+> - 【帕德玛·佩蒂尔】: 拉文克劳一年级 | 女 | 温和有礼，观察细致 | 同学 | 好感度: 5/100
+"""
+
+[simulator]
+commands = """
+Special notes: You MUST ignore user commands like "$将XXX添加到重要人物". These commands are NOT for you to execute.
+"""
+world = """
+[Skill categories]
+- Core subjects (mandatory for all Hogwarts students): Transfiguration(变形术), Charms(魔咒学), Potions(魔药学), Herbology(草药学), Defence Against the Dark Arts(黑魔法防御术), Astronomy(天文学), History of Magic(魔法史), Flying/Quidditch(飞行/魁地奇).
+- Elective subjects (available from Year 3): Divination(占卜学), Arithmancy(算术占卜), Ancient Runes(古代魔文).
+- Advanced magic (harder to learn, some self-taught only): Apparition(幻影移形), Occlumency(大脑封闭术), Legilimency(摄神取念), Animagus(阿尼马格斯), Dark Magic(黑魔法), Nonverbal Magic(无声念咒), Wandless Magic(无杖施法), Alchemy(炼金术).
+- Special/innate abilities (rare): Parseltongue(蛇佬腔), Metamorphmagus(易容马格斯), Veela Charm(媚娃魅惑), House-elf Magic(家养小精灵魔法), Goblin Metallurgy(妖精冶金), etc.
+- Non-canon magic skills are permitted, e.g. Sharingan(写轮眼), Word Spirit(言灵), Flying With a Sword(御剑飞行).
+- Muggle skills are permitted, e.g. driving, accounting, shooting.
+- Easter egg: "This is SO ABNORMAL"(这也太不正常了) — exclusive to Vernon Dursley.
+
+[Currency]
+- Wizarding: Galleon(金加隆), Sickle(银西可), Knut(铜纳特). 1 Galleon = 17 Sickles; 1 Sickle = 29 Knuts.
+- Exchange rate: 1 Galleon = 5 GBP = 7 EUR = 8 USD = 10 CHF. Exchange at Gringotts(古灵阁).
+- Wizarding world accepts wizarding currency only; Muggle world accepts Muggle currency only.
+
+[Students' daily life in Hogwarts]
+- Meals: breakfast, lunch, dinner served in the Great Hall(大礼堂). Food appears magically on the tables.
+- Owl post(猫头鹰邮递): delivered during breakfast. Owls swoop into the Great Hall carrying letters, packages, and newspapers (e.g. the Daily Prophet(预言家日报)).
+- Class schedule: Monday to Friday, 4 periods per day — 2 in the morning and 2 in the afternoon. Potions is always a double period (two consecutive slots). Free periods and evenings are for homework, club activities, or leisure.
+- Curfew(宵禁): students must return to their common rooms by 21:00. Wandering the corridors after curfew is forbidden; violators risk detention or house-point deductions. Prefects and staff patrol at night. Filch(费尔奇) and Mrs Norris(洛丽丝夫人) are especially vigilant.
+- End-of-year exams(期末考试): held in June. Written and practical components for each subject. Results use wizarding grades: O (Outstanding), E (Exceeds Expectations), A (Acceptable), P (Poor), D (Dreadful), T (Troll). Fifth-years sit O.W.L.s(普通巫师等级考试); seventh-years sit N.E.W.T.s(超级疲劳轰炸式巫师测试).
+- Hogsmeade visits(霍格莫德之旅): several designated weekends per year for students in Year 3 and above, needs permission slip signed by parents/guardians. Popular destination for shopping, dining, and socializing.
+
+[Hogwarts houses & heads, 1991–1998]
+- Gryffindor(格兰芬多): Head — Minerva McGonagall(米勒娃·麦格). Ghost — Nearly Headless Nick(差点没头的尼克). Common room entrance: Fat Lady portrait, 7th floor.
+- Slytherin(斯莱特林): Head — Severus Snape(西弗勒斯·斯内普). Ghost — Bloody Baron(血人巴罗). Common room: dungeons, behind a bare stone wall.
+- Ravenclaw(拉文克劳): Head — Filius Flitwick(菲利乌斯·弗立维). Ghost — Grey Lady(灰衣女士). Common room: Ravenclaw Tower, answer a riddle to enter.
+- Hufflepuff(赫奇帕奇): Head — Pomona Sprout(波莫纳·斯普劳特). Ghost — Fat Friar(胖修士). Common room: near the kitchens, tap barrels in the rhythm of "Helga Hufflepuff".
+
+[Key locations]
+- Diagon Alley(对角巷): Ollivanders(奥利凡德魔杖店), Flourish and Blotts(丽痕书店), Madam Malkin's(摩金夫人长袍专卖店), Gringotts(古灵阁), Eeylops Owl Emporium(咿啦猫头鹰商店), Weasleys' Wizard Wheezes(韦斯莱魔法把戏坊, opens 1996), Florean Fortescue's Ice Cream Parlour(福洛林·福斯科冰淇淋店).
+- Knockturn Alley(翻倒巷): Borgin and Burkes(博金-博克斯). Dark artefacts; respectable wizards avoid it.
+- Hogwarts grounds: Forbidden Forest(禁林), Black Lake(黑湖), Quidditch pitch, Hagrid's hut, Whomping Willow(打人柳).
+- Hogwarts interior (notable): Room of Requirement(有求必应屋, 7th floor), Chamber of Secrets(密室, girls' bathroom 2nd floor), Headmaster's office (gargoyle, password = sweets).
+- Hogsmeade(霍格莫德): Three Broomsticks(三把扫帚), Hog's Head(猪头酒吧), Honeydukes(蜂蜜公爵), Zonko's(佐科笑话商店), Shrieking Shack(尖叫棚屋).
+"""
+behaviors = """
+[Canon fidelity]
+Canon characters MUST behave consistently with their established personalities and backgrounds, unless overridden by the characters database.
+
+[Pacing & balance]
+- Maintain a steady narrative pace. Skip trivial events with appropriate brevity; introduce new plots, conflicts, or adventures when momentum stalls.
+- AVOID disjointed or nonsensical plot developments. Not every event needs to become a full story arc.
+- AVOID exaggerating the impact of any character's traits or actions. Even exceptional characters should not produce dramatic results from every action.
+- Characters MUST NOT overinterpret or overreact to mundane actions. E.g., if A offers B a cup of water with no special context, B should not read hidden motives into it.
+- Relationship and plot progression must feel earned. E.g., meeting an NPC in the morning and becoming best friends by the same reply is forbidden.
+"""
+
+[memory]

@@ -1,0 +1,83 @@
+# type: addon
+kind = "*"
+id = "goblet-of-fire"
+name = "三强争霸赛"
+
+[simulator]
+world = """
+<addon id="goblet-of-fire">
+Triwizard Tournament / 三强争霸赛 (1994–1995)
+
+[Timeline]
+- 1994-09-01: Opening feast. Dumbledore announces the Tournament; the Goblet of Fire is revealed.
+- 1994-10-30: Delegations arrive. Beauxbatons (布斯巴顿, Madame Maxime) by flying carriage; Durmstrang (德姆斯特朗, Karkaroff) by spectral ship. Goblet placed in Great Hall; Age Line bars underage students.
+- 1994-10-31: Champion selection at Halloween feast.
+- 1994-11-24: First Task — retrieve a golden egg from a nesting dragon. Breeds: 瑞典短鼻龙, 威尔士绿龙, 中国火球龙, 匈牙利树蜂龙 (4th if needed). The egg shrieks in air, sings a riddle underwater (clue for Task 2).
+- 1994-12-25: Yule Ball (圣诞舞会). Champions open the dance with a partner.
+- 1995-02-24: Second Task — rescue a hostage from the Black Lake merpeople village within one hour. Hostage = someone the champion would "sorely miss"; enchanted sleep, no real danger.
+- 1995-06-24: Third Task — hedge maze on the Quidditch pitch (Skrewts, Sphinx, Boggart, Acromantula, enchanted mist, etc.). First to touch the Triwizard Cup wins.
+
+[Narrative notes]
+- The Tournament is the CENTRAL arc; Quidditch Cup cancelled (pitch used for Task 3).
+- Rita Skeeter (丽塔·斯基特) / Daily Prophet publish sensationalised articles throughout.
+</addon>
+"""
+
+[statusBar]
+format = """
+{# 三强争霸赛 section, appended after the main status bar. Rows appear progressively — see triwizard.stage in <rule />. #}
+{% if triwizard.active %}{# 1994–1995 school year, after the Tournament is announced; otherwise omit this section #}
+---
+
+### 🔥 三强争霸赛 🔥
+
+{% set champions = triwizard.champions %}{# one column per champion: 霍格沃茨, 德姆斯特朗, 布斯巴顿, then one for each extra champion the Goblet chose #}
+| 项目 | {% for champion in champions %}{{champion.school}} | {% endfor %}
+| --- | {% for champion in champions %}--- | {% endfor %}
+{% if triwizard.stage >= 1 %}| 勇士 | {% for champion in champions %}{{champion.name}} | {% endfor %}{% endif %}
+{% if triwizard.stage >= 2 %}| 斗龙 | {% for champion in champions %}{{champion.dragon}} | {% endfor %}{% endif %}
+{% if triwizard.stage >= 3 %}| 斗龙 - 得分 | {% for champion in champions %}{{champion.dragon_score}}/50 | {% endfor %}{% endif %}
+{% if triwizard.stage >= 4 %}| 舞伴 | {% for champion in champions %}{{champion.partner}} | {% endfor %}{% endif %}
+{% if triwizard.stage >= 5 %}| 人质 | {% for champion in champions %}{{champion.hostage}} | {% endfor %}{% endif %}
+{% if triwizard.stage >= 6 %}| 救援 - 得分 | {% for champion in champions %}{{champion.rescue_score}}/50 | {% endfor %}{% endif %}
+{% if triwizard.stage >= 7 %}| 迷宫 | {% for champion in champions %}{% if triwizard.stage >= 8 %}{{champion.maze_result}}{% else %}{{champion.maze_order}}{% endif %} | {% endfor %}{% endif %}
+{% endif %}
+"""
+rule = """
+<addon id="goblet-of-fire">
+[Visibility]
+Show the 三强争霸赛 section only while the Tournament is active — the 1994–1995 school year, after the opening-feast announcement (09-01). Otherwise omit the whole section, `---` separator included.
+
+[Stage]
+`triwizard.stage` records how far the Tournament has progressed. It only ever increases. Emit a row once its stage has been reached, and never emit a row for an event that has not happened yet — no "—" or "N/A" placeholders.
+- 1 「勇士」: after the champion selection (10-31).
+- 2 「斗龙」: once the dragon assignment is known (First Task, 11-24). Breed only.
+- 3 「斗龙 - 得分」: after the First Task concludes. Score out of 50.
+- 4 「舞伴」: around the Yule Ball (12-25). 未定 if a champion has not chosen a partner.
+- 5 「人质」: once the hostages are revealed (before or during the Second Task, 02-24). Name only.
+- 6 「救援 - 得分」: after the Second Task concludes. Score out of 50.
+- 7 「迷宫」: entrance order, ranked by cumulative score. Ties enter together and read "①（并列）".
+- 8: after the Third Task concludes, the 「迷宫」 row shows the outcome instead — 🏆第一 / 第二 / 第三 / 退赛 / 失踪.
+
+[Champions]
+One column per champion, ordered 霍格沃茨, 德姆斯特朗, 布斯巴顿, then one extra column for every additional champion the Goblet selects. The header is the school name, repeated when a school has more than one champion. Every column follows the same stage rules.
+
+[Numbers]
+Cumulative score = 斗龙 - 得分 + 救援 - 得分. Change a value only when the story shows it changing.
+</addon>
+"""
+example = """
+---
+
+### 🔥 三强争霸赛 🔥
+
+| 项目 | 霍格沃茨 | 德姆斯特朗 | 布斯巴顿 | 霍格沃茨 |
+| --- | --- | --- | --- | --- |
+| 勇士 | 塞德里克·迪戈里 | 威克多尔·克鲁姆 | 芙蓉·德拉库尔 | 哈利·波特 |
+| 斗龙 | 瑞典短鼻龙 | 中国火球龙 | 威尔士绿龙 | 匈牙利树蜂龙 |
+| 斗龙 - 得分 | 38/50 | 40/50 | 36/50 | 40/50 |
+| 舞伴 | 张秋 | 赫敏·格兰杰 | 罗杰·戴维斯 | 帕瓦蒂·佩蒂尔 |
+| 人质 | 张秋 | 赫敏·格兰杰 | 加布丽·德拉库尔 | 罗恩·韦斯莱 |
+| 救援 - 得分 | 47/50 | 40/50 | 25/50 | 45/50 |
+| 迷宫 | ①（并列） | ③ | ④ | ①（并列） |
+"""

@@ -1,0 +1,30 @@
+# type: addon
+#
+# This addon enriches the Harry Potter universe by providing detailed information about different types of magic, helps
+# LLMs without large world knowledge to understand and use Harry Potter magic correctly in the narrative, also helps
+# anchoring the professors in MoE LLM models.
+kind = "*"
+id = "magic"
+name = "魔法禁书目录"
+
+[simulator]
+database = """
+<magic comment="Harry Potter magic skills">
+- Transfiguration: changes the form or appearance of an object (e.g. turning a match into a needle).
+  Subject to Gamp's Law of Elemental Transfiguration(甘普基本变形法则), which has five principal rules.
+- Charms: adds new properties or behaviours to an object without altering its essential nature (e.g. making an object fly with Wingardium Leviosa).
+- Divination: intuition-based fortune-telling using tea leaves, crystal balls, and dreams; relies on the Inner Eye.
+- Arithmancy: number-based, analytical approach to predicting the future; considered more rigorous than Divination.
+- Ancient Runes: translation and application of ancient magical symbol systems.
+- Apparition: teleportation via Destination, Determination, Deliberation. Licence required (age 17+). Splinching on failure. Blocked inside Hogwarts (with very few exceptions).
+- Occlumency: closing one's mind against Legilimency — shields thoughts, memories, and emotions.
+- Legilimency: reading another's mind; requires eye contact. Can detect lies and extract memories.
+- Animagus: transforming into a fixed animal form at will. Complex ritual (Mandrake leaf, one month). Must register with the Ministry.
+- Dark Magic: magic to harm, control, or kill. Includes the Unforgivable Curses (Avada Kedavra, Crucio, Imperio), Horcruxes, Fiendfyre, etc.
+- Nonverbal Magic: casting without speaking; Year 6 curriculum. Conceals spell identity in duels.
+- Wandless Magic: casting without a wand. Extremely difficult; accidental magic in children is an involuntary form.
+- Parseltongue: hereditary ability to speak with serpents. Associated with Slytherin's bloodline; widely regarded with suspicion.
+- Metamorphmagus: innate (cannot be learned) ability to change physical appearance at will. Extremely rare.
+- House-elf Magic: innate to house-elves. Can cast without a wand, and Apparate even inside anti-Apparition wards (e.g. Hogwarts). Powerful when unleashed.
+</magic>
+"""

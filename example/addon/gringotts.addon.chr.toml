@@ -1,0 +1,62 @@
+# type: addon
+#
+# This addon enriches the interactions with the Gringotts Wizarding Bank in the Harry Potter universe. It helps LLMs
+# understand the significance of Gringotts in the narrative and allows for more immersive storytelling when characters
+# interact with the bank.
+kind = "*"
+id = "gringotts"
+name = "妖精银行家"
+
+[simulator]
+world = """
+<addon id="gringotts">
+Goblins and Gringotts Wizarding Bank
+
+[Goblin characteristics]
+- Alignment: Lawful Neutral.
+- Goblins value efficiency, integrity, and respect. They approve of wizards who follow proper procedures and conduct business in an orderly manner (a rare sight); they are rather impatient with those who are careless, disorganized, or self-important.
+- Goblins are highly skilled in metalwork, gem-cutting, and financial management. They have an innate talent for handling money and valuables, and they take great pride in their craftsmanship.
+
+[Exchanging Muggle currencies]
+- Gringotts goblins accept British pounds sterling (max denomination £50) as well as Scottish pounds (max denomination £100).
+- Scottish notes have larger denominations and are easier to count, however they are refused by some Muggle shops, so the goblins prefer British pounds sterling instead.
+- Swiss Francs (max denomination 1000 CHF) are very welcomed at Gringotts, as they are widely accepted in the Muggle world and have a high value, and exchanging rate makes them easier to calculate.
+- Gringotts goblins are picky about the condition of dollar bills (as some shops require). It is common practice to bundle dollar bills flat with paper currency straps, or roll dollar bills and bundle them with rubber bands.
+- Folded, crumpled or damaged dollar bills are very unwillingly accepted at the original exchange rate, as long as the damage is not too severe to be rejected by Federal Reserve.
+- Euros (max denomination 500 EUR) are accepted at Gringotts after 2002. However, it's more welcomed in Continental Europe, and less welcomed in the UK.
+- Other Muggle currencies (CNY, JPY) are less welcomed at Gringotts. Goblins still accepts them, but unwillingly and with a less favorable exchange rate.
+- During 1992 ~ 2002, Russian rubles were in very bad shape due to hyperinflation, so they are not accepted at Gringotts at all.
+- Goblins are equipped with Muggle currency identification manuals and tools, and they're very skilled at identifying counterfeit bills.
+
+[Goblin Metallurgy]
+- Goblins assess metal/gem quality by simply scraping with fingernails and listening to the resonance.
+- Goblin-wrought silver absorbs only what strengthens it.
+- Goblin blades never need cleaning and imbibe substances (e.g. basilisk venom) on contact.
+- Goblins believe that goblin-made items always belong to their maker (goblins), and the human purchaser is just buying the right to use it.
+
+[Warnings]
+- The silver entrance doors bear a famous engraved warning:
+    "Enter, stranger, but take heed / Of what awaits the sin of greed /
+     For those who take, but do not earn / Must pay most dearly in their turn /
+     So if you seek beneath our floors / A treasure that was never yours /
+     Thief, you have been warned, beware / Of finding more than treasure there."
+- This is a genuine threat backed by lethal security, not mere decoration.
+- Goblins consider this inscription a sacred covenant between the bank and its clients.
+
+[Security Measures]
+- High-security vaults lie hundreds of metres beneath London, reached by enchanted mine carts through labyrinthine tracks.
+- Vault doors open only to a Gringotts goblin's touch; unauthorized contact may trap the intruder inside.
+- Thief's Downfall: a waterfall that strips all enchantments, concealment charms, and Polyjuice effects.
+- Ukrainian Ironbelly dragons guard the deepest vaults, conditioned by Clankers (metal noisemakers associated with pain).
+- Gemino & Flagrante curses on high-security vault contents: items multiply and burn white-hot when touched.
+</addon>
+"""
+
+characters = """
+[Griphook / 拉环]
+- Goblin. Vault keeper and cart driver.
+- Sharp-featured, notably short, with long fingers and dark shrewd eyes.
+- Cunning, proud, deeply distrustful of wizards. Fiercely believes goblin-made objects belong to goblins in perpetuity.
+- Speech: clipped, formal, polite but cold with an undercurrent of contempt.
+- Not evil, not an ally — operates strictly on goblin values and self-interest.
+"""

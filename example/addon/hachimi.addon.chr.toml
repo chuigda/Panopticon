@@ -1,0 +1,40 @@
+# type: addon
+kind = "*"
+id = "hachimi"
+name = "哈基米喔南北绿豆"
+
+[simulator]
+world = """
+<addon id="hachimi">
+This addon overrides parts of the standard Harry Potter universe. When this addon conflicts with the base setting, this addon takes precedence.
+
+[World setting overrides — Hachimi Duelling]
+In this world, wizard-vs-wizard combat is conducted through 哈气决斗 (Hachimi Duel) rather than wand-and-spell combat. The two core actions are:
+- 哈气 (Hachi): Emit a terrifying gust of breath/airflow, intimidating the opponent and empowering the duellist's NEXT physical attack.
+- 应激 (Yingji): Use lightning-fast reflexes to dodge incoming physical attacks; also partially mitigates the intimidation effect of 哈气.
+
+黑魔法防御术 (D.A.D.A.) is now replaced by 哈气应激术 (HAYA), which trains students in both 哈气 and 应激 techniques, as well as the theory of 哈气 combat.
+
+[Cultural rules]
+1. Wizards regard 哈气决斗 as the ONLY elegant way to settle a fight. Both Muggle-style brawling AND firing spells at each other (with wand or wandless) are considered crude, inelegant, and beneath dignity.
+2. Technically, combat spells still work and can be cast in a fight. But NO wizard — not even a 键耄 (dark duellist) — would ever do so.
+3. Social catastrophe rule: If ANY person uses a spell offensively OR defensively in combat against a being classified as "人" (Being — see list below), every witness's friendliness toward the caster IMMEDIATELY, UNCONDITIONALLY, and PERMANENTLY drops to -999, and the relationship becomes "仇敌 (mortal enemy)". This applies even if the spell was cast to PROTECT the witness. No explanation, apology, or context will be accepted by anyone.
+4. "人" (Being) classification, according to canon Magical Creature Taxonomy: 人类 (Humans: wizards AND Muggles), 妖精 (Goblins), 吸血鬼 (Vampires), 母夜叉 (Hags), 家养小精灵 (House-elves), 媚娃 (Veela), 狼人(人形态) (Werewolves in human form).
+5. NOT classified as "人" — fighting these with spells is fine: 人鱼 (Merpeople), 马人 (Centaurs), 摄魂怪 (Dementors), 女妖 (Banshees), 仙子 (Fairies), 地精 (Gnomes), 格林迪洛 (Grindylows), 小矮妖 (Leprechauns), 小精灵 (Pixies), 红帽子 (Red Caps), 巨怪 (Trolls), 雪人 (Yetis). Werewolves in transformed (wolf) form are also NOT "人".
+6. Non-combat magic is exempt: using 荧光闪烁 to light the way, using 幻影显形 to enter/leave a battle, etc., never trigger the social penalty.
+7. Muggle-style violence is socially safer: Brawling like a Muggle, or even using Muggle weapons (including firearms), is regarded as barbaric but does NOT trigger the catastrophic -999 penalty.
+8. Cheat-item exemption: If a specific character possesses the item "我这个级别的基米有权哈所有人", they are EXEMPT from the social penalty regardless of how they fight (spells, wand, wandless, anything goes). They literally have the right to 哈 anyone (有权哈所有人).
+
+[Terminology overrides]
+- 决斗者 (duellists) are now called 哈基米 (Hachimi), abbreviated 基米 (Chimi).
+- 豪耄 (Háo Mào, homophone of "好猫" = "good cat") REPLACES 白巫师 (White Wizard) for righteous duellists. e.g. Dumbledore is the greatest 豪耄.
+- 键耄 (Jiàn Mào, homophone of "贱猫" = "vile cat") REPLACES 黑巫师 (Dark Wizard) for evil duellists. e.g. Voldemort is the most terrifying and powerful 键耄.
+- 决斗俱乐部 → 哈气俱乐部 (whenever the Duelling Club is referenced in the plot).
+- "为了更伟大的利益" → "为了更豪的利益" (Grindelwald's slogan).
+
+[Canonical event override — Godric's Hollow, 1981-10-31]
+On 31 October 1981, at Godric's Hollow (戈德里克山谷), Voldemort killed James Potter and Lily Potter using an empowered (哈气-buffed) physical attack. Lily's death granted Harry "爱的哈气" (Hachi of Love). When Voldemort then 哈'd Harry, his empowered attack was reflected; the enormous recoil caused full-body comminuted/powder fractures (全身粉末性骨折) throughout Voldemort's body, killing him on the spot.
+
+All downstream lore — Harry's scar, Voldemort's discorporation/return, Horcruxes — should be re-narrated through this 哈气 lens whenever it comes up, while preserving the broader plot beats of the canon.
+</addon>
+"""

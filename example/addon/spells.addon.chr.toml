@@ -1,0 +1,115 @@
+# type: addon
+#
+# This addon en-strengthens the Harry Potter universe by adding a comprehensive list of spells,
+# helping LLMs without large world knowledge to understand and use Harry Potter spells correctly
+# in the narrative, also helps anchoring the professors in MoE LLM models.
+kind = "*"
+id = "spells"
+name = "咒语大全"
+
+[simulator]
+database = """
+<spells comment="Harry Potter spells">
+[Auxiliary Spells]
+- Lumos (荧光闪烁): Creates light at the wand tip. Counterspell: Nox.
+- Nox (诺克斯): Extinguishes the light from Lumos.
+- Accio (飞来咒): Summons an object to the caster.
+- Alohomora (阿拉霍洞开): Unlocks doors and other locked objects.
+- Reparo (恢复如初): Repairs broken objects.
+- Wingardium Leviosa (羽加迪姆·列维奥萨): Levitates objects.
+- Aguamenti (清水如泉): Produces a jet of water from the wand tip.
+- Incendio (火焰熊熊): Produces fire.
+- Scourgify (清理一新): Cleans objects.
+- Silencio (无声无息): Silences the target.
+- Muffliato (闭耳塞听): Fills the ears of anyone nearby with an unidentifiable buzzing.
+- Sonorus (声音洪亮): Magnifies the caster's voice. Counterspell: Quietus.
+- Quietus (悄声细语): Reverses the effect of Sonorus.
+- Point Me (给我指路): Makes the wand act like a compass, pointing North.
+- Evanesco (消隐无踪): Vanishes the target.
+- Obliviate (一忘皆空): Erases memories.
+- Ferula (固定咒): Conjures bandages and a splint to bind a broken limb.
+- Pack (收拾): Magically packs belongings into a trunk.
+- Impervius (防水防湿): Makes an object repel water.
+- Prior Incantato (闪回咒): Forces a wand to reveal the last spell it cast.
+- Homenum Revelio (人形现身): Reveals human presence in the surrounding area.
+- Aparecium (急急现形): Makes invisible ink or hidden writing become visible.
+- Geminio (复制成双): Creates an exact duplicate of an object.
+- Portus (门钥匙): Turns an object into a Portkey for magical transportation.
+
+[Transfiguration Spells]
+- Vera Verto (变变变): Transforms an animal into a water goblet.
+- Draconifors (变龙): Transforms the target into a dragon.
+- Lapifors (变兔): Transforms the target into a rabbit.
+- Snufflifors (变鼠): Transforms the target into a mouse.
+- Avifors (变鸟): Transforms the target into a bird.
+- Avis (飞鸟群群): Conjures a flock of birds from the wand tip.
+- Orchideous (兰花盛开): Conjures a bouquet of flowers from the wand tip.
+- Oppugno (万弹齐发): Directs conjured creatures or objects to attack the target.
+- Piertotum Locomotor (石墩出动): Animates statues and suits of armour to defend an area.
+
+[Defensive Spells]
+- Protego (盔甲护身): Creates a magical shield to deflect spells and physical entities.
+- Expecto Patronum (呼神护卫): Conjures a Patronus, a positive energy force used to defend against Dementors.
+- Riddikulus (滑稽滑稽): Used to defeat a Boggart by forcing it to assume a comical form.
+- Expelliarmus (除你武器): Disarms an opponent by causing their wand to fly out of their hand.
+- Salvio Hexia (萨尔维奥·赫克西亚): Provides protection against hexes in an area.
+- Cave Inimicum (仇敌退散): Strengthens an area's defences against enemies.
+- Protego Totalum (统统加护): Casts a powerful protective enchantment over a wide area.
+- Protego Horribilis (恐怖护身): A stronger variant of Protego against dark magic.
+- Fianto Duri (坚固如石): Strengthens existing shield spells.
+- Repello Muggletum (麻瓜屏蔽): Repels Muggles from a magical area.
+- Finite Incantatem (咒立停): Terminates all ongoing spell effects in the vicinity.
+- Impedimenta (障碍重重): Slows down or stops the target's movement.
+
+[Offensive Spells]
+- Stupefy (昏昏倒地): Stuns the victim, rendering them unconscious.
+- Petrificus Totalus (统统石化): Temporarily paralyzes the victim's body.
+- Reducto (粉身碎骨): Blasts solid objects into pieces.
+- Confringo (爆炸咒): Causes the target to explode in flames.
+- Bombarda (粉碎咒): Causes a small explosion. Bombarda Maxima for a larger blast.
+- Diffindo (四分五裂): Precisely cuts or tears the target.
+- Incarcerous (速速禁锢): Binds the target with conjured ropes.
+- Levicorpus (倒挂金钟): Hoists the target upside down by the ankle. Counterspell: Liberacorpus.
+- Liberacorpus (金钟落地): Reverses the effect of Levicorpus.
+- Locomotor Mortis (腿立僵停死): Locks the target's legs together.
+- Relashio (放开): Forces the target to release its grip; underwater it produces hot sparks.
+- Depulso (驱逐咒): Pushes the target away from the caster with force.
+
+[Jinxes and Hexes]
+- Serpensortia (乌龙出洞): Conjures a snake from the end of the wand.
+- Slugulus Eructo (吃鼻涕虫吧): Forces the victim to vomit slugs.
+- Tarantallegra (塔朗泰拉舞): Forces the victim's legs to dance uncontrollably.
+- Densaugeo (门牙赛大棒): Causes the victim's teeth to grow rapidly.
+- Furnunculus (火烤热辣辣): Covers the victim in boils.
+- Rictusempra (咧嘴呼啦啦): Tickles the victim uncontrollably, a duelling charm.
+- Obscuro (遮目咒): Blindfolds the victim with a conjured cloth over the eyes.
+- Langlock (锁舌封喉): Glues the victim's tongue to the roof of their mouth.
+- Anteoculatia (头上长角): Causes antlers to sprout from the victim's head.
+- Calvorio (脱毛咒): Removes the victim's hair.
+- Bat-Bogey Hex (蝙蝠精咒): Transforms the victim's bogeys into large bats that attack them.
+- Locomotor Wibbly (果冻腿咒): Causes the victim's legs to wobble uncontrollably.
+
+[Healing Spells]
+- Episkey (愈合如初): Heals minor injuries, such as broken bones or split lips.
+- Vulnera Sanentur (速速愈合): Heals deep gashes and wounds, such as those caused by Sectumsempra.
+- Tergeo (旋风扫净): Siphons off blood, ink, or other liquids from a surface or wound.
+- Rennervate (快快复苏): Revives a person who has been Stunned or rendered unconscious.
+- Brackium Emendo (愈合骨骼): Mends broken bones; if cast incorrectly, removes bones entirely.
+
+[Dark Arts & Advanced Magic]
+- Morsmordre (尸骨再现): Conjures the Dark Mark into the sky.
+- Fiendfyre (厉火): Produces cursed fire of immense power that takes the form of beasts; extremely difficult to control.
+- Sectumsempra (神锋无影): A dark curse invented by Severus Snape that creates deep, slashing wounds on the target.
+- Legilimens (摄神取念): Allows the caster to delve into the mind of the target.
+- Occlumency (大脑封闭术): The magical defence of the mind against external penetration (not a wand spell, but a discipline).
+- Fidelius Charm (赤胆忠心咒): Conceals a secret within a Secret-Keeper's soul.
+- Taboo (禁忌咒): Places a curse on a specific word; speaking it breaks protective enchantments and alerts enforcers.
+- Flagrante Curse (火热诅咒): Causes objects to burn anyone who touches them.
+- Caterwauling Charm (恶声尖叫咒): Sets off a high-pitched shriek when an intruder enters the warded area.
+
+[Unforgivable Curses]
+- Avada Kedavra (阿瓦达索命): The Killing Curse; causes instant death.
+- Crucio (钻心剜骨): The Cruciatus Curse; inflicts excruciating pain on the victim.
+- Imperio (魂魄出窍): The Imperius Curse; places the victim completely under the caster's control.
+</spells>
+"""

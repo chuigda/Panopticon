@@ -1,0 +1,8 @@
+{
+  "recommendations": [
+    "Vue.volar",
+    "redhat.vscode-xml",
+    "tamasfe.even-better-toml",
+    "rust-lang.rust-analyzer"
+  ]
+}
