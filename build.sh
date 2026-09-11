@@ -1,5 +1,10 @@
 #!/usr/bin/env bash
 
+# create config-drill.json if it doesn't exist
+if [ ! -f "frontend/drill/config-drill.json" ]; then
+  echo "{\"baseUrl\":\"\",\"apiKey\":\"\"}" > frontend/drill/config-drill.json
+fi
+
 cd frontend
 npm install
 if [ $? -ne 0 ]; then
