@@ -27,6 +27,8 @@ format = """
 环境: {{servant.environment}}
 {% endif %}
 
+---
+
 ### ⚔️ 从者信息 ⚔️
 
 真名: {{servant.real_name}} | 性别: {{servant.gender}} | 称呼: {{servant.call_sign}}
