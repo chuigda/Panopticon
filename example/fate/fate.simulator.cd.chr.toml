@@ -1,0 +1,250 @@
+# type: simulator
+kind = "cd"
+universeName = "Fate universe (Nasuverse)"
+literalWorkName = "Fate series"
+prologue = """
+"""
+
+language = "zh_CN"
+
+[statusBar]
+format = """
+# 圣杯战争 — 动态状态
+
+> War: {{war.name}} | Phase: {{war.phase}} | Updated: {{war.timestamp}}
+
+---
+
+## 联盟状态
+
+{{alliance}}
+
+---
+
+## 御主
+
+{% for m in masters %}
+### {{m.name}}
+{% if m.eliminated %}
+**({{m.status}})** — {{m.cause}}
+{% else %}
+- 状态：{{m.status}} | 令咒: {{m.command_seals}}/3 | 从者: {{m.servant}} | 位置: {{m.location}}
+- 备注: {{m.notes}}
+- 目标: {{m.goal}}
+- 部署: {{m.deployment}}
+- 人际:
+{% for r in m.relations %}
+  * {{r.target}}: {{r.info}}
+{% endfor %}
+{% endif %}
+
+{% endfor %}
+---
+
+## 从者
+
+{% for s in servants %}
+### {{s.class}}
+{% if s.eliminated %}
+**({{s.status}})** — {{s.cause}}
+{% else %}
+- 状态：{{s.status}} | 状况: {{s.condition}} | 位置: {{s.location}} | 御主: {{s.master}}
+- 目标: {{s.goal}}
+- 人际:
+{% for r in s.relations %}
+  * {{r.target}}: {{r.info}}
+{% endfor %}
+{% endif %}
+
+{% endfor %}
+---
+
+## NPC
+
+{% for n in npcs %}
+### {{n.name}}
+- 状态：{{n.status}} | 位置: {{n.location}}
+- 身份: {{n.identity}}
+- 备注: {{n.notes}}
+
+{% else %}
+无
+{% endfor %}
+---
+
+## Flags
+
+{% for f in flags %}
+- {{f}}
+{% else %}
+- 无
+{% endfor %}
+{# war.phase: 序盘/中盘/终盘 #}
+{# alliance: 联盟描述，如 "远坂-Archer 组与 Saber 组暂时休战"；无则填 "无" #}
+{# m.status: 存活/死亡/无力化；eliminated 为 true（死亡）时只保留标题行，正文替换为一行原因 #}
+{# m.notes: 仅在值得注意时填写（伤势、魔力负担等），否则填 "无" #}
+{# s.status: 存活/受伤/濒死/消灭；eliminated 为 true（消灭）时只保留标题行，正文替换为一行原因 #}
+{# s.condition: 自由文本，如 "魔力充足"、"灵体化待机" #}
+{# n.status: 存活/死亡 #}
+{# flags: 悬而未决的威胁、倒计时、暗线、魔力告急等 #}
+"""
+
+rule = """
+- Masters, Servants, and NPCs are stored in separate sections.
+- Relationships (人际) should include motivations and context — this field is NOT lossy.
+- Other fields (状态, 目标, 部署) should stay concise — one line where possible.
+- Eliminated servants: keep header, replace body with **(消灭)** — <one-line cause>.
+- Dead masters: keep header, replace body with **(死亡)** — <one-line cause>.
+- NPCs are non-Master, non-Servant characters relevant to the war (allies, bystanders, supervisors).
+- Update the timestamp after each conducting department instruction.
+"""
+
+example = """
+# 圣杯战争 — 动态状态
+
+> War: 第四次圣杯战争 | Phase: 中盘 | Updated: 1994-02-05 深夜
+
+---
+
+## 联盟状态
+
+远坂-Archer 组与言峰绮礼暗中合作；Rider 组与 Saber 组于城堡会谈后暂时休战
+
+---
+
+## 御主
+
+### 远坂时臣
+- 状态：存活 | 令咒: 3/3 | 从者: Archer | 位置: 远坂邸
+- 备注: 无
+- 目标: 抵达根源，维持"优雅"的胜利
+- 部署: 以远坂邸为据点，宝石魔术防御结界；通过教会与绮礼互通情报
+- 人际:
+  * 言峰绮礼: 弟子兼暗中盟友，借其从者 Assassin 侦察各方
+  * Archer: 表面恭敬供奉，实则担忧其难以驾驭，已备好令咒应对
+
+### 卫宫切嗣
+- 状态：存活 | 令咒: 2/3 | 从者: Saber | 位置: 深山町 爱因兹贝伦城堡
+- 备注: 与 Saber 几乎零交流，指挥全经由爱丽丝菲尔转达
+- 目标: 以任何手段赢得圣杯，实现"世界和平"
+- 部署: 舞弥负责狙击与情报，爱丽丝菲尔作为诱饵御主吸引注意
+- 人际:
+  * 爱丽丝菲尔: 妻子，代理御主身份，信任无间
+  * 久宇舞弥: 得力助手，冷酷高效
+  * 言峰绮礼: 视为最危险的敌人，对其无目的性感到恐惧
+  * Saber: 鄙夷其骑士道理想，刻意保持距离
+
+### 雨生龙之介
+**(死亡)** — 被卫宫切嗣于未远川狙击
+
+---
+
+## 从者
+
+### Saber
+- 状态：受伤 | 状况: 左手因 Lancer 的必灭黄蔷薇诅咒无法使用 | 位置: 爱因兹贝伦城堡 | 御主: 卫宫切嗣
+- 目标: 取得圣杯，重写不列颠的命运
+- 人际:
+  * Lancer: 尊重的对手，期待堂堂正正的决斗
+  * Rider: 对其"王之器量"的质疑心怀不服
+  * 卫宫切嗣: 无法理解其手段，关系冰冷
+
+### Archer
+- 状态：存活 | 状况: 魔力充足，多以灵体化待机 | 位置: 远坂邸 | 御主: 远坂时臣
+- 目标: 收回本属于自己的"财宝"，观赏值得的娱乐
+- 人际:
+  * 远坂时臣: 视为无趣的凡人，仅出于不屑而暂时默许
+  * 言峰绮礼: 对其内在的空洞产生兴趣，正在诱导其直面欲望
+  * Saber: 因其纯粹而心生占有欲
+
+### Caster
+**(消灭)** — 于未远川被 Saber 以誓约胜利之剑连同海魔一并消灭
+
+---
+
+## NPC
+
+### 爱丽丝菲尔·冯·爱因兹贝伦
+- 状态：存活 | 位置: 爱因兹贝伦城堡
+- 身份: 切嗣之妻，圣杯之器
+- 备注: 身体因圣杯之器负荷开始衰弱，对 Saber 隐瞒切嗣的真实计划
+
+### 久宇舞弥
+- 状态：存活 | 位置: 深山町（机动）
+- 身份: 切嗣的助手
+- 备注: 负责监视教会动向与狙击支援
+
+---
+
+## Flags
+
+- 时臣计划以令咒强迫 Archer 自尽，尚未告知任何人
+- 绮礼对切嗣的执念正在转化为主动出手的动机
+- Saber 左手诅咒需击败 Lancer 或其御主方能解除
+- 爱丽丝菲尔作为圣杯之器的衰弱正在加速
+"""
+
+[simulator]
+world = """
+Canon facts reiterated for the simulator.
+
+[Servants, heroic spirits]
+- Servants are heroic spirits. They have their own wishes, so they respond to summoning and fight for the Holy Grail with their Masters
+- Servants are NOT simply familiar spirits. They are independent, proud spirits. This is a fundamental knowledge to most formal participants
+- In principle, aside from obeying the three Command Spells, Servants have NO obligations to their Masters
+- Technically speaking, Heroic spirits are far more stronger than most magicians. In most cases, a wise magician will not fight another Servant on himself
+- Masters and Servants tend to align on overall strategic goals, so Servants usually protect their Masters and follow their (reasonable) instructions
+- Basic information about the Holy Grail War (including its cruelty), and fundamental knowledges about modern civilization are automatically imparted to the Servant upon summoning. Masters generally don't need to worry about this
+
+[Master-Servant dynamics]
+- Relationship dynamics vary (collaborators, friends, commander-soldier, mentor-apprentice…)
+- A competitive Master will NOT try to establish dominance/superiority
+- A non-competitive Master may do such attempts, though
+- Holy Grail War basics are imparted to Servants upon summoning
+- Servants generally protect their Master in order to ensure their presence and mana supply
+
+[The Grail]
+- The true purpose of the Grail -- opening a path to the Root -- requires all seven Servants' "pure energy" to be collected
+- This in turn requires the last Master to use the last command spell to force their Servant committing suicide after defeating the other six Servants. This "unsettling truth" is only known to a very small number of participants (e.g., Tohsaka Tokiomi, Kirei Kotomine), and is not known to Servants by default
+- Some Masters (e.g., Tohsaka Tokiomi) are extremely stubborn in their desire to reach the Root, and of course have already planned to betray their Servant from the very initial
+- It is possible to make a wish upon it with only the power of five Servants, allowing it to grant most wishes, and six Servants will make it more powerful. And not all Masters' (and Servants') wishes require "reaching the Root" to be fulfilled, so a win-win situation for both Master and Servant is still possible
+
+[Command Seals / 令咒]
+- Without Command Seals, a Master has virtually no means to restrain a Servant. Obedience is based on trust and the Servant's own wish
+- Each seal grants one absolute command (three total). Servants with Magic Resistance A+ can briefly resist one stroke
+- Seals can also boost abilities: "full power next strike", "release Noble Phantasm", "teleport to my side"
+- Concrete commands are far more effective than abstract ones ("obey all orders"), though a powerful magus can make the latter produce some effect
+
+[Mana supply / 魔力供给]
+- Masters sustain Servants via continuous mana supply
+- Combat and Noble Phantasm release consume heavily
+- Insufficient Master capacity → Servant must fight conservatively or seek alternative sources (souls, ley lines, Greater Grail, etc.)
+- Contract severed / Master dead → Servant fades unless they have Independent Action, an alternate source, or form a new contract
+
+[Spirit form / 灵子化]
+- Any class can enter spirit form; reduces mana consumption, default mode for daily accompaniment
+- If Master's magical aptitude is immature, the contract may not support spirit form
+- NOT invisibility — magi and Servants can still perceive a spirit-form Servant (reduced visibility only). Ordinary humans cannot see them
+- True concealment requires Presence Concealment (气息遮断), Assassin's signature skill
+- Cannot attack or be physically attacked in spirit form; must materialize to fight
+
+[Gathering intels]
+- Familiar spirits are not CCTV cameras, and a magician cannot only rely on them to gather intel
+- Physical reconnaissance is still necessary and very important. Masters and Servants getting out together to patrol and gather intel is very common
+
+[Hiding Mystery]
+- During the Grail War this restriction is greatly relaxed; most collateral is resolved "automatically"
+- Deliberate mass exposure is still forbidden (cf. Gilles de Rais, 4th War)
+- Extreme plans (e.g. demolishing a hotel) are allowed if not deliberately exposing mystery
+- Servants still prefer fighting at night to reduce unnecessary exposure
+
+[Information visibility]
+- Masters perceive their own Servant's parameters and skill names via the contract
+- Enemy Servant stats can only be estimated through observation
+- Noble Phantasms are cognizable once revealed (unless hidden by skills like Presence Concealment)
+"""
+behaviors = """
+[Stats and skills in dialogue]
+- Characters refer to parameters naturally ("your agility is exceptional"), never read out stat labels or numeric values ("AGI: A")
+- The status panel is meta/reader-level UI; characters MUST NOT reference it as an in-world object
+"""

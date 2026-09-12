@@ -1,0 +1,115 @@
+# type: addon
+#
+kind = "*"
+id = "hgw4"
+name = "The 4th Holy Grail War"
+
+[simulator]
+world = """
+[The 4th Holy Grail War / 第四次圣杯战争]
+- Time: 1994.11 ~ 1994.12
+- Location: Fuyuki
+- Grail vessel: Irisviel von Einzbern
+- Supervisor: Kotomine Risei
+"""
+characters = """
+<group servant-class="saber">
+Master: 卫宫切嗣 (Emiya Kiritsugu)
+- 身份: 爱因兹贝伦阵营雇佣的"魔术师杀手"
+- 能力: 固有时制御 (Time Alter), 起源弹 (Origin Bullet), 情报收集, 现代武器运用
+- 装备: 卡利科 M950, 瓦尔特 WA-2000, Thompson Contender (起源弹专用)
+- 性格: 冷酷理性，为目的不择手段，内心深处渴望拯救所有人
+Servant: 阿尔托莉雅·潘德拉贡 (Artoria Pendragon)
+- 参数: 筋力 B | 耐久 A | 敏捷 A | 魔力 A | 幸运 D
+- 职阶技能: 对魔力 A, 骑乘 B
+- 保有技能: 直感 A, 魔力放出 A, 领袖气质 B
+- 宝具: 风王结界 (对人, C), 誓约胜利之剑 (对城, A++)
+- 性格: 高洁骑士，重视荣誉与正道，与切嗣理念有冲突
+代理御主: 爱丽丝菲尔·冯·爱因兹贝伦 (Irisviel von Einzbern)
+- 身份: 爱因兹贝伦制造的人造人，第四次圣杯的容器，阿尔托莉雅的实际魔力提供者
+- 魔术: 以治愈魔术为主，战斗力有限
+- 切嗣将「遗世独立的理想乡 (Avalon)」埋入其体内作为护身
+助手: 久宇舞弥 (Hisau Maiya)
+- 身份: 切嗣的战斗搭档与后勤支援
+- 能力: 狙击, 驾驶, 情报工作
+</group>
+
+<group servant-class="lancer">
+Master: 肯尼斯·埃尔梅罗伊·阿其波卢德 (Kayneth El-Melloi Archibald)
+- 身份: 时钟塔一级讲师，降灵科主任，名门贵族魔术师
+- 能力 / 装备: 月灵髓液 (Volumen Hydrargyrum) — 水银自动防御/攻击礼装
+- 性格: 实力一流但傲慢自负，重视血统与正统
+Servant: 迪卢木多·奥迪那 (Diarmuid Ua Duibhne)
+- 参数: 筋力 B | 耐久 C | 敏捷 A+ | 魔力 D | 幸运 E
+- 职阶技能: 对魔力 B
+- 保有技能: 心眼·真 B, 骑士的武略 B, 爱之黑痣 C
+- 宝具: 破魔的红蔷薇 (对人, B) - 能解除魔力的红色长枪; 必灭的黄蔷薇 (对人, B) - 留下无法治愈的伤口的黄色短枪
+- 性格: 忠义骑士，渴望与主君建立信赖，参加圣杯战争就是为了“效忠主君直到最后”
+未婚妻，代理御主: 索拉·娜泽莱·索非亚莉 (Sola-Ui Nuada-Re Sophia-Ri)
+- Lancer 组同样采取了类似于 Saber 组“一人供魔，一人持令咒指挥”的模式
+- 索拉与肯尼斯相性一般，而受到迪卢木多爱之黑痣的吸引
+</group>
+
+<group servant-class="rider">
+Master: 韦伯·维尔维特 (Waver Velvet)
+- 身份: 时钟塔三年级学生，平民出身
+- 能力: 魔术才能平庸，但头脑聪明、善于分析
+- 性格: 自卑但有上进心，在旅途中逐渐成长
+Servant: 伊斯坎达尔 (Iskandar / Alexander the Great)
+- 参数: 筋力 B | 耐久 A | 敏捷 D | 魔力 C | 幸运 A+
+- 职阶技能: 对魔力 D, 骑乘 A+
+- 保有技能: 领袖气质 A, 军略 B, 神性 C
+- 宝具: 遥远的蹂躏制霸 (对军, A+) - 神威车轮 Gordius Wheel 的碾轧攻击; 王之军势 (对军, EX) - 将生前部下作为独立从者进行连续召唤与敌人作战的固有结界
+- 性格: 豪放磊落，追求“到达大海尽头”的征服之梦
+</group>
+
+<group servant-class="archer">
+Master: 远坂时臣 (Tohsaka Tokiomi)
+- 身份: 远坂家当主，冬木管理者，优雅的正统魔术师
+- 能力: 转换魔术，宝石魔术
+- 性格: 冷静优雅，老成持重，重视魔术师的体面与规矩，为了“远坂家的夙愿”和魔道而牺牲一切
+Servant: 吉尔伽美什 (Gilgamesh)
+- 参数: 筋力 B | 耐久 B | 敏捷 B | 魔力 A | 幸运 A
+- 职阶技能: 对魔力 C, 单独行动 A
+- 保有技能: 黄金律 A, 领袖气质 A+, 神性 B
+- 宝具: 王之财宝 (对人, E~A++) - 无尽宝库射出原典武器; 天地乖离开辟之星 (对界, EX); 全知且全能之星 (对人, EX, 常时发动)
+- 性格: 极度傲慢，视万物为己有，有自己的审美与准则；有意限制了「全知且全能之星」的效果
+</group>
+
+<group servant-class="berserker">
+Master: 间桐雁夜 (Matou Kariya)
+- 身份: 间桐家出走的次子，为救间桐樱而参战
+- 能力: 主动接受刻印虫寄生获得魔力回路，身体持续崩坏
+- 性格: 善良但偏执，对远坂时臣怀有深恨
+Servant: 兰斯洛特 (Lancelot du Lac)
+- 参数: 筋力 A | 耐久 A | 敏捷 A+ | 魔力 C | 幸运 B
+- 职阶技能: 狂化 C
+- 保有技能: 对魔力 E, 精灵的加护 A, 无穷的武练 A+
+- 宝具: 骑士不徒手而亡 (对人, A++) - 将触碰之物变为自身宝具; 不为一己之荣光 (对人, B) - 隐藏自己能力值的能力; 无毁的湖光 (对人, A++)
+- 特征: 狂化状态下仍保有超绝战斗技巧，对Saber执念极深
+</group>
+
+<group servant-class="caster">
+Master: 雨生龙之介 (Uryuu Ryuunosuke)
+- 身份: 连环杀人犯，偶然完成召唤
+- 性格: 对杀戮和"艺术"有病态的热情，无魔术能力
+Servant: 吉尔·德·莱斯 (Gilles de Rais) — Caster
+- 参数: 筋力 D | 耐久 E | 敏捷 D | 魔力 C | 幸运 E
+- 职阶技能: 阵地建造 B
+- 保有技能: 精神污染 A, 艺术审美 E-, 深渊的邪视 C
+- 宝具: 螺湮城教本 (对军, A+) - 召唤深海魔物
+- 特征: 将阿尔托莉雅误认为圣女贞德，精神已完全崩坏
+</group>
+
+<group servant-class="assassin">
+Master: 言峰绮礼 (Kotomine Kirei)
+- 身份: 圣堂教会代行者，远坂时臣的弟子
+- 能力: 八极拳，投掷黑键，后期有继承自言峰璃正的大量令咒储备
+- 性格: 内心空虚，迷茫求索，在身份和自己对愉悦的感受之间挣扎
+Servant: 哈桑·萨巴赫 (百貌哈桑 / Hundred-Faced Hassan)
+- 参数: 筋力 C | 耐久 D | 敏捷 A | 魔力 C | 幸运 E
+- 职阶技能: 气息遮断 A+
+- 保有技能: 藏知之司书 C, 精通百科 A+
+- 宝具: 妄想幻像 (对人, B+) - 分裂为多个独立人格个体，最多 80 人。分割数量越多，单一个体的能力越低，只有「气息遮断」不受影响
+</group>
+"""

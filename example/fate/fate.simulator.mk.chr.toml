@@ -1,0 +1,199 @@
+# type: simulator
+kind = "mk"
+universeName = "Fate universe (Nasuverse)"
+literalWorkName = "Fate series"
+prologue = """
+"""
+
+language = "zh_CN"
+
+[statusBar]
+format = """
+### 🌏 世界信息 🌏
+
+时间: {{time.year}}-{{time.month}}-{{time.day}} | {{time.weekday}} | {{time.period}}
+
+{% if has_master and servant.location != master.location %}
+地点: [ 从者: {{servant.location}} | 御主: {{master.location}} ]
+
+人物: [ 从者: {% for person in servant.people %}{{person}}{% if not loop.last %}，{% endif %}{% else %}无{% endfor %} | 御主: {% for person in master.people %}{{person}}{% if not loop.last %}，{% endif %}{% else %}无{% endfor %} ]
+
+环境: [ 从者: {{servant.environment}} | 御主: {{master.environment}} ]
+{% else %}
+地点: {{servant.location}}
+
+人物: {% for person in servant.people %}{{person}}{% if not loop.last %}，{% endif %}{% else %}无{% endfor %}
+
+环境: {{servant.environment}}
+{% endif %}
+
+### ⚔️ 从者信息 ⚔️
+
+真名: {{servant.real_name}} | 性别: {{servant.gender}} | 称呼: {{servant.call_sign}}
+
+外貌: [ 发色: {{servant.appearance.hair_color}} | 瞳色: {{servant.appearance.eye_color}} | 体型: {{servant.appearance.body_type}} | 着装: {{servant.appearance.clothes}} | 简述: {{servant.appearance.brief}} ]
+
+面板: [ 职阶: {{servant.class}} | 筋力: {{servant.strength}} | 敏捷: {{servant.agility}} | 耐久: {{servant.stamina}} | 魔力: {{servant.mana}} | 幸运: {{servant.luck}} ]
+
+状态: [ 生命值: {{servant.hp}}% | 魔力: {{servant.mp}}% | 从者状态: {{servant.status}}{% if has_master %} | 御主状态: {{master.status}} | 剩余令咒数: {{master.command_seals}}{% endif %} ]
+
+技能: [ 职阶技能: {% for skill in servant.class_skills %}{{skill.name}}({{skill.level}}){% if not loop.last %}，{% endif %}{% else %}无{% endfor %} | 保有技能: {% for skill in servant.personal_skills %}{{skill.name}}({{skill.level}}){% if not loop.last %}，{% endif %}{% else %}无{% endfor %} | 宝具: {% for noble_phantasm in servant.noble_phantasms %}{{noble_phantasm.name}}({{noble_phantasm.category}}, {{noble_phantasm.level}}){% if not loop.last %}，{% endif %}{% else %}无{% endfor %} ]
+
+---
+
+### 💰 物品栏 💰
+
+从者持有:
+{% for item in servant.items %}
+- {{item.name}}: {{item.description}}
+{% else %}
+- 无
+{% endfor %}
+
+{% if has_master %}
+御主持有:
+{% for item in master.items %}
+- {{item.name}}: {{item.description}}
+{% else %}
+- 无
+{% endfor %}
+{% endif %}
+
+---
+
+### 🤝 人际关系 🤝
+
+{% if has_master %}
+御主: [ 姓名: {{master.name}} | 性别: {{master.gender}} | 身份: {{master.identity}} | 性格: {{master.personality}} | 契合度: {{master.match}} | 关系: {{master.relationship}} | 心理活动: {{master.thoughts}} ]
+{% endif %}
+
+其他人物:
+
+{% for person in other_people %}
+- {{person.name}}: [ 性别: {{person.gender}} | 身份: {{person.identity}} | 性格: {{person.personality}} | 关系: {{person.relationship}} | 已知信息: {{person.known_information}} ]
+{% else %}
+- 无
+{% endfor %}
+
+已退场从者: {% for servant_name in eliminated_servants %}{{servant_name}}{% if not loop.last %}，{% endif %}{% else %}无{% endfor %} | 已退场御主: {% for master_name in eliminated_masters %}{{master_name}}{% if not loop.last %}，{% endif %}{% else %}无{% endfor %}
+
+{# time.period: 凌晨/清晨/早晨/上午/中午/下午/傍晚/夜晚/深夜 #}
+{# has_master: Ruler 等无御主从者为 false；无御主时，地点、人物、环境仅显示从者一侧，并省略御主状态、持有物与资料 #}
+{# servant.status: 无特殊情况填“正常”；灵子化时填“灵子化” #}
+{# 技能和宝具名称只用中文，不附英文译名；多种宝具类别以“/”分隔，浮动等级写作“下限 ～ 上限” #}
+{# master.personality: 优先三条四字短语；other_people.personality: 优先两条四字短语 #}
+{# 从者可在御主退场后凭单独行动、替代魔力源或新契约继续留场；此时 has_master 为 false #}
+"""
+example = """
+### 🌏 世界信息 🌏
+
+时间: 1994-02-03 | Thursday | 夜晚
+
+地点: [ 从者: 冬木市 - 新都 - 未远川河岸 - 仓库街 | 御主: 冬木市 - 深山町 - 爱因兹贝伦城堡 - 指挥室 ]
+
+人物: [ 从者: 阿尔托莉雅·潘德拉贡，迪卢木多·奥迪那，伊斯坎达尔 | 御主: 卫宫切嗣，爱丽丝菲尔·冯·爱因兹贝伦，久宇舞弥 ]
+
+环境: [ 从者: 河面起雾，废弃仓库间视野受限；多处魔力残留，随时可能爆发战斗 | 御主: 城堡外寒雨未歇，地下指挥室结界稳定，监视使魔正回传情报 ]
+
+### ⚔️ 从者信息 ⚔️
+
+真名: 阿尔托莉雅·潘德拉贡 | 性别: 女 | 称呼: Saber
+
+外貌: [ 发色: 金色 | 瞳色: 翠绿 | 体型: 娇小匀称 | 着装: 深蓝礼裙外罩银白甲胄 | 简述: 神情凛然，举止端正，气质清冽 ]
+
+面板: [ 职阶: Saber | 筋力: B | 敏捷: B | 耐久: B | 魔力: A | 幸运: D ]
+
+状态: [ 生命值: 83% | 魔力: 61% | 从者状态: 受伤，左手仍受必灭黄蔷薇诅咒影响 | 御主状态: 正常 | 剩余令咒数: 3 ]
+
+技能: [ 职阶技能: 对魔力(A)，骑乘(A+) | 保有技能: 直感(A)，魔力放出(A)，领导力(B) | 宝具: 风王结界(对人, C)，誓约胜利之剑(对城, A++) ]
+
+---
+
+### 💰 物品栏 💰
+
+从者持有:
+- 无
+
+御主持有:
+- 起源弹: 以切嗣肋骨研磨制成的特殊魔弹，现余六发
+- 城堡结界钥匙: 可切换地下工房与外层防御结界
+
+---
+
+### 🤝 人际关系 🤝
+
+御主: [ 姓名: 卫宫切嗣 | 性别: 男 | 身份: 爱因兹贝伦家雇佣魔术师、魔术师杀手 | 性格: 冷静果断，功利至上，沉默寡言 | 契合度: 42/100 | 关系: 契约御主，彼此认可战力却对行事理念严重冲突 | 心理活动: 需要把她的骑士道限制在可控范围内，不能让感情干扰胜利 ]
+
+其他人物:
+
+- 爱丽丝菲尔·冯·爱因兹贝伦: [ 性别: 女 | 身份: 切嗣之妻、圣杯之器 | 性格: 温柔坚韧，洞察敏锐 | 关系: 代理御主与亲近同伴 | 已知信息: 她真心尊重骑士王，正尽力调和 Saber 与切嗣之间的隔阂 ]
+- 久宇舞弥: [ 性别: 女 | 身份: 切嗣的助手与战术支援者 | 性格: 冷静寡言，执行果断 | 关系: 互相尊重但保持距离的战友 | 已知信息: 她完全服从切嗣的判断，擅长监视与狙击支援 ]
+- 兰斯洛特: [ 性别: 男 | 身份: Berserker 阶从者 | 性格: 执念深重，狂暴失控 | 关系: 身份未明的异常敌手 | 已知信息: 其战斗方式带有熟悉的骑士痕迹，似乎对 Saber 怀有强烈执念 ]
+
+已退场从者: 无 | 已退场御主: 无
+"""
+
+[simulator]
+world = """
+Canon facts reiterated for the simulator.
+
+[Servants, heroic spirits]
+- Servants are heroic spirits. They have their own wishes, so they respond to summoning and fight for the Holy Grail with their Masters
+- Servants are NOT simply familiar spirits. They are independent, proud spirits. This is a fundamental knowledge to most formal participants
+- In principle, aside from obeying the three Command Spells, Servants have NO obligations to their Masters
+- Technically speaking, Heroic spirits are far more stronger than most magicians. In most cases, a wise magician will not fight another Servant on himself
+- Masters and Servants tend to align on overall strategic goals, so Servants usually protect their Masters and follow their (reasonable) instructions
+- Basic information about the Holy Grail War (including its cruelty), and fundamental knowledges about modern civilization are automatically imparted to the Servant upon summoning. Masters generally don't need to worry about this
+
+[Master-Servant dynamics]
+- Relationship dynamics vary (collaborators, friends, commander-soldier, mentor-apprentice…)
+- A competitive Master will NOT try to establish dominance/superiority
+- A non-competitive Master may do such attempts, though
+- Holy Grail War basics are imparted to Servants upon summoning
+- Servants generally protect their Master in order to ensure their presence and mana supply
+
+[The Grail]
+- The true purpose of the Grail -- opening a path to the Root -- requires all seven Servants' "pure energy" to be collected
+- This in turn requires the last Master to use the last command spell to force their Servant committing suicide after defeating the other six Servants. This "unsettling truth" is only known to a very small number of participants (e.g., Tohsaka Tokiomi, Kirei Kotomine), and is not known to Servants by default
+- Some Masters (e.g., Tohsaka Tokiomi) are extremely stubborn in their desire to reach the Root, and of course have already planned to betray their Servant from the very initial
+- It is possible to make a wish upon it with only the power of five Servants, allowing it to grant most wishes, and six Servants will make it more powerful. And not all Masters' (and Servants') wishes require "reaching the Root" to be fulfilled, so a win-win situation for both Master and Servant is still possible
+
+[Command Seals / 令咒]
+- Without Command Seals, a Master has virtually no means to restrain a Servant. Obedience is based on trust and the Servant's own wish
+- Each seal grants one absolute command (three total). Servants with Magic Resistance A+ can briefly resist one stroke
+- Seals can also boost abilities: "full power next strike", "release Noble Phantasm", "teleport to my side"
+- Concrete commands are far more effective than abstract ones ("obey all orders"), though a powerful magus can make the latter produce some effect
+
+[Mana supply / 魔力供给]
+- Masters sustain Servants via continuous mana supply
+- Combat and Noble Phantasm release consume heavily
+- Insufficient Master capacity → Servant must fight conservatively or seek alternative sources (souls, ley lines, Greater Grail, etc.)
+- Contract severed / Master dead → Servant fades unless they have Independent Action, an alternate source, or form a new contract
+
+[Spirit form / 灵子化]
+- Any class can enter spirit form; reduces mana consumption, default mode for daily accompaniment
+- If Master's magical aptitude is immature, the contract may not support spirit form
+- NOT invisibility — magi and Servants can still perceive a spirit-form Servant (reduced visibility only). Ordinary humans cannot see them
+- True concealment requires Presence Concealment (气息遮断), Assassin's signature skill
+- Cannot attack or be physically attacked in spirit form; must materialize to fight
+
+[Gathering intels]
+- Familiar spirits are not CCTV cameras, and a magician cannot only rely on them to gather intel
+- Physical reconnaissance is still necessary and very important. Masters and Servants getting out together to patrol and gather intel is very common
+
+[Hiding Mystery]
+- During the Grail War this restriction is greatly relaxed; most collateral is resolved "automatically"
+- Deliberate mass exposure is still forbidden (cf. Gilles de Rais, 4th War)
+- Extreme plans (e.g. demolishing a hotel) are allowed if not deliberately exposing mystery
+- Servants still prefer fighting at night to reduce unnecessary exposure
+
+[Information visibility]
+- Masters perceive their own Servant's parameters and skill names via the contract
+- Enemy Servant stats can only be estimated through observation
+- Noble Phantasms are cognizable once revealed (unless hidden by skills like Presence Concealment)
+"""
+behaviors = """
+[Stats and skills in dialogue]
+- Characters refer to parameters naturally ("your agility is exceptional"), never read out stat labels or numeric values ("AGI: A")
+- The status panel is meta/reader-level UI; characters MUST NOT reference it as an in-world object
+"""
