@@ -1,0 +1,59 @@
+# type: addon
+#
+# This addon enriches the narrative with the esoteric lore, cryptids, oddities, and unique worldviews
+# of Xenophilius and Luna Lovegood (and The Quibbler). It provides factual reference for LLMs without
+# imposing scripted dialogue or roleplay constraints.
+kind = "*"
+id = "lovegood-ish"
+name = "洛夫古德语"
+
+[simulator]
+database = """
+<lovegood-ish comment="Lore, cryptids, oddities, and beliefs associated with the Lovegoods and The Quibbler">
+[Overview & Philosophy]
+- The Lovegood perspective represents the esoteric, marginalized, and alternative epistemologies of the magical world, championed by Xenophilius Lovegood and Luna Lovegood through the independent publication *The Quibbler* (唱唱反调).
+- Core philosophy: Openness to the unproven, skepticism toward official Ministry narratives, and unwavering belief that the absence of evidence is not evidence of absence.
+- "Things we lose have a way of coming back to us in the end, if not always in the way we expect." (失去的东西总会以它们自己的方式回到我们身边，虽然并不总是以我们预料的方式。)
+
+[Cryptids & Unconfirmed Creatures (未证实奇兽)]
+- Wrackspurts (骚扰虻):
+  * Description: Invisible, floating microscopic creatures that drift through the air and enter a person's ears, causing brain fuzziness, confusion, and distracted daydreaming.
+  * Detection & Dispersion: Can only be seen when wearing Spectrespecs (防妖眼镜). Shaking one's head or swatting near ears can temporarily disperse them.
+- Crumple-Horned Snorkack (弯角鼾兽):
+  * Description: A shy, elusive magical creature reputed to inhabit the remote wild regions of Sweden. Highly sensitive to human presence.
+  * Identification: Known for a spiraled horn; a lifelong quest for Xenophilius and Luna during their field expeditions.
+- Nargles (蝻钩):
+  * Description: Mischievous, invisible spirits known to infest mistletoe (槲寄生) and dark corners.
+  * Habits: Kleptomaniacal by nature; blamed by the Lovegoods for the sudden, inexplicable disappearance of small everyday items (shoes, quills, socks, trinkets).
+  * Repellent: Wardable via charmed charms such as butterbeer cork necklaces.
+- Heliopaths (烈火巨灵 / 烈火精魂):
+  * Description: Spirits of fire, great tall flaming creatures that gallop across the ground burning everything before them.
+  * Lore: Believed by Xenophilius to be secretly bred and mobilized by Cornelius Fudge as a covert army within the Department of Mysteries, despite Ministry claims that they do not exist.
+- Freshwater Plimpy / Gulping Plimpy (吞食普林普 / 淡水普林普):
+  * Description: Small, spherical fish-like creatures with long, spindly legs. Used in Gulping Plimpy soup (普林普淡水杂烩汤) brewed by the Lovegoods (notorious for its foul taste).
+- Blibbering Humdinger (乱语胡说怪):
+  * Description: Reputedly treacherous flying beings; often cited in *The Quibbler* as explanations for anomalous wizarding behaviors or unexplained phenomena.
+
+[Conspiracy Theories & Ministry Critiques (阴谋论与指控)]
+- The Rotfang Conspiracy (腐牙阴谋):
+  * A clandestine cabal operating inside the Auror Office and senior levels of the Ministry of Magic.
+  * Allegation: Plotting to overthrow the Ministry of Magic from within through a coordinated combination of Dark Magic (黑魔法) and virulent gum disease (牙龈疾病).
+- Cornelius Fudge's Covert Operations (福吉的秘密内幕):
+  * Published theories in *The Quibbler* alleging that Cornelius Fudge has goblins assassinated, baked into pies, and drowned in Department of Mysteries reservoirs.
+- Sirius Black as "Stubby Boardman" (小天狼星布莱克即霍比·博德曼):
+  * *The Quibbler* published testimony claiming Sirius Black was innocent because he was in fact Stubby Boardman, lead singer of the popular wizard rock band "The Hobgoblins", who was having a romantic dinner at the time of the murders.
+
+[Artifacts, Charms & Oddities (器物、护符与独门造物)]
+- Spectrespecs (防妖眼镜):
+  * Description: Cardboard spectacles with oversized, psychedelic lenses (one bright blue, one hot pink/purple), frequently distributed as free gifts inside *The Quibbler*.
+  * Function: Purported to reveal invisible pests such as Wrackspurts drifting in the ambient air.
+- Butterbeer Cork Necklace (黄油啤酒软木塞项链):
+  * Description: A handcrafted necklace made from strung-together butterbeer bottle corks, worn as a protective pendant.
+  * Purpose: Believed to repel Nargles and neutralize malicious, parasitic, or confusing spiritual influences.
+- Dirigible Plum Earrings (飞天李子耳环 / 萝卜耳环):
+  * Description: Earrings shaped like vivid orange radish-like fruits (Dirigible Plums) that grow upside-down on enchanted bushes.
+  * Magical property: Reputed by the Lovegoods to enhance the wearer's ability to accept the extraordinary and perceive unconventional truths.
+- Reading The Quibbler Upside Down (倒持《唱唱反调》阅读法):
+  * A traditional Lovegood practice; certain hidden articles, counter-spells, anagrams, and runic revelations are claimed to be discernible only when the magazine is held inverted.
+</lovegood-ish>
+"""
