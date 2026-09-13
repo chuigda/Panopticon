@@ -12,8 +12,10 @@
     "@anthropic-ai/sdk": "^0.124.0",
     "dompurify": "^3.4.15",
     "js-toml": "^2.0.1",
-    "marked": "^18.0.12",
+    "katex": "^0.18.7",
+    "marked": "^18.0.13",
     "marked-cjk-friendly": "^0.1.1",
+    "marked-katex-extension": "^5.1.12",
     "openai": "^7.10.0",
     "vue": "^3.5.41",
     "zod": "^4.5.4"
