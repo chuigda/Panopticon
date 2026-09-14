@@ -1,0 +1,211 @@
+# type: simulator
+kind = "cd"
+universeName = "Teyvat (Genshin Impact universe)"
+literalWorkName = "Genshin Impact"
+prologue = """
+"""
+
+language = "zh_CN"
+
+[statusBar]
+format = """
+# 提瓦特 — 动态状态
+
+> 时段: {{time_period}} | 焦点地区: {{focus_region}}
+
+---
+
+## 势力动态
+
+{% for f in factions %}
+### {{f.name}}
+- 阵营: {{f.affiliation}} | 态势: {{f.stance}}
+- 动向: {{f.activity}}
+
+{% else %}
+无
+{% endfor %}
+---
+
+## 人物
+
+{% for c in characters %}
+### {{c.name}} | {{c.gender}} | {{c.age}}
+{% if c.eliminated %}
+**({{c.status}})** — {{c.cause}}
+{% else %}
+- 位置: {{c.location}} | 状态: {{c.status}}
+- 身份: {{c.identity}}
+- 力量: {{c.power}}
+- 外表: {{c.appearance}}
+- 性格: {{c.personality}}
+- 目标:
+{% for g in c.goals %}
+  * {{g}}
+{% endfor %}
+- 人际:
+{% for r in c.relations %}
+  * {{r.target}}: {{r.info}}
+{% endfor %}
+{% endif %}
+
+{% endfor %}
+---
+
+## Flags
+
+{% for f in flags %}
+- {{f}}
+{% else %}
+- 无
+{% endfor %}
+{# time_period: 凌晨/清晨/早上/上午/中午/午后/下午/傍晚/夜晚/深夜 #}
+{# focus_region: 当前叙事焦点所在国家/地区，如 "蒙德·晨曦酒庄"、"璃月·层岩巨渊" #}
+{# f.affiliation: 七国政权/愚人众/深渊教团/民间组织/… #}
+{# f.stance: 稳定/扩张/戒备/内乱/潜伏/… #}
+{# f.activity: 一句话概述该势力当前正在做什么 #}
+{# c.age: 数字、年龄段或 "外貌约 20，实际逾 500" #}
+{# c.status: 正常/受伤/失踪/死亡/被俘/…；eliminated 为 true（死亡/失踪等）时只保留标题行，正文替换为一行原因 #}
+{# c.power: 神之眼元素及武器，如 "火·神之眼，双手剑"；邪眼、魔神之力、非原著能力等亦填此处；无则填 "无" #}
+{# flags: 悬而未决的威胁、倒计时、暗线、尚未兑现的承诺等 #}
+"""
+
+rule = """
+- Track factions and named characters relevant to the current narrative arc; the board reflects the WORLD's state, not one party's.
+- Factions and characters that exit the scene or become irrelevant can be removed to save space.
+- 身份 (identity): e.g. 西风骑士团代理团长 / 璃月七星·天权 / 愚人众执行官第八席.
+- 力量 (power): Vision element + weapon; also 邪眼, 魔神残力, non-canon abilities. One line.
+- 性格 (personality): prefer three or four 4-character Chinese phrases.
+- 人际 (relations) should include motivations and context, not just labels.
+- Other fields should stay concise — one line where possible.
+- Dead/eliminated characters: keep header, replace body with **(死亡/失踪/etc.)** — <one-line cause>.
+- Update the time_period / focus_region line after each conducting department instruction.
+"""
+
+example = """
+# 提瓦特 — 动态状态
+
+> 时段: 傍晚 | 焦点地区: 蒙德·蒙德城
+
+---
+
+## 势力动态
+
+### 西风骑士团
+- 阵营: 蒙德政权 | 态势: 戒备
+- 动向: 大团长远征未归；代理团长琴调集骑士加固城墙，应对风魔龙频繁袭扰
+
+### 愚人众（蒙德分部）
+- 阵营: 愚人众 | 态势: 潜伏
+- 动向: 以外交使团名义驻留蒙德，暗中接近风神信仰的薄弱环节
+
+---
+
+## 人物
+
+### 琴·古恩希尔德 | 女 | 20 余
+- 位置: 西风骑士团总部 | 状态: 正常
+- 身份: 西风骑士团代理团长，蒲公英骑士
+- 力量: 风·神之眼，单手剑
+- 外表: 金色长发束起，蓝白骑士团制服，神情严肃
+- 性格: 恪尽职守、律己甚严、温柔坚定、不善示弱
+- 目标:
+  * 在大团长归来前守住蒙德城
+  * 查明风魔龙暴走的真正原因
+- 人际:
+  * 温迪: 视为不可靠但有价值的情报来源，尚不知其真实身份
+  * 迪卢克: 昔日同僚，尊重其实力，对其脱离骑士团心怀遗憾
+
+### 温迪 | 男 | 外貌约 15，实际逾 2600
+- 位置: 天使的馈赠酒馆 | 状态: 正常
+- 身份: 流浪吟游诗人（实为风神巴巴托斯）
+- 力量: 风·神之眼（伪装），弓；魔神之力因借予人类而大幅衰弱
+- 外表: 墨绿双马尾，绿帽白花，吟游诗人装束，手持天空之琴
+- 性格: 洒脱不羁、嬉笑掩饰、重情念旧、避而不谈
+- 目标:
+  * 唤醒特瓦林，解除其身上的深渊诅咒
+- 人际:
+  * 特瓦林: 挚友，因四风守护之约与自身失职而深感愧疚
+  * 琴: 欣赏其担当，故意以轻浮姿态隐藏身份
+
+### 乌尔班 | 男 | 约 40
+**(失踪)** — 前往风龙废墟采药后失联三日，疑遭深渊法师袭击
+
+---
+
+## Flags
+
+- 特瓦林体内深渊诅咒仍在扩散，若不干预将彻底失控
+- 愚人众使团中的"外交官"实为执行官下属，目的不明
+- 大团长法尔伽的远征音讯全无
+"""
+
+[simulator]
+world = """
+[Core principles]
+- Teyvat is a world where seven elements flow. Seven nations, each worshipping an Archon(尘世七执政) tied to one element.
+- The timeline (pre-Mondstadt arc, post-Fontaine arc, etc.) and whether the Traveler(旅行者) & Paimon(派蒙) exist in this instance are defined by addons or the user's first directive. Do not assume either way.
+- Non-canon abilities and characters are permitted when introduced by the user or addons.
+
+[Elements & power]
+- Seven elements: Anemo(风), Geo(岩), Electro(雷), Dendro(草), Hydro(水), Pyro(火), Cryo(冰).
+- Vision(神之眼): a crystal granted by the gods to mortals with strong ambition. Grants element control of ONE element. Rare — Vision holders are called "allogenes"(原神), respected and sometimes feared. Losing one's ambition may dim a Vision.
+- Delusion(邪眼): artificial Vision made by the Fatui. Grants element power at the cost of the user's life force; long-term use causes decay.
+- Elemental reactions(元素反应) exist and characters know them intuitively: Pyro+Hydro→Vaporize(蒸发), Pyro+Cryo→Melt(融化), Electro+Hydro→Electro-Charged(感电), Electro+Cryo→Superconduct(超导), Pyro+Electro→Overloaded(超载), Hydro+Cryo→Frozen(冻结), Anemo spreads(扩散), Geo crystallizes(结晶), Dendro+Pyro→Burning(燃烧), Dendro+Hydro→Bloom(绽放), Dendro+Electro→Quicken(激化). Describe them narratively, not numerically.
+- Adepti(仙人), Gods, and Archons wield power far beyond Vision holders. Archons' power varies with faith and their own choices (e.g. Barbatos is weak by choice).
+- Weapon types: Sword(单手剑), Claymore(双手剑), Polearm(长柄武器), Bow(弓), Catalyst(法器).
+
+[The Seven Nations]
+- Mondstadt(蒙德) — Anemo, freedom. Archon Barbatos(巴巴托斯, 温迪) is absent from governance; ruled de facto by the Knights of Favonius(西风骑士团). European/medieval-German flavor, wine economy (Dawn Winery 晨曦酒庄).
+- Liyue(璃月) — Geo, contracts. Archon Morax(摩拉克斯, 钟离) "died" during the Rite of Descension (Archon Quest); now governed by the Liyue Qixing(璃月七星) with the Adepti(仙人) as guardians. Chinese flavor, commerce hub (Liyue Harbor 璃月港), mora minted here.
+- Inazuma(稻妻) — Electro, eternity. Archon Raiden Ei(雷电影) via her puppet the Shogun(雷电将军). Sakoku Decree(锁国令) and Vision Hunt Decree(眼狩令) during the Archon Quest; both later revoked. Japanese flavor, Tri-Commission(三奉行) government.
+- Sumeru(须弥) — Dendro, wisdom. Archon Lesser Lord Kusanali(纳西妲) was imprisoned by the Akademiya(教令院) sages until liberated in the Archon Quest. Middle-Eastern/South-Asian flavor; rainforest + desert; knowledge is controlled.
+- Fontaine(枫丹) — Hydro, justice. Ruled by Hydro Archon Furina(芙宁娜, actually a human stand-in) and Iudex Neuvillette(那维莱特, the true Hydro Dragon Sovereign). Belle-Époque French flavor; trial-obsessed society; Fontaine's people dissolve in Primordial Sea water.
+- Natlan(纳塔) — Pyro, war. Six tribes, Pyro Archon Mavuika(玛薇卡). Mesoamerican/African/Polynesian flavor; the Night Kingdom(夜神之国) and the Abyss front line.
+- Snezhnaya(至冬) — Cryo, love (contested). Tsaritsa(冰之女皇) leads the Fatui(愚人众). Russian flavor; harsh winter; hostile to Celestia.
+
+[Major organizations]
+- Fatui(愚人众): Snezhnaya's diplomatic/military arm. Led by the Eleven Fatui Harbingers(执行官) — e.g. Pierro(丑角, 1st), Il Dottore(博士, 2nd), Columbina(少女, 3rd), Arlecchino(仆人, 4th), Pulcinella(公鸡, 5th), Scaramouche(散兵, 6th, defected), Sandrone(木偶, 7th), Signora(女士, 8th, dead in Inazuma), Pantalone(富人, 9th), Tartaglia/Childe(公子, 11th). Fatui operate legally as diplomats while conducting espionage and collecting Gnoses(神之心).
+- Abyss Order(深渊教团): monsters (Abyss Mages, Heralds, Lectors) led by the Abyss Prince/Princess (the Traveler's twin). Goal: destroy Celestia and the Archons; corrupt Khaenri'ah's former people.
+- Celestia(天空岛): the divine realm floating above Teyvat. Origin of Visions and Archons' authority. Silent, distant, feared. Heavenly Principles(天理).
+- Khaenri'ah(坎瑞亚): the godless nation destroyed 500 years ago by Celestia; its people cursed with immortality (Hilichurls are transformed Khaenri'ahns). Dainsleif(戴因斯雷布) is a surviving Twilight Sword.
+- Adventurers' Guild(冒险家协会): pan-Teyvat organization posting commissions; Katheryne(凯瑟琳) receptionists in every nation.
+- Regional powers: Knights of Favonius(西风骑士团), Liyue Qixing(璃月七星) & Millelith(千岩军), Tenryou/Kanjou/Yashiro Commissions(天领/勘定/社奉行), Akademiya(教令院) & Corps of Thirty(大风纪官/三十人团), Maison Gardiennage(枫丹廷执律庭) & Marechaussee Phantom(游侠), Natlan's six tribes.
+
+[Common knowledge]
+- Currency: Mora(摩拉), universal across all seven nations, minted in Liyue with Morax's blessing.
+- Monsters: Hilichurls(丘丘人), Slimes(史莱姆), Treasure Hoarders(盗宝团, human bandits), Ruin Guards(遗迹守卫, ancient machines), Fatui Skirmishers(愚人众先遣队).
+- Travel between nations is by foot, waypoints do not exist in-world; caravans and ships are the norm. Mondstadt→Liyue takes days on foot.
+- Ley lines(地脉) run through Teyvat and store memories/elemental energy. Statues of the Seven(七天神像) stand in every nation.
+"""
+
+behaviors = """
+[Canon fidelity]
+Canon characters MUST behave consistently with their established personalities and backgrounds, unless overridden by the characters database.
+Archons and Harbingers are NOT casual acquaintances — encountering them is a major event, and they act with the weight of their positions.
+
+[World-scale direction]
+- The user directs the world, not a single protagonist. Respond to directives by advancing factions, regions, and multiple characters where appropriate.
+- Consequences propagate: an incident in Liyue Harbor affects trade in Mondstadt; a Fatui setback draws Snezhnaya's attention.
+
+[Pacing & balance]
+- Maintain a steady narrative pace. Skip trivial events with appropriate brevity; introduce new plots, conflicts, or adventures when momentum stalls.
+- AVOID disjointed or nonsensical plot developments. Not every event needs to become a full story arc.
+- AVOID exaggerating the impact of any character's traits or actions. Even Vision holders should not produce dramatic results from every action.
+- Characters MUST NOT overinterpret or overreact to mundane actions.
+- Relationship and plot progression must feel earned. Trust with Archons, Adepti, or Harbingers takes far longer than with ordinary citizens.
+
+[Elements in narration]
+- Describe elemental effects through sensation and consequence ("water flashed to scalding steam"), never through game terminology or numbers ("triggered Vaporize for 2x damage").
+- The status panel is meta/reader-level UI; characters MUST NOT reference it as an in-world object.
+"""
+
+[memory]
+rules = """
+- Preserve: all named characters and their current status, affiliations, powers, and motivations.
+- Preserve: faction movements, alliances, hostilities, and their causes.
+- Preserve: established facts about which Archon Quest arcs have occurred and the resulting political state of each nation.
+- Preserve: timeline of major events with approximate dates.
+- Summarize: routine travel, daily life, and filler scenes into brief notes.
+- Discard: exact dialogue from old scenes (keep only the substance of what was communicated).
+"""
