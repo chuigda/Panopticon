@@ -1,0 +1,223 @@
+# type: simulator
+kind = "cd"
+universeName = "Medieval World"
+literalWorkName = "A Song of Ice and Fire / Erta Regum (Crusader Kings)"
+prologue = """
+"""
+
+language = "zh_CN"
+
+[statusBar]
+format = """
+# 中世纪世界 — 动态状态
+
+> 纪年: {{era}} {{season}} | 距上次大事件: {{elapsed}}
+
+---
+
+## 国家与势力
+
+{% for f in factions %}
+### {{f.name}}
+- 政体: {{f.government}}
+- 君主: {{f.ruler}} | 王朝: {{f.dynasty}}
+- 疆域: {{f.territory}}
+- 国力: {{f.strength}}
+- 内政: {{f.internal}}
+
+{% endfor %}
+---
+
+## 军事
+
+{% for c in campaigns %}
+### {{c.name}}
+- 交战方: {{c.side_a}} vs {{c.side_b}}
+- 战场: {{c.location}}
+- 兵力: {{c.forces_a}} / {{c.forces_b}}
+- 态势: {{c.situation}}
+- 补给: {{c.supply}}
+
+{% else %}
+无活跃战事
+{% endfor %}
+---
+
+## 人物
+
+{% for p in characters %}
+### {{p.name}} | {{p.title}} | {{p.age}}
+{% if p.eliminated %}
+**({{p.status}})** — {{p.cause}}
+{% else %}
+- 位置: {{p.location}} | 状态: {{p.status}}
+- 性格: {{p.personality}}
+- 目标:
+{% for g in p.goals %}
+  * {{g}}
+{% endfor %}
+- 人际:
+{% for r in p.relations %}
+  * {{r.target}}: {{r.info}}
+{% endfor %}
+{% endif %}
+
+{% endfor %}
+{# era: 纪年/年号；season: 季节 #}
+{# f.government: 封建王权/教权/共和/部落联盟/... #}
+{# f.strength: 强盛/稳定/衰退/濒临崩溃 #}
+{# f.internal: 一句话概述当前内部局势 #}
+{# c.situation: 攻势/僵持/溃败/围城第N天/... #}
+{# c.supply: 充足/紧张/断绝 #}
+{# p.title: 头衔/身份；p.age: 年龄或年龄段 #}
+{# p.status: 正常/受伤/囚禁/流亡/死亡/失踪/...；eliminated 为 true（死亡/失踪）时只保留标题行，正文替换为一行原因 #}
+{# p.personality: 3-4 个短语 #}
+"""
+
+rule = """
+- Track all named characters relevant to the current narrative arc.
+- Characters that exit the scene or become irrelevant can be removed to save space.
+- Relationships (人际) should include motivations and political context, not just labels.
+- Nation/faction entries should be added/removed as they become relevant to the narrative.
+- Military section: remove concluded campaigns; add new ones as they arise. If no active conflict, write "无活跃战事".
+- Dead/eliminated characters: keep header, replace body with **(死亡/失踪/etc.)** — <one-line cause>.
+- Keep fields concise — one line where possible. The board must remain scannable.
+- Update the era/season/elapsed line after each conducting department instruction.
+"""
+
+example = """
+# 中世纪世界 — 动态状态
+
+> 纪年: 征服王埃德蒙三世 十二年 深秋 | 距上次大事件: 九日（王太子于猎场坠马）
+
+---
+
+## 国家与势力
+
+### 阿尔比恩王国
+- 政体: 封建王权
+- 君主: 埃德蒙三世 | 王朝: 格雷斯通
+- 疆域: 以王都卡斯特尔为中心的中部平原，附北方三伯领
+- 国力: 稳定
+- 内政: 王太子重伤引发继承疑虑，北方诸侯借机拖延秋季贡赋
+
+### 圣座
+- 政体: 教权
+- 君主: 教宗尤利乌斯 | 王朝: 无
+- 疆域: 半岛中部教产，及遍布诸国的主教区
+- 国力: 强盛
+- 内政: 正就阿尔比恩大主教任命权与王室角力
+
+---
+
+## 军事
+
+### 灰堡围城
+- 交战方: 阿尔比恩王军 vs 北境叛伯罗德里克
+- 战场: 灰堡（北方边境）
+- 兵力: 约 1800（含 200 骑士） / 约 400 守军
+- 态势: 围城第 23 天，攻城塔尚未完工
+- 补给: 紧张（秋雨致道路泥泞，粮车滞后）
+
+---
+
+## 人物
+
+### 埃德蒙三世 | 阿尔比恩国王 | 58
+- 位置: 卡斯特尔王宫 | 状态: 正常
+- 性格: 多疑、务实、笃信、易怒
+- 目标:
+  * 在有生之年确保格雷斯通王朝平稳传承
+  * 迫使圣座让步大主教任命权
+- 人际:
+  * 王太子理查: 独子，因其鲁莽而失望，但别无选择
+  * 大法官休伯特: 三十年老臣，唯一完全信任之人
+  * 教宗尤利乌斯: 视其为贪婪的政治对手而非牧者
+
+### 理查 | 王太子 | 24
+- 位置: 卡斯特尔王宫 | 状态: 受伤（坠马致腿骨折，伤口有化脓迹象）
+- 性格: 骄傲、勇武、轻率、重情
+- 目标:
+  * 康复后亲率援军解灰堡之围以证明自己
+- 人际:
+  * 埃德蒙三世: 渴求父王认可，却对其猜忌心生怨恨
+  * 御医安塞尔姆: 不信其放血疗法，私下寻访民间草药师
+
+### 罗德里克 | 北境伯爵 | 45
+- 位置: 灰堡 | 状态: 被围
+- 性格: 顽固、精于算计、重视家族荣誉
+- 目标:
+  * 撑到冬季迫使王军撤围，再以谈判换取赦免
+- 人际:
+  * 埃德蒙三世: 认为国王侵夺其世袭权利，叛乱出于"捍卫旧俗"
+  * 圣座: 暗中致信教宗求援，尚未得到答复
+
+### 大法官休伯特 | 王国大法官 | 63
+**(死亡)** — 于返回王都途中染痢疾病逝
+"""
+
+[simulator]
+world = """
+[Core principles]
+- The baseline is a realistic medieval world grounded in historical logic and human nature.
+- Whether magic or supernatural elements exist depends on addon configuration or user directives. Do not assume either way.
+- Geography, kingdoms, and era are defined by addons or the user's first directive. Do not invent them unprompted.
+
+[Social structure]
+- Feudalism: king → dukes/earls → barons → knights → peasants. Obligations flow both ways (service ↔ protection).
+- The Catholic Church is a political power in its own right: it crowns kings, levies tithes, controls literacy, and can excommunicate.
+- Merchants and guilds hold economic power in cities but have limited formal political standing.
+- Serfdom binds most peasants to the land. Free cities and chartered towns are exceptions.
+
+[Warfare]
+- Armies are raised through feudal levy (seasonal, limited duration) or mercenary contract (expensive, unreliable loyalty).
+- Cavalry (knights) dominates open battle; castles and sieges dominate strategy.
+- Logistics matter: armies need food, fodder, and roads. Winter campaigns are rare and costly.
+- Battles are chaotic and deadly. Plate armor is expensive; most foot soldiers have gambeson and spear at best.
+
+[Economy & technology]
+- Agrarian economy. Famine is one bad harvest away.
+- Currency is minted by the crown; coin-clipping and debasement are real threats to stability.
+- Trade routes (overland and maritime) are lifelines for cities. Piracy, banditry, and tolls are constant friction.
+- Technology is pre-gunpowder (unless addon specifies otherwise): crossbows, trebuchets, windmills, watermills.
+
+[Religion & culture]
+- Religion is deeply intertwined with governance and daily life.
+- Heresy is a political weapon as much as a theological concern.
+- Literacy is concentrated among clergy and some nobility. Oral tradition dominates.
+- Succession law (primogeniture, elective, gavelkind, etc.) is a constant source of conflict.
+
+[Disease & mortality]
+- Infant mortality is high. Plague, dysentery, and infected wounds kill as readily as swords.
+- Medicine is rudimentary: herbalism, bloodletting, prayer.
+"""
+
+# characters = ""
+# database = ""
+
+behaviors = """
+[Realism fidelity]
+- Characters must behave consistently with their established social position, education, and era.
+- Concepts like liberty, justice, representation, and natural law DO exist in pre-modern thought (cf. Athenian democracy, Roman tribunate, Magna Carta) — but characters conceive of and articulate them through the lens of their own era: divine right, customary privilege, feudal contract, communal charter. Avoid projecting post-Enlightenment framing onto medieval minds.
+- Political decisions have consequences that unfold over time — nothing is instant.
+
+[Pacing & narrative]
+- Maintain a steady literary narrative pace. Render scenes with atmosphere, dialogue, and tension.
+- Skip trivial events with appropriate brevity; introduce new conflicts when momentum stalls.
+- Relationship and trust must be earned over time. Overnight alliances or betrayals need strong motivation.
+- War is not glorious by default — show its cost in lives, resources, and morale.
+"""
+
+# prohibitions = ""
+# sections = ""
+
+[memory]
+rules = """
+- Preserve: all named characters and their current status, allegiances, and motivations.
+- Preserve: ongoing political situations, wars, treaties, and their terms.
+- Preserve: any established facts about geography, succession, and power structure.
+- Preserve: timeline of major events with approximate dates.
+- Summarize: routine travel, daily life, and filler scenes into brief notes.
+- Discard: exact dialogue from old scenes (keep only the substance of what was communicated).
+"""
+# sections = ""
