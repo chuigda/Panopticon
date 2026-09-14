@@ -22,7 +22,10 @@ const renderedMarkdown = computed(() => {
   if (props.preprocess) {
     markdown = props.preprocess(markdown)
   }
-  return DOMPurify.sanitize(marked.parse(markdown, { async: false }))
+  return DOMPurify.sanitize(marked.parse(markdown, { async: false }), {
+    ADD_TAGS: ['semantics', 'annotation'],
+    ADD_ATTR: ['encoding'],
+  })
 })
 
 async function startEditing() {
