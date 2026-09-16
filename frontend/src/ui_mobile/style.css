@@ -165,7 +165,7 @@ details > pre {
 .button--sm {
   min-block-size: 2em;
   padding: 0.3em 0.5em;
-  font-size: 0.85em;
+  font-size: 11pt;
 }
 
 .button__spinner {
@@ -399,7 +399,7 @@ input[type='checkbox']:disabled {
   overflow-wrap: anywhere;
   word-break: break-word;
   line-height: 1.45;
-  font-size: 0.95em;
+  font-size: 12pt;
 }
 
 .markdown > :first-child {

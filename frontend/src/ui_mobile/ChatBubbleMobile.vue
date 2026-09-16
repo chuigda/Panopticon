@@ -215,11 +215,11 @@ onBeforeUnmount(() => clearTimeout(confirmTimer))
 
 .bubble__action-btn,
 .bubble__remove {
-  border: 1px solid var(--line);
+  border: none;
   padding: 2px 6px;
-  background: var(--surface-strong);
+  background: var(--surface);
   color: var(--ink);
-  font-size: 0.82em;
+  font-size: 12pt;
   line-height: 1.2;
 }
 
