@@ -1,0 +1,36 @@
+{
+  "fate": {
+    "addon": {
+      "hgw4.addon.chr.toml": "/examples/fate/addon/hgw4.addon.chr.toml",
+      "hgw5.addon.chr.toml": "/examples/fate/addon/hgw5.addon.chr.toml"
+    },
+    "fate.simulator.cd.chr.toml": "/examples/fate/fate.simulator.cd.chr.toml",
+    "fate.simulator.mk.chr.toml": "/examples/fate/fate.simulator.mk.chr.toml"
+  },
+  "genshin": {
+    "genshin.simulator.cd.chr.toml": "/examples/genshin/genshin.simulator.cd.chr.toml"
+  },
+  "hp": {
+    "addon": {
+      "eastern-magic.addon.chr.toml": "/examples/hp/addon/eastern-magic.addon.chr.toml",
+      "goblet-of-fire.addon.chr.toml": "/examples/hp/addon/goblet-of-fire.addon.chr.toml",
+      "gringotts.addon.chr.toml": "/examples/hp/addon/gringotts.addon.chr.toml",
+      "hachimi.addon.chr.toml": "/examples/hp/addon/hachimi.addon.chr.toml",
+      "lovegood-ish.addon.chr.toml": "/examples/hp/addon/lovegood-ish.addon.chr.toml",
+      "magecraft.addon.chr.toml": "/examples/hp/addon/magecraft.addon.chr.toml",
+      "magic.addon.chr.toml": "/examples/hp/addon/magic.addon.chr.toml",
+      "spells.addon.chr.toml": "/examples/hp/addon/spells.addon.chr.toml"
+    },
+    "harry-potter.simulator.cd.chr.toml": "/examples/hp/harry-potter.simulator.cd.chr.toml",
+    "harry-potter.simulator.mk.chr.toml": "/examples/hp/harry-potter.simulator.mk.chr.toml"
+  },
+  "medieval": {
+    "addon": {
+      "telephone.addon.chr.toml": "/examples/medieval/addon/telephone.addon.chr.toml"
+    },
+    "medieval.simulator.cd.chr.toml": "/examples/medieval/medieval.simulator.cd.chr.toml"
+  },
+  "player": {
+    "anton.player.chr.toml": "/examples/player/anton.player.chr.toml"
+  }
+}

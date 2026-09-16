@@ -5,6 +5,12 @@ if [ ! -f "frontend/drill/config-drill.json" ]; then
   echo "{\"baseUrl\":\"\",\"apiKey\":\"\"}" > frontend/drill/config-drill.json
 fi
 
+./gen-examples.sh
+if [ $? -ne 0 ]; then
+  echo "gen-examples failed"
+  exit 1
+fi
+
 cd frontend
 npm install
 if [ $? -ne 0 ]; then

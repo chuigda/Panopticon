@@ -1,10 +1,5 @@
 use axum::{
-    Router,
-    body::Body,
-    extract::{Request, State},
-    http::{HeaderName, StatusCode, header},
-    response::{Html, Response},
-    routing::{get, post},
+    Router, body::Body, extract::{Request, State}, http::{HeaderName, StatusCode, header}, response::{Html, Response}, routing::{get, post},
 };
 
 const UPSTREAM_HEADER: &str = "x-upstream-base-url";
@@ -23,6 +18,8 @@ async fn main() {
         .route("/", get(index))
         .route("/v1/messages", post(proxy))
         .route("/v1/chat/completions", post(proxy))
+        .route("/examples", get(index_examples))
+        .merge(examples_router())
         .with_state(reqwest::Client::new());
 
     let listener = tokio::net::TcpListener::bind(("127.0.0.1", port))
@@ -34,6 +31,15 @@ async fn main() {
 
 async fn index() -> Html<&'static str> {
     Html(INDEX_HTML)
+}
+
+include!("examples.rs");
+
+async fn index_examples() -> impl axum::response::IntoResponse {
+    (
+        [(header::CONTENT_TYPE, "application/json")],
+        include_str!("examples.json"),
+    )
 }
 
 async fn proxy(
