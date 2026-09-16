@@ -1,0 +1,521 @@
+:root {
+  color-scheme: light dark;
+  font-family: "Cascadia Code", "IBM Plex Mono", Consolas, Dengxian, monospace;
+  font-synthesis: none;
+  --canvas: #f4f7f1;
+  --surface: #fbfdf8;
+  --surface-strong: #e6ecdf;
+  --ink: #17261d;
+  --ink-light: #7f7f7f;
+  --muted: #5c6b62;
+  --line: #aebbac;
+  --line-strong: #718473;
+  --accent: #126c60;
+  --accent-hover: #0a584e;
+  --accent-ink: #f8fffb;
+  --danger: #ae3a2d;
+  --danger-hover: #8b2c22;
+  --focus: #d76800;
+  --grid: rgb(23 38 29 / 7%);
+  --backdrop: rgb(11 20 14 / 60%);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --canvas: #111a15;
+    --surface: #19231c;
+    --surface-strong: #263329;
+    --ink: #e8f0e5;
+    --ink-light: #aebdad;
+    --muted: #aebdad;
+    --line: #445748;
+    --line-strong: #829783;
+    --accent: #73bca8;
+    --accent-hover: #9bceb9;
+    --accent-ink: #102019;
+    --danger: #ee8a7d;
+    --danger-hover: #ffaaa0;
+    --focus: #ffad4d;
+    --grid: rgb(232 240 229 / 6%);
+    --backdrop: rgb(0 0 0 / 72%);
+  }
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  block-size: 100%;
+}
+
+body {
+  width: 100vw;
+  height: 100dvh;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background-color: var(--canvas);
+  color: var(--ink);
+  -webkit-tap-highlight-color: transparent;
+  -webkit-text-size-adjust: 100%;
+}
+
+button,
+input,
+textarea,
+select {
+  border-radius: 0;
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+  touch-action: manipulation;
+}
+
+button:disabled {
+  cursor: not-allowed;
+}
+
+button:focus-visible,
+input:focus-visible,
+textarea:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 1px;
+}
+
+details {
+  color: var(--ink-light);
+}
+
+details > pre {
+  padding-left: 0.5em;
+}
+
+/* 按钮通用样式 (针对移动端触摸适当增加最小高度和内边距) */
+.button,
+.toggle-button,
+.control-dialog__close {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.35em;
+  min-block-size: 2.35em;
+  border: 1px solid transparent;
+  padding: 0.4em 0.65em;
+  font-weight: 700;
+  line-height: 1.1;
+  transition: background-color 100ms ease, border-color 100ms ease, color 100ms ease;
+  user-select: none;
+}
+
+.button:disabled,
+.toggle-button:disabled {
+  opacity: 0.4;
+}
+
+.button--primary {
+  color: var(--accent-ink);
+  background: var(--accent);
+  border-color: var(--accent);
+}
+
+.button--primary:active:not(:disabled) {
+  background: var(--accent-hover);
+  border-color: var(--accent-hover);
+}
+
+.button--secondary {
+  color: var(--ink);
+  background: var(--surface-strong);
+  border-color: var(--line-strong);
+}
+
+.button--secondary:active:not(:disabled) {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.button--danger {
+  color: var(--danger);
+  background: transparent;
+  border-color: var(--danger);
+}
+
+.button--danger:active:not(:disabled) {
+  color: var(--accent-ink);
+  background: var(--danger-hover);
+  border-color: var(--danger-hover);
+}
+
+.button--ghost,
+.control-dialog__close {
+  color: var(--ink);
+  background: transparent;
+  border-color: var(--line);
+}
+
+.button--ghost:active:not(:disabled),
+.control-dialog__close:active {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.button--sm {
+  min-block-size: 2em;
+  padding: 0.3em 0.5em;
+  font-size: 0.85em;
+}
+
+.button__spinner {
+  inline-size: 0.85em;
+  block-size: 0.85em;
+  border: 2px solid currentColor;
+  border-inline-end-color: transparent;
+  animation: control-spin 420ms linear infinite;
+}
+
+/* 输入框 */
+.input-field {
+  display: grid;
+  gap: 0.25em;
+  min-inline-size: 0;
+}
+
+.input-field__label {
+  color: var(--ink);
+  font-size: 0.85em;
+  font-weight: 700;
+}
+
+.input-field__control,
+textarea {
+  inline-size: 100%;
+  min-inline-size: 0;
+  min-block-size: 2.35em;
+  border: 1px solid var(--line-strong);
+  padding: 0.4em 0.55em;
+  color: var(--ink);
+  background: var(--surface);
+  line-height: 1.35;
+  font-size: 0.95rem; /* 防止 iOS 聚焦时强制页面缩放 */
+  transition: border-color 100ms ease, background-color 100ms ease;
+}
+
+textarea {
+  min-block-size: 4.5em;
+  resize: vertical;
+}
+
+.input-field__control::placeholder,
+textarea::placeholder {
+  color: var(--muted);
+  opacity: 0.75;
+}
+
+.input-field__control:active:not(:disabled),
+.input-field__control:focus,
+textarea:focus {
+  border-color: var(--accent);
+}
+
+.input-field__control:disabled {
+  color: var(--muted);
+  background: var(--surface-strong);
+}
+
+.input-field.has-error .input-field__control {
+  border-color: var(--danger);
+}
+
+.input-field__supporting-text {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.78em;
+}
+
+.input-field__supporting-text.is-error {
+  color: var(--danger);
+}
+
+/* 切换按钮和按钮组 */
+.toggle-button {
+  color: var(--ink);
+  background: var(--surface);
+  border-color: var(--line-strong);
+}
+
+.toggle-button.is-pressed {
+  color: var(--accent-ink);
+  background: var(--accent);
+  border-color: var(--accent);
+}
+
+.toggle-button-group {
+  display: inline-flex;
+  align-items: stretch;
+  border: 1px solid var(--line-strong);
+  max-inline-size: 100%;
+  overflow-x: auto;
+}
+
+.toggle-button-group .toggle-button {
+  flex: 1 1 auto;
+  border-block: 0;
+  border-inline-start: 0;
+  white-space: nowrap;
+}
+
+.toggle-button-group .toggle-button:first-child {
+  border-inline-start: 0;
+}
+
+.toggle-button-group .toggle-button:last-child {
+  border-inline-end: 0;
+}
+
+.toggle-button-group .toggle-button.is-pressed {
+  box-shadow: inset 0 -2px 0 var(--focus);
+}
+
+.toggle-button-group.is-vertical {
+  flex-direction: column;
+  align-items: stretch;
+  row-gap: 0.2em;
+}
+
+.toggle-button-group.is-vertical .toggle-button {
+  justify-content: start;
+  border-block: 0;
+  border-inline: 0;
+  border-block-start: 1px solid var(--line-strong);
+  text-align: start;
+}
+
+.toggle-button-group.is-vertical .toggle-button:first-child {
+  border-block-start: 0;
+}
+
+.toggle-button-group.is-vertical .toggle-button.is-pressed {
+  box-shadow: inset 2px 0 0 var(--focus);
+}
+
+/* 弹窗 (自适应竖屏) */
+.control-dialog {
+  inline-size: min(calc(100vw - 1em), 32rem);
+  max-block-size: calc(100dvh - 2em);
+  margin: auto;
+  border: 1px solid var(--line-strong);
+  padding: 0;
+  color: var(--ink);
+  background: var(--surface);
+  box-shadow: 0 0.5em 2em rgb(0 0 0 / 35%);
+  overflow: hidden;
+}
+
+.control-dialog[open] {
+  display: flex;
+  flex-direction: column;
+  animation: dialog-enter 150ms ease-out;
+}
+
+.control-dialog::backdrop {
+  background: var(--backdrop);
+  backdrop-filter: blur(1px);
+}
+
+.control-dialog__frame {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  max-height: calc(100dvh - 2em);
+  padding: 0.65em;
+  gap: 0.6em;
+}
+
+.control-dialog__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5em;
+  border-block-end: 1px solid var(--line);
+  padding-block-end: 0.45em;
+  flex-shrink: 0;
+}
+
+.control-dialog__title {
+  margin: 0;
+  color: var(--ink);
+  font-size: 1.05em;
+  font-weight: 700;
+}
+
+.control-dialog__body {
+  color: var(--muted);
+  line-height: 1.45;
+  overflow-y: auto;
+  min-height: 0;
+  -webkit-overflow-scrolling: touch;
+}
+
+.control-dialog__body p {
+  margin: 0;
+}
+
+.control-dialog__footer {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.5em;
+  border-block-start: 1px solid var(--line);
+  padding-block-start: 0.5em;
+  flex-shrink: 0;
+}
+
+/* 复选框 */
+input[type='checkbox'] {
+  appearance: none;
+  inline-size: 1.2em;
+  block-size: 1.2em;
+  margin: 0;
+  border: 1px solid var(--line-strong);
+  background: var(--surface);
+  flex-shrink: 0;
+}
+
+input[type='checkbox']:checked {
+  border-color: var(--accent);
+  background: var(--accent);
+  box-shadow: inset 0 0 0 0.2em var(--surface);
+}
+
+input[type='checkbox']:disabled {
+  opacity: 0.45;
+}
+
+/* Markdown 排版与横向滚动保护 */
+.markdown {
+  overflow-wrap: anywhere;
+  word-break: break-word;
+  line-height: 1.45;
+  font-size: 0.95em;
+}
+
+.markdown > :first-child {
+  margin-block-start: 0;
+}
+
+.markdown > :last-child {
+  margin-block-end: 0;
+}
+
+.markdown h1,
+.markdown h2,
+.markdown h3,
+.markdown h4,
+.markdown h5,
+.markdown h6 {
+  margin-block: 0.5em 0.25em;
+  line-height: 1.25;
+}
+
+.markdown h1 { font-size: 1.35em; }
+.markdown h2 { font-size: 1.2em; }
+.markdown h3 { font-size: 1.05em; }
+
+.markdown p {
+  margin: 0 0 0.35em;
+}
+
+.markdown ul,
+.markdown ol {
+  margin-block: 0.3em;
+  padding-inline-start: 1.2em;
+}
+
+.markdown li + li {
+  margin-block-start: 0.1em;
+}
+
+.markdown pre {
+  max-inline-size: 100%;
+  margin-block: 0.4em;
+  padding: 0.4em 0.55em;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  color: var(--ink);
+  background: var(--surface-strong);
+  white-space: pre-wrap;
+  word-break: break-word;
+  border-inline-start: 2px solid var(--line-strong);
+}
+
+.markdown blockquote {
+  margin: 0.4em 0;
+  border-inline-start: 3px solid var(--line-strong);
+  padding: 0.35em 0.6em;
+  color: var(--muted);
+  background: var(--surface-strong);
+}
+
+.markdown blockquote > :first-child { margin-block-start: 0; }
+.markdown blockquote > :last-child { margin-block-end: 0; }
+
+.markdown em {
+  font-weight: bold;
+  color: var(--accent);
+}
+
+.markdown table {
+  display: block;
+  max-inline-size: 100%;
+  overflow-x: auto;
+  border-collapse: collapse;
+  margin-block: 0.4em;
+}
+
+.markdown th,
+.markdown td {
+  border: 1px solid var(--line);
+  padding: 0.3em 0.5em;
+  font-size: 0.88em;
+}
+
+.markdown th {
+  background: var(--surface-strong);
+  font-weight: 700;
+}
+
+.katex-display {
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding-block: 0.2em;
+  -webkit-overflow-scrolling: touch;
+}
+
+@keyframes control-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes dialog-enter {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 1ms !important;
+    transition-duration: 1ms !important;
+  }
+}
