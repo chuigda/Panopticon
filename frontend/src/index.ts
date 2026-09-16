@@ -9,7 +9,7 @@ import AppMobile from './ui_mobile/AppMobile.vue'
 import './style.css'
 
 marked.use(markedCjkFriendly())
-marked.use(markedKatex({ throwOnError: false }))
+marked.use(markedKatex({ throwOnError: false, nonStandard: true }))
 
 const urlParams = new URLSearchParams(window.location.search)
 const forceMobile = urlParams.has('mobile') || urlParams.get('ui') === 'mobile'
