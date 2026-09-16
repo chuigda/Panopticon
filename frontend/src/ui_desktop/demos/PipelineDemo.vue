@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import { computed, reactive, ref } from 'vue'
-import type { Config } from './config'
-import type { SimulatorCHR, PlayerCHR } from './session/chr'
-import type { ChatMessage } from './session/message'
-import { pipelineGenerate, regenerateStatusBar, manualCompressMemory } from './pipeline/pipeline'
-import { createAskQuestionTool } from './pipeline/tool'
-import drillConfig from '../drill/config-drill.json' with { type: 'json' }
+import type { Config } from '../../config'
+import type { SimulatorCHR, PlayerCHR } from '../../session/chr'
+import type { ChatMessage } from '../../session/message'
+import { pipelineGenerate, regenerateStatusBar, manualCompressMemory } from '../../pipeline/pipeline'
+import { createAskQuestionTool } from '../../pipeline/tool'
+import drillConfig from '../../../drill/config-drill.json' with { type: 'json' }
 
 const baseUrl = ref(drillConfig.baseUrl)
 const apiKey = ref(drillConfig.apiKey)

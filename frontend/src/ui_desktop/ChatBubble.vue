@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed, onBeforeUnmount, ref } from 'vue'
-import type { ChatMessage, ChatTokenUsage } from '../session/message'
+import type { ChatMessage, ChatTokenUsage } from '../session/message.ts'
 import MarkdownEdit from './MarkdownEdit.vue'
 import PlainTextEdit from './PlainTextEdit.vue'
 

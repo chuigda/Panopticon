@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-import Button from './components/Button.vue'
-import Dialog from './components/Dialog.vue'
-import Input from './components/Input.vue'
-import ToggleButton from './components/ToggleButton.vue'
-import ToggleButtonGroup from './components/ToggleButtonGroup.vue'
+import Button from '../Button.vue'
+import Dialog from '../Dialog.vue'
+import Input from '../Input.vue'
+import ToggleButton from '../ToggleButton.vue'
+import ToggleButtonGroup from '../ToggleButtonGroup.vue'
 
 const planName = ref('秋季排练计划')
 const notes = ref('确认铜管声部的到场时间，并保留独奏排练窗口。')

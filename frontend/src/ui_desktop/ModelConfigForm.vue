@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { ModelConfig } from '../config'
+import type { ModelConfig } from '../config.ts'
 import Input from './Input.vue'
 import ToggleButton from './ToggleButton.vue'
 import ToggleButtonGroup from './ToggleButtonGroup.vue'

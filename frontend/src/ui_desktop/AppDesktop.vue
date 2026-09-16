@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed, nextTick, onMounted, reactive, ref, watch } from 'vue'
-import { ConfigSchema, defaultConfig, type Config } from './config'
+import { ConfigSchema, defaultConfig, type Config } from '../config.ts'
 import {
   parseAdditionalCHR,
   parsePlayerCHR,
@@ -8,23 +8,23 @@ import {
   type AdditionalCHR,
   type PlayerCHR,
   type SimulatorCHR,
-} from './session/chr'
-import type { ChatAssistantMessage, ChatMemoryMessage, ChatMessage } from './session/message'
+} from '../session/chr.ts'
+import type { ChatAssistantMessage, ChatMemoryMessage, ChatMessage } from '../session/message.ts'
 import {
   manualCompressMemory,
   pipelineGenerate,
   regenerateStatusBar,
   type PipelineStage,
-} from './pipeline/pipeline'
-import { createAskQuestionTool } from './pipeline/tool'
-import Button from './components/Button.vue'
-import ChatBubble from './components/ChatBubble.vue'
-import Dialog from './components/Dialog.vue'
-import Input from './components/Input.vue'
-import MarkdownEdit from './components/MarkdownEdit.vue'
-import ModelConfigForm from './components/ModelConfigForm.vue'
-import PlainTextEdit from './components/PlainTextEdit.vue'
-import ToggleButtonGroup from './components/ToggleButtonGroup.vue'
+} from '../pipeline/pipeline.ts'
+import { createAskQuestionTool } from '../pipeline/tool.ts'
+import Button from './Button.vue'
+import ChatBubble from './ChatBubble.vue'
+import Dialog from './Dialog.vue'
+import Input from './Input.vue'
+import MarkdownEdit from './MarkdownEdit.vue'
+import ModelConfigForm from './ModelConfigForm.vue'
+import PlainTextEdit from './PlainTextEdit.vue'
+import ToggleButtonGroup from './ToggleButtonGroup.vue'
 
 // ---------- 持久化 ----------
 const CONFIG_KEY = 'cd.config'
