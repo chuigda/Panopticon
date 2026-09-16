@@ -718,7 +718,7 @@ function preprocessStatusBar(text: string) {
         <div class="m-menu__info-card">
           <div class="m-menu__info-item">
             <span class="m-menu__info-label">模拟工作区</span>
-            <span class="m-menu__info-val">{{ chr.simulator ? `${chr.simulator.literalWorkName} · ${chr.simulator.universeName}` : '未加载剧本' }}</span>
+            <span class="m-menu__info-val">{{ chr.simulator ? chr.simulator.literalWorkName : '未加载剧本' }}</span>
           </div>
           <div class="m-menu__info-item">
             <span class="m-menu__info-label">运行模式</span>
