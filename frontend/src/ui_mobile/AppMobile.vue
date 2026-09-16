@@ -20,6 +20,7 @@ import { createAskQuestionTool } from '../pipeline/tool.ts'
 import Button from './Button.vue'
 import ChatBubbleMobile from './ChatBubbleMobile.vue'
 import Dialog from './Dialog.vue'
+import ExampleBrowserMobile from './ExampleBrowserMobile.vue'
 import Input from './Input.vue'
 import MarkdownEditMobile from './MarkdownEditMobile.vue'
 import ModelConfigFormMobile from './ModelConfigFormMobile.vue'
@@ -105,6 +106,13 @@ const navTabs = computed(() => [
 
 // 移动端管理菜单抽屉
 const menuDialogOpen = ref(false)
+
+// 示例下载
+const examplesDialogOpen = ref(false)
+function openExamplesDialog() {
+  menuDialogOpen.value = false
+  examplesDialogOpen.value = true
+}
 
 // ---------- ask_question ----------
 interface PendingQuestion {
@@ -725,12 +733,15 @@ function preprocessStatusBar(text: string) {
         <!-- 菜单操作按钮组 -->
         <div class="m-menu__section">
           <div class="m-menu__section-title">模拟与配置</div>
-          <div class="m-menu__grid">
+          <div class="m-menu__grid3">
             <Button variant="secondary" block @click="openSimDialog">
-              模拟配置 (CHR)
+              模拟配置
             </Button>
             <Button variant="secondary" block @click="openApiDialog">
               API 配置
+            </Button>
+            <Button variant="secondary" block @click="openExamplesDialog">
+              示例下载
             </Button>
           </div>
         </div>
@@ -829,7 +840,7 @@ function preprocessStatusBar(text: string) {
           <div class="m-sim-item__info">
             <span class="input-field__label">SimulatorCHR (剧本)</span>
             <span v-if="chr.simulator" class="m-sim-item__val">
-              {{ chr.simulator.literalWorkName }} · {{ chr.simulator.universeName }} ({{ chr.simulator.kind }})
+              {{ chr.simulator.literalWorkName }} ({{ chr.simulator.kind }})
             </span>
             <span v-else class="m-sim-item__muted">未加载</span>
           </div>
@@ -879,6 +890,14 @@ function preprocessStatusBar(text: string) {
       </div>
       <template #footer>
         <Button block @click="simDialogOpen = false">完成</Button>
+      </template>
+    </Dialog>
+
+    <!-- 示例下载弹窗 -->
+    <Dialog v-model="examplesDialogOpen" title="示例下载">
+      <ExampleBrowserMobile v-if="examplesDialogOpen" />
+      <template #footer>
+        <Button block @click="examplesDialogOpen = false">关闭</Button>
       </template>
     </Dialog>
   </div>
@@ -1285,6 +1304,12 @@ function preprocessStatusBar(text: string) {
 .m-menu__grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.4em;
+}
+
+.m-menu__grid3 {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 0.4em;
 }
 

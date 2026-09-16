@@ -20,6 +20,7 @@ import { createAskQuestionTool } from '../pipeline/tool.ts'
 import Button from './Button.vue'
 import ChatBubble from './ChatBubble.vue'
 import Dialog from './Dialog.vue'
+import ExampleBrowser from './ExampleBrowser.vue'
 import Input from './Input.vue'
 import MarkdownEdit from './MarkdownEdit.vue'
 import ModelConfigForm from './ModelConfigForm.vue'
@@ -393,6 +394,9 @@ async function loadPlayerCHR() {
   }
 }
 
+// ---------- 示例下载 ----------
+const examplesDialogOpen = ref(false)
+
 // ---------- API 配置 ----------
 const apiDialogOpen = ref(false)
 type ModelKey = 'chatModel' | 'statusBarModel' | 'memoryModel'
@@ -492,6 +496,8 @@ function preprocessStatusBar(text: string) {
       <span class="toolbar__sep" />
       <Button variant="ghost" size="sm" :disabled="busy" @click="apiDialogOpen = true">API 配置</Button>
       <Button variant="ghost" size="sm" :disabled="busy" @click="simDialogOpen = true">模拟配置</Button>
+      <span class="toolbar__sep" />
+      <Button variant="ghost" size="sm" @click="examplesDialogOpen = true">示例下载</Button>
       <span v-if="notice" class="toolbar__notice">{{ notice }}</span>
       <span class="toolbar__ready" :class="{ 'is-ok': readiness.ok }">{{ readiness.reason }}</span>
     </header>
@@ -677,6 +683,13 @@ function preprocessStatusBar(text: string) {
       </div>
       <template #footer>
         <Button @click="simDialogOpen = false">完成</Button>
+      </template>
+    </Dialog>
+
+    <Dialog v-model="examplesDialogOpen" title="示例下载">
+      <ExampleBrowser v-if="examplesDialogOpen" />
+      <template #footer>
+        <Button @click="examplesDialogOpen = false">关闭</Button>
       </template>
     </Dialog>
   </div>
