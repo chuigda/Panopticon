@@ -1,0 +1,55 @@
+:root {
+  color-scheme: light dark;
+  font-family: "Cascadia Code", "IBM Plex Mono", Consolas, Dengxian, monospace;
+  font-synthesis: none;
+  --canvas: #f4f7f1;
+  --surface: #fbfdf8;
+  --surface-strong: #e6ecdf;
+  --ink: #17261d;
+  --ink-light: #7f7f7f;
+  --muted: #5c6b62;
+  --line: #aebbac;
+  --line-strong: #718473;
+  --accent: #126c60;
+  --accent-hover: #0a584e;
+  --accent-ink: #f8fffb;
+  --danger: #ae3a2d;
+  --danger-hover: #8b2c22;
+  --focus: #d76800;
+  --grid: rgb(23 38 29 / 7%);
+  --backdrop: rgb(11 20 14 / 48%);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --canvas: #111a15;
+    --surface: #19231c;
+    --surface-strong: #263329;
+    --ink: #e8f0e5;
+    --ink-light: #aebdad;
+    --muted: #aebdad;
+    --line: #445748;
+    --line-strong: #829783;
+    --accent: #73bca8;
+    --accent-hover: #9bceb9;
+    --accent-ink: #102019;
+    --danger: #ee8a7d;
+    --danger-hover: #ffaaa0;
+    --focus: #ffad4d;
+    --grid: rgb(232 240 229 / 6%);
+    --backdrop: rgb(0 0 0 / 62%);
+  }
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  background: var(--canvas);
+}
+
+body {
+  color: var(--ink);
+  background-color: var(--canvas);
+}

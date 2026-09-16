@@ -47,7 +47,6 @@
 
 html {
   min-block-size: 100%;
-  background: var(--canvas);
 }
 
 body {
@@ -56,10 +55,6 @@ body {
   margin: 0;
   padding: 0;
   overflow: hidden;
-
-  color: var(--ink);
-  background-color: var(--canvas);
-  background-size: 1.75rem 1.75rem;
 }
 
 button,

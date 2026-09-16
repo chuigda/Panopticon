@@ -5,6 +5,7 @@ import markedKatex from 'marked-katex-extension'
 import 'katex/dist/katex.min.css'
 
 import AppDesktop from './ui_desktop/AppDesktop.vue'
+import './style.css'
 
 marked.use(markedCjkFriendly())
 marked.use(markedKatex({ throwOnError: false }))
