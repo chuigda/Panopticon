@@ -8,8 +8,17 @@ const MAX_BODY_BYTES: usize = 64 * 1024 * 1024;
 
 #[tokio::main]
 async fn main() {
-    let port: u16 = std::env::args()
-        .nth(1)
+    let args: Vec<String> = std::env::args().skip(1).collect();
+    let host = if args.iter().any(|arg| arg == "--host") {
+        "0.0.0.0"
+    } else {
+        "127.0.0.1"
+    };
+
+    let port: u16 = args
+        .iter()
+        .find(|arg| !arg.starts_with("--"))
+        .cloned()
         .or_else(|| std::env::var("PORT").ok())
         .map(|s| s.parse().expect("invalid port"))
         .unwrap_or(3000);
@@ -22,10 +31,14 @@ async fn main() {
         .merge(examples_router())
         .with_state(reqwest::Client::new());
 
-    let listener = tokio::net::TcpListener::bind(("127.0.0.1", port))
+    let listener = tokio::net::TcpListener::bind((host, port))
         .await
         .expect("failed to bind port");
-    println!("listening on http://127.0.0.1:{port}");
+    println!("Listening on http://{host}:{port}");
+    println!("  - Access:        http://127.0.0.1:{port}");
+    println!("  - Force Desktop: http://127.0.0.1:{port}/?desktop");
+    println!("  - Force Mobile:  http://127.0.0.1:{port}/?mobile");
+
     axum::serve(listener, app).await.unwrap();
 }
 
