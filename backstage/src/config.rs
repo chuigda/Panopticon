@@ -18,12 +18,22 @@ pub struct Server {
     /// 监听地址，`0.0.0.0` 为公网模式
     pub host: String,
     pub port: u16,
+    /// 设置后以 HTTPS 提供服务
+    pub tls: Option<Tls>,
 }
 
 impl Default for Server {
     fn default() -> Self {
-        Self { host: "127.0.0.1".into(), port: 3000 }
+        Self { host: "127.0.0.1".into(), port: 3000, tls: None }
     }
+}
+
+/// PEM 格式的证书链与私钥文件路径，相对路径以进程工作目录为基准
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct Tls {
+    pub cert_file: String,
+    pub key_file: String,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -173,6 +183,10 @@ impl Config {
                 *h = h.to_ascii_lowercase();
             }
         }
+    }
+
+    pub fn scheme(&self) -> &'static str {
+        if self.server.tls.is_some() { "https" } else { "http" }
     }
 
     pub fn listens_on_loopback(&self) -> bool {

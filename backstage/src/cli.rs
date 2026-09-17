@@ -55,6 +55,7 @@ pub fn parse_config() -> Config {
     if args.iter().any(|a| a == "--print-config") {
         println!("# panopticon 配置。省略的字段使用默认值。");
         println!("# [upstream] allow_private_network 未设置时：监听回环地址则为 true，否则为 false。");
+        println!("# [server.tls] 可选：cert_file / key_file 指向 PEM 文件即启用 HTTPS。");
         println!("# 当前生效值：{}\n", cfg.allow_private_network());
         print!("{}", toml::to_string_pretty(&cfg).expect("serialize config"));
         std::process::exit(0);
