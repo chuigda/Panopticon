@@ -22,7 +22,16 @@ async fn main() {
         .expect("failed to bind port");
     print_banner(&config);
 
-    axum::serve(listener, app).await.unwrap();
+    axum::serve(listener, app)
+        .with_graceful_shutdown(shutdown_signal())
+        .await
+        .unwrap();
+}
+
+async fn shutdown_signal() {
+    tokio::signal::ctrl_c()
+        .await
+        .expect("failed to install Ctrl+C handler");
 }
 
 fn print_banner(config: &config::Config) {

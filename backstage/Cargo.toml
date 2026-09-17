@@ -5,7 +5,7 @@ edition = "2024"
 
 [dependencies]
 axum = "0.8"
-tokio = { version = "1", features = ["rt-multi-thread", "macros", "net", "time"] }
+tokio = { version = "1", features = ["rt-multi-thread", "macros", "net", "time", "signal"] }
 reqwest = { version = "0.12", default-features = false, features = ["rustls-tls", "stream"] }
 local-ip-address = "0.6"
 serde = { version = "1", features = ["derive"] }
