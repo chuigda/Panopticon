@@ -61,9 +61,9 @@ export const ConfigSchema = z.object({
 }).strict()
 
 export const defaultConfig: Config = {
-  inlineMessageLimit: 16,
-  compressionSize: 12,
-  outputLength: 1512,
+  inlineMessageLimit: 12,
+  compressionSize: 8,
+  outputLength: 1200,
 
   chatModel: {
     uri: '',

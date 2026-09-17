@@ -42,11 +42,11 @@ async fn main() {
                     std::net::IpAddr::V4(v4) => format!("http://{v4}:{port}"),
                     std::net::IpAddr::V6(v6) => format!("http://[{v6}]:{port}"),
                 };
-                println!("  - {name:<15} {url}");
+                println!("\t- {name}\t\t\t{url}");
             }
         }
     } else {
-        println!("  - Access:        http://127.0.0.1:{port}");
+        println!("\t- Access:\t\thttp://127.0.0.1:{port}");
     }
 
     axum::serve(listener, app).await.unwrap();
