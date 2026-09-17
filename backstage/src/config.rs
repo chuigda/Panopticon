@@ -32,6 +32,8 @@ pub struct Upstream {
     /// 允许上游为 http:// 以及回环 / 私网 / 链路本地地址。
     /// 未设置时：监听回环地址则允许，否则拒绝。
     pub allow_private_network: Option<bool>,
+    /// 允许上游为回环地址（含 http://），便于直接访问本机部署的模型
+    pub allow_loopback: bool,
     /// 信任的上游 base URL（无尾部 `/`），跳过 /v1/models 校验
     pub trusted: Vec<String>,
     /// 仅允许 `trusted` 中的上游
@@ -46,6 +48,7 @@ impl Default for Upstream {
     fn default() -> Self {
         Self {
             allow_private_network: None,
+            allow_loopback: true,
             trusted: [
                 // --- 先进国际模型 ---
 

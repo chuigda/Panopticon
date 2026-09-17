@@ -253,9 +253,12 @@ async fn verify_upstream(
     }
     let host = url.host_str().ok_or_else(|| reject("invalid base url"))?;
     let allow_private = cfg.allow_private_network();
+    let allow_loopback = cfg.upstream.allow_loopback;
+    let loopback_host = host == "localhost"
+        || host.trim_matches(['[', ']']).parse::<IpAddr>().is_ok_and(|ip| ip.is_loopback());
     match url.scheme() {
         "https" => {}
-        "http" if allow_private => {}
+        "http" if allow_private || (allow_loopback && loopback_host) => {}
         _ => return Err(reject("https required")),
     }
 
@@ -275,6 +278,9 @@ async fn verify_upstream(
         let mut any = false;
         for addr in addrs {
             any = true;
+            if allow_loopback && addr.ip().is_loopback() {
+                continue;
+            }
             if is_forbidden_ip(addr.ip()) {
                 return Err(reject("private or reserved address"));
             }
