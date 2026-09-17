@@ -35,9 +35,19 @@ async fn main() {
         .await
         .expect("failed to bind port");
     println!("Listening on http://{host}:{port}");
-    println!("  - Access:        http://127.0.0.1:{port}");
-    println!("  - Force Desktop: http://127.0.0.1:{port}/?desktop");
-    println!("  - Force Mobile:  http://127.0.0.1:{port}/?mobile");
+    if host == "0.0.0.0" {
+        if let Ok(ifaces) = local_ip_address::list_afinet_netifas() {
+            for (name, ip) in ifaces {
+                let url = match ip {
+                    std::net::IpAddr::V4(v4) => format!("http://{v4}:{port}"),
+                    std::net::IpAddr::V6(v6) => format!("http://[{v6}]:{port}"),
+                };
+                println!("  - {name:<15} {url}");
+            }
+        }
+    } else {
+        println!("  - Access:        http://127.0.0.1:{port}");
+    }
 
     axum::serve(listener, app).await.unwrap();
 }
