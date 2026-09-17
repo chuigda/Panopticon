@@ -1,7 +1,7 @@
 export type ExampleTree = { [name: string]: ExampleTree | string }
 
 export async function fetchExampleTree(): Promise<ExampleTree> {
-  const res = await fetch('/examples')
+  const res = await fetch('/examples/index.json')
   if (!res.ok) throw new Error(`HTTP ${res.status}`)
   return (await res.json()) as ExampleTree
 }

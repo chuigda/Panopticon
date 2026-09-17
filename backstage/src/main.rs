@@ -6,6 +6,17 @@ const UPSTREAM_HEADER: &str = "x-upstream-base-url";
 const INDEX_HTML: &str = include_str!("../../frontend/dist/index.html");
 const MAX_BODY_BYTES: usize = 64 * 1024 * 1024;
 
+// PWA 静态资源，来自 frontend/public（sw.js 取构建后带 BUILD_ID 的版本）
+const PWA_ASSETS: &[(&str, &str, &[u8])] = &[
+    ("/manifest.webmanifest", "application/manifest+json", include_bytes!("../../frontend/dist/manifest.webmanifest")),
+    ("/sw.js", "application/javascript", include_bytes!("../../frontend/dist/sw.js")),
+    ("/.well-known/assetlinks.json", "application/json", include_bytes!("../../frontend/dist/.well-known/assetlinks.json")),
+    ("/icons/icon-192.png", "image/png", include_bytes!("../../frontend/dist/icons/icon-192.png")),
+    ("/icons/icon-512.png", "image/png", include_bytes!("../../frontend/dist/icons/icon-512.png")),
+    ("/icons/icon-192-maskable.png", "image/png", include_bytes!("../../frontend/dist/icons/icon-192-maskable.png")),
+    ("/icons/icon-512-maskable.png", "image/png", include_bytes!("../../frontend/dist/icons/icon-512-maskable.png")),
+];
+
 #[tokio::main]
 async fn main() {
     let args: Vec<String> = std::env::args().skip(1).collect();
@@ -23,13 +34,17 @@ async fn main() {
         .map(|s| s.parse().expect("invalid port"))
         .unwrap_or(3000);
 
-    let app = Router::new()
+    let mut app = Router::new()
         .route("/", get(index))
         .route("/v1/messages", post(proxy))
         .route("/v1/chat/completions", post(proxy))
         .route("/examples", get(index_examples))
-        .merge(examples_router())
-        .with_state(reqwest::Client::new());
+        .route("/examples/index.json", get(index_examples))
+        .merge(examples_router());
+    for (route, mime, bytes) in PWA_ASSETS {
+        app = app.route(route, get(move || async move { ([(header::CONTENT_TYPE, *mime)], *bytes) }));
+    }
+    let app = app.with_state(reqwest::Client::new());
 
     let listener = tokio::net::TcpListener::bind((host, port))
         .await
