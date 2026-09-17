@@ -25,6 +25,7 @@ import Input from './Input.vue'
 import MarkdownEdit from './MarkdownEdit.vue'
 import ModelConfigForm from './ModelConfigForm.vue'
 import PlainTextEdit from './PlainTextEdit.vue'
+import ToggleButton from './ToggleButton.vue'
 import ToggleButtonGroup from './ToggleButtonGroup.vue'
 
 // ---------- 持久化 ----------
@@ -636,6 +637,10 @@ function preprocessStatusBar(text: string) {
           <Input :model-value="String(config.inlineMessageLimit)" label="内联消息上限" type="number" @update:model-value="setNum('inlineMessageLimit', $event)" />
           <Input :model-value="String(config.compressionSize)" label="压缩条数" type="number" @update:model-value="setNum('compressionSize', $event)" />
           <Input :model-value="String(config.outputLength)" label="输出长度" type="number" @update:model-value="setNum('outputLength', $event)" />
+        </div>
+        <div class="api__globals">
+          <span class="input-field__label">直连模式（不使用代理，需要远程端点支持 CORS）</span>
+          <ToggleButton v-model="config.directConnect">{{ config.directConnect ? '启用' : '关闭' }}</ToggleButton>
         </div>
         <ToggleButtonGroup :model-value="apiTab" :options="apiTabs" @update:model-value="apiTab = $event as ModelKey" />
         <ModelConfigForm v-model="config[apiTab]" />

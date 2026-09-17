@@ -25,6 +25,7 @@ import Input from './Input.vue'
 import MarkdownEditMobile from './MarkdownEditMobile.vue'
 import ModelConfigFormMobile from './ModelConfigFormMobile.vue'
 import PlainTextEditMobile from './PlainTextEditMobile.vue'
+import ToggleButton from './ToggleButton.vue'
 import ToggleButtonGroup from './ToggleButtonGroup.vue'
 
 // ---------- 持久化 ----------
@@ -814,6 +815,13 @@ function preprocessStatusBar(text: string) {
             type="number"
             @update:model-value="setNum('outputLength', $event)"
           />
+        </div>
+
+        <div class="m-api-dialog__globals">
+          <span class="input-field__label">直连模式（不使用代理，需要端点支持 CORS）</span>
+          <ToggleButton v-model="config.directConnect">
+            {{ config.directConnect ? '已启用' : '已关闭' }}
+          </ToggleButton>
         </div>
 
         <div class="m-api-dialog__tabs">

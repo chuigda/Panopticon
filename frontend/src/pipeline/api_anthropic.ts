@@ -5,7 +5,7 @@ import type {
   Tool,
   ToolResultBlockParam
 } from '@anthropic-ai/sdk/resources'
-import type { Config, ModelConfig } from '../config'
+import { resolveEndpoint, type Config, type ModelConfig } from '../config'
 import type { ChatAssistantMessage, ChatMessage } from '../session/message'
 import type { ChatTool } from './tool'
 import { Anthropic } from '@anthropic-ai/sdk'
@@ -28,11 +28,7 @@ export async function anthropicSimulate(
     'There must be a \'user\' message after the last assistant message'
   )
 
-  const client = new Anthropic({
-    baseURL: window.location.origin,
-    apiKey: config.chatModel.apiKey,
-    dangerouslyAllowBrowser: true
-  })
+  const client = createClient(config, config.chatModel)
 
   const messages: MessageParam[] = []
 
@@ -182,13 +178,7 @@ export async function anthropicSimulate(
 
       ...samplingParams(config.chatModel),
       ...config.chatModel.args
-    }, {
-      headers: {
-        'X-Upstream-Base-Url': config.chatModel.uri,
-        ...config.chatModel.headers
-      },
-      signal
-    })
+    }, { signal })
 
     for await (const event of stream) {
       switch (event.type) {
@@ -287,11 +277,7 @@ export async function anthropicStatusBar(
   const lastChatMessage = chatMessages[chatMessages.length - 1] as ChatAssistantMessage
   assert(lastChatMessage.$k === 'assistant', 'The last assistant message must be \'assistant\'')
 
-  const client = new Anthropic({
-    baseURL: window.location.origin,
-    apiKey: config.statusBarModel.apiKey,
-    dangerouslyAllowBrowser: true
-  })
+  const client = createClient(config, config.statusBarModel)
 
   let userMessage: MessageParam = {
     role: 'user',
@@ -360,13 +346,7 @@ export async function anthropicStatusBar(
 
     ...samplingParams(config.statusBarModel),
     ...config.statusBarModel.args
-  }, {
-    headers: {
-      'X-Upstream-Base-Url': config.statusBarModel.uri,
-      ...config.statusBarModel.headers
-    },
-    signal
-  })
+  }, { signal })
 
   lastChatMessage.statusBar = result.content
     .filter(block => block.type === 'text')
@@ -388,11 +368,7 @@ export async function anthropicMemoryCompress(
   userString: string,
   signal: AbortSignal
 ): Promise<void> {
-  const client = new Anthropic({
-    baseURL: window.location.origin,
-    apiKey: config.memoryModel.apiKey,
-    dangerouslyAllowBrowser: true
-  })
+  const client = createClient(config, config.memoryModel)
 
   let userMessage: MessageParam = {
     role: 'user',
@@ -461,13 +437,7 @@ export async function anthropicMemoryCompress(
 
     ...samplingParams(config.memoryModel),
     ...config.memoryModel.args
-  }, {
-    headers: {
-      'X-Upstream-Base-Url': config.memoryModel.uri,
-      ...config.memoryModel.headers
-    },
-    signal
-  })
+  }, { signal })
 
   chatMessages.splice(i + 1, 0, {
     $k: 'memory',
@@ -488,6 +458,16 @@ function serializeToolContent(content: unknown): string {
   return typeof content === 'string'
     ? content
     : JSON.stringify(content) ?? String(content)
+}
+
+function createClient(config: Config, model: ModelConfig): Anthropic {
+  const { baseURL, headers } = resolveEndpoint(config, model)
+  return new Anthropic({
+    baseURL,
+    apiKey: model.apiKey,
+    dangerouslyAllowBrowser: true,
+    defaultHeaders: headers
+  })
 }
 
 function samplingParams(model: ModelConfig) {

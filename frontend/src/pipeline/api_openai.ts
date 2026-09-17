@@ -5,7 +5,7 @@ import type {
   ChatCompletionTool,
 } from 'openai/resources/chat/completions'
 import type { ChatTokenUsage, ChatAssistantMessage, ChatMessage } from '../session/message'
-import type { Config, ModelConfig } from '../config'
+import { resolveEndpoint, type Config, type ModelConfig } from '../config'
 import type { ChatTool } from './tool'
 import OpenAI from 'openai'
 import { assert } from '../util'
@@ -27,7 +27,7 @@ export async function openaiSimulate(
     'There must be a \'user\' message after the last assistant message'
   )
 
-  const client = createClient(config.chatModel)
+  const client = createClient(config, config.chatModel)
   const messages = buildSimulationMessages(
     simulatorSystem,
     chatMessages,
@@ -169,7 +169,7 @@ export async function openaiStatusBar(
   const lastChatMessage = chatMessages[chatMessages.length - 1] as ChatAssistantMessage
   assert(lastChatMessage.$k === 'assistant', 'The last assistant message must be \'assistant\'')
 
-  const client = createClient(config.statusBarModel)
+  const client = createClient(config, config.statusBarModel)
   const userContent: string[] = []
 
   for (let i = start; i < chatMessages.length; i++) {
@@ -215,7 +215,7 @@ export async function openaiMemoryCompress(
   userString: string,
   signal: AbortSignal
 ): Promise<void> {
-  const client = createClient(config.memoryModel)
+  const client = createClient(config, config.memoryModel)
   const userContent: string[] = []
   let i = start
   let compressedCount = 0
@@ -264,15 +264,13 @@ export async function openaiMemoryCompress(
   })
 }
 
-function createClient(model: ModelConfig): OpenAI {
+function createClient(config: Config, model: ModelConfig): OpenAI {
+  const { baseURL, headers } = resolveEndpoint(config, model, '/v1')
   return new OpenAI({
-    baseURL: window.location.origin + '/v1',
+    baseURL,
     apiKey: model.apiKey,
     dangerouslyAllowBrowser: true,
-    defaultHeaders: {
-      'X-Upstream-Base-Url': model.uri,
-      ...model.headers
-    }
+    defaultHeaders: headers
   })
 }
 

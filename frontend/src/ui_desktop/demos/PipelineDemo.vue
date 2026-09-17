@@ -18,6 +18,7 @@ const config = computed<Config>(() => ({
   inlineMessageLimit: 3,
   compressionSize: 2,
   outputLength: 300,
+  directConnect: false,
   chatModel: {
     uri: baseUrl.value,
     apiKey: apiKey.value,

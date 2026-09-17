@@ -26,6 +26,8 @@ export interface Config {
   inlineMessageLimit: number
   compressionSize: number
   outputLength: number
+  // 直连远程端点，不经过本地代理；需要端点支持浏览器 CORS
+  directConnect: boolean
 
   chatModel: ModelConfig
   statusBarModel: ModelConfig
@@ -55,6 +57,7 @@ export const ConfigSchema = z.object({
   inlineMessageLimit: z.number(),
   compressionSize: z.number(),
   outputLength: z.number(),
+  directConnect: z.boolean().default(false),
   chatModel: ModelConfigSchema,
   statusBarModel: ModelConfigSchema,
   memoryModel: ModelConfigSchema,
@@ -64,6 +67,7 @@ export const defaultConfig: Config = {
   inlineMessageLimit: 12,
   compressionSize: 8,
   outputLength: 1200,
+  directConnect: false,
 
   chatModel: {
     uri: '',
@@ -95,5 +99,22 @@ export const defaultConfig: Config = {
     thinkingEnabled: true,
     reasoningEffort: 'medium',
     temperature: 0.05
+  }
+}
+
+// 代理模式下请求发往同源，由后端按 X-Upstream-Base-Url 转发；直连模式下直接发往模型端点
+export function resolveEndpoint(config: Config, model: ModelConfig, pathSuffix = ''): {
+  baseURL: string
+  headers: Record<string, string>
+} {
+  if (config.directConnect) {
+    return {
+      baseURL: model.uri.replace(/\/+$/, '') + pathSuffix,
+      headers: { ...model.headers }
+    }
+  }
+  return {
+    baseURL: window.location.origin + pathSuffix,
+    headers: { 'X-Upstream-Base-Url': model.uri, ...model.headers }
   }
 }
