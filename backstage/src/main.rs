@@ -5,6 +5,7 @@ use axum::Router;
 mod assets;
 mod cli;
 mod config;
+mod gatchpt;
 mod proxy;
 
 #[tokio::main]
@@ -15,6 +16,7 @@ async fn main() {
 
     let app = Router::new()
         .merge(assets::router())
+        .merge(gatchpt::router())
         .merge(proxy::router(config.clone()));
 
     let listener = tokio::net::TcpListener::bind((host, port))

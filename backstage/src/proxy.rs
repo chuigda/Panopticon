@@ -16,7 +16,7 @@ use axum::{
     routing::post,
 };
 
-use crate::config::Config;
+use crate::{config::Config, gatchpt};
 
 const UPSTREAM_HEADER: &str = "x-upstream-base-url";
 
@@ -62,6 +62,11 @@ async fn proxy(
                 format!("missing or invalid `{UPSTREAM_HEADER}` header"),
             )
         })?;
+
+    // 内置假上游，不外发
+    if gatchpt::is_gatchpt_base(base) {
+        return gatchpt::handle(parts.uri.path(), body).await;
+    }
 
     verify_upstream(&state, base, &parts.headers).await?;
     let client = &state.client;
