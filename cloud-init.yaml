@@ -1,0 +1,63 @@
+#cloud-config
+# Vultr / Debian Trixie cloud-init: 安装 Rust、nvm + Node 24、git，克隆并构建本仓库。
+# 所有操作以 root 身份执行，安装到 /root 下；日志见 /var/log/cloud-init-output.log。
+
+package_update: true
+package_upgrade: false
+
+packages:
+  - git
+  - curl
+  - ca-certificates
+  - build-essential
+  - pkg-config
+  - libssl-dev
+
+write_files:
+  - path: /root/bootstrap.sh
+    permissions: '0755'
+    content: |
+      #!/usr/bin/env bash
+      set -euo pipefail
+      export HOME=/root
+      cd "$HOME"
+
+      # ---- Rust toolchain ----
+      curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y --profile minimal
+      # shellcheck disable=SC1091
+      source "$HOME/.cargo/env"
+
+      # ---- nvm + Node 24 ----
+      export NVM_DIR="$HOME/.nvm"
+      curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/master/install.sh | bash
+      # shellcheck disable=SC1091
+      source "$NVM_DIR/nvm.sh"
+      nvm install 24
+      nvm alias default 24
+      nvm use 24
+
+      # ---- Clone repo ----
+      REPO_DIR="$HOME/conducting-department-web"
+      if [ ! -d "$REPO_DIR/.git" ]; then
+        git clone https://github.com/chuigda/conducting-department-web.git "$REPO_DIR"
+      fi
+      cd "$REPO_DIR"
+
+      # ---- Frontend deps + patch marked-katex-extension ----
+      pushd frontend
+      npm install
+      PATCH_FILE="node_modules/marked-katex-extension/src/index.ts"
+      # 第 75 行: blockKatex(options: ...) -> blockKatex(_options: ...)，避免 vue-tsc 报未使用参数
+      sed -i '75s/\boptions:/_options:/' "$PATCH_FILE"
+      popd
+
+      # ---- Build ----
+      chmod +x build.sh
+      ./build.sh
+
+      echo "bootstrap done"
+
+runcmd:
+  - [ bash, -lc, "/root/bootstrap.sh > /root/bootstrap.log 2>&1" ]
+
+final_message: "cloud-init finished after $UPTIME seconds. See /root/bootstrap.log"
