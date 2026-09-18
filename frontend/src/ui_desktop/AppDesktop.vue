@@ -948,7 +948,7 @@ function preprocessStatusBar(text: string) {
   font-size: 0.85em;
 }
 
-.api > .toggle-button-group {
+.api > .toggle-button-field :deep(.toggle-button-group) {
   justify-self: start;
 }
 

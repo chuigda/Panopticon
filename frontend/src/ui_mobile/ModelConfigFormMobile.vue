@@ -48,14 +48,12 @@ function str(v: number | undefined) {
       @update:model-value="model.modelName = $event ?? ''"
     />
 
-    <div class="mcf-mobile__field-block">
-      <span class="input-field__label">协议</span>
-      <ToggleButtonGroup
-        :model-value="model.protocol"
-        :options="protocolOptions"
-        @update:model-value="model.protocol = $event as ModelConfig['protocol']"
-      />
-    </div>
+    <ToggleButtonGroup
+      :model-value="model.protocol"
+      :options="protocolOptions"
+      label="协议"
+      @update:model-value="model.protocol = $event as ModelConfig['protocol']"
+    />
 
     <div class="mcf-mobile__grid">
       <Input
@@ -120,22 +118,18 @@ function str(v: number | undefined) {
     </div>
 
     <template v-if="model.protocol === 'messages'">
-      <div class="mcf-mobile__field-block">
-        <span class="input-field__label">消息缓存 (TTL)</span>
-        <ToggleButtonGroup
-          :model-value="model.cacheTtl ?? ''"
-          :options="cacheOptions"
-          @update:model-value="model.cacheTtl = ($event || undefined) as ModelConfig['cacheTtl']"
-        />
-      </div>
-      <div class="mcf-mobile__field-block">
-        <span class="input-field__label">System 缓存 (TTL)</span>
-        <ToggleButtonGroup
-          :model-value="model.systemCacheTtl ?? ''"
-          :options="cacheOptions"
-          @update:model-value="model.systemCacheTtl = ($event || undefined) as ModelConfig['systemCacheTtl']"
-        />
-      </div>
+      <ToggleButtonGroup
+        :model-value="model.cacheTtl ?? ''"
+        :options="cacheOptions"
+        label="消息缓存 (TTL)"
+        @update:model-value="model.cacheTtl = ($event || undefined) as ModelConfig['cacheTtl']"
+      />
+      <ToggleButtonGroup
+        :model-value="model.systemCacheTtl ?? ''"
+        :options="cacheOptions"
+        label="System 缓存 (TTL)"
+        @update:model-value="model.systemCacheTtl = ($event || undefined) as ModelConfig['systemCacheTtl']"
+      />
     </template>
   </div>
 </template>
@@ -151,12 +145,6 @@ function str(v: number | undefined) {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 0.5em;
-}
-
-.mcf-mobile__field-block {
-  display: flex;
-  flex-direction: column;
-  gap: 0.3em;
 }
 
 .mcf-mobile__field-row {

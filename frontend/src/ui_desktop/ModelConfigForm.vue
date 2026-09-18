@@ -34,14 +34,12 @@ function str(v: number | undefined) {
     <Input :model-value="model.apiKey" label="API Key" type="password" @update:model-value="model.apiKey = $event ?? ''" />
     <Input :model-value="model.modelName" label="模型名" @update:model-value="model.modelName = $event ?? ''" />
 
-    <div class="mcf__row">
-      <span class="input-field__label">协议</span>
-      <ToggleButtonGroup
-        :model-value="model.protocol"
-        :options="protocolOptions"
-        @update:model-value="model.protocol = $event as ModelConfig['protocol']"
-      />
-    </div>
+    <ToggleButtonGroup
+      :model-value="model.protocol"
+      :options="protocolOptions"
+      label="协议"
+      @update:model-value="model.protocol = $event as ModelConfig['protocol']"
+    />
 
     <div class="mcf__grid">
       <Input
@@ -99,22 +97,18 @@ function str(v: number | undefined) {
     </div>
 
     <template v-if="model.protocol === 'messages'">
-      <div class="mcf__row">
-        <span class="input-field__label">消息缓存</span>
-        <ToggleButtonGroup
-          :model-value="model.cacheTtl ?? ''"
-          :options="cacheOptions"
-          @update:model-value="model.cacheTtl = ($event || undefined) as ModelConfig['cacheTtl']"
-        />
-      </div>
-      <div class="mcf__row">
-        <span class="input-field__label">System 缓存</span>
-        <ToggleButtonGroup
-          :model-value="model.systemCacheTtl ?? ''"
-          :options="cacheOptions"
-          @update:model-value="model.systemCacheTtl = ($event || undefined) as ModelConfig['systemCacheTtl']"
-        />
-      </div>
+      <ToggleButtonGroup
+        :model-value="model.cacheTtl ?? ''"
+        :options="cacheOptions"
+        label="消息缓存"
+        @update:model-value="model.cacheTtl = ($event || undefined) as ModelConfig['cacheTtl']"
+      />
+      <ToggleButtonGroup
+        :model-value="model.systemCacheTtl ?? ''"
+        :options="cacheOptions"
+        label="System 缓存"
+        @update:model-value="model.systemCacheTtl = ($event || undefined) as ModelConfig['systemCacheTtl']"
+      />
     </template>
   </div>
 </template>

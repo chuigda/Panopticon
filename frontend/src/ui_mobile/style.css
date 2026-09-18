@@ -252,6 +252,21 @@ textarea:focus {
   border-color: var(--accent);
 }
 
+/* 无 label 时不参与布局，保持原有父级排版 */
+.toggle-button-field {
+  display: contents;
+}
+
+.toggle-button-field.has-label {
+  display: grid;
+  gap: 0.25em;
+  min-inline-size: 0;
+}
+
+.toggle-button-field.has-label .toggle-button-group {
+  justify-self: start;
+}
+
 .toggle-button-group {
   display: inline-flex;
   align-items: stretch;
