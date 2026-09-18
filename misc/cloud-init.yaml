@@ -37,9 +37,9 @@ write_files:
       nvm use 24
 
       # ---- Clone repo ----
-      REPO_DIR="$HOME/conducting-department-web"
+      REPO_DIR="$HOME/Panopticon"
       if [ ! -d "$REPO_DIR/.git" ]; then
-        git clone https://github.com/chuigda/conducting-department-web.git "$REPO_DIR"
+        git clone https://github.com/chuigda/Panopticon.git "$REPO_DIR"
       fi
       cd "$REPO_DIR"
 
