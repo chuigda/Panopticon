@@ -1,7 +1,7 @@
 # type: simulator
 kind = "cd"
 universeName = "Medieval World"
-literalWorkName = "A Song of Ice and Fire / Erta Regum (Crusader Kings)"
+literalWorkName = "Medieval / Crusader Kings"
 prologue = """
 """
 
