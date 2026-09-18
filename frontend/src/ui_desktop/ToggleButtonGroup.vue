@@ -1,17 +1,17 @@
-<script setup lang="ts">
+<script setup lang="ts" generic="T">
 import { ref, useId } from 'vue'
 
 defineOptions({ inheritAttrs: false })
 
-type ToggleButtonOption = {
-  value: string
+type ToggleButtonOption<T = string> = {
+  value: T
   label: string
   disabled?: boolean
 }
 
 const props = withDefaults(defineProps<{
-  modelValue: string
-  options: readonly ToggleButtonOption[]
+  modelValue: T
+  options: readonly ToggleButtonOption<T>[]
   label?: string
   ariaLabel?: string
   disabled?: boolean
@@ -24,14 +24,14 @@ const props = withDefaults(defineProps<{
 })
 
 const emit = defineEmits<{
-  'update:modelValue': [value: string]
-  change: [value: string]
+  'update:modelValue': [value: T]
+  change: [value: T]
 }>()
 
 const groupElement = ref<HTMLElement | null>(null)
 const labelId = `toggle-group-${useId()}-label`
 
-function select(value: string, disabled?: boolean) {
+function select(value: T, disabled?: boolean) {
   if (props.disabled || disabled || value === props.modelValue) {
     return
   }
@@ -40,7 +40,7 @@ function select(value: string, disabled?: boolean) {
   emit('change', value)
 }
 
-function focusOption(value: string) {
+function focusOption(value: T) {
   const buttons = groupElement.value?.querySelectorAll<HTMLButtonElement>('.toggle-button')
   Array.from(buttons ?? []).find((button) => button.dataset.value === value)?.focus()
 }
@@ -91,7 +91,7 @@ function handleKeydown(event: KeyboardEvent) {
     >
       <button
         v-for="(option, index) in options"
-        :key="option.value"
+        :key="`${option.value}`"
         class="toggle-button"
         :class="{ 'is-pressed': option.value === modelValue }"
         :data-value="option.value"

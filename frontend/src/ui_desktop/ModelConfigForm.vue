@@ -1,10 +1,14 @@
 <script setup lang="ts">
 import type { ModelConfig } from '../config.ts'
 import Input from './Input.vue'
-import ToggleButton from './ToggleButton.vue'
 import ToggleButtonGroup from './ToggleButtonGroup.vue'
 
 const model = defineModel<ModelConfig>({ required: true })
+
+const enableDisableOptions = [
+  { value: true, label: '启用' },
+  { value: false, label: '关闭' }
+] as const
 
 const protocolOptions = [
   { value: 'messages', label: 'Messages' },
@@ -35,20 +39,44 @@ function str(v: number | undefined) {
     <Input :model-value="model.modelName" label="模型名" @update:model-value="model.modelName = $event ?? ''" />
 
     <ToggleButtonGroup
-      :model-value="model.protocol"
-      :options="protocolOptions"
-      label="协议"
-      @update:model-value="model.protocol = $event as ModelConfig['protocol']"
+        :model-value="model.protocol"
+        :options="protocolOptions"
+        label="协议"
+        @update:model-value="model.protocol = $event as ModelConfig['protocol']"
     />
 
+    <div class="mcf__row">
+      <ToggleButtonGroup
+        v-model="model.direct"
+        :options="enableDisableOptions"
+        label="直连"
+      />
+      <ToggleButtonGroup v-model="model.thinkingEnabled" :options="enableDisableOptions" label="思考" />
+
+      <template v-if="model.protocol === 'messages'">
+        <ToggleButtonGroup
+          :model-value="model.cacheTtl ?? ''"
+          :options="cacheOptions"
+          label="消息缓存"
+          @update:model-value="model.cacheTtl = ($event || undefined) as ModelConfig['cacheTtl']"
+        />
+        <ToggleButtonGroup
+          :model-value="model.systemCacheTtl ?? ''"
+          :options="cacheOptions"
+          label="System 缓存"
+          @update:model-value="model.systemCacheTtl = ($event || undefined) as ModelConfig['systemCacheTtl']"
+        />
+      </template>
+    </div>
+
     <div class="mcf__grid">
+      <Input v-model="model.reasoningEffort" label="推理强度" placeholder="low / medium / high" empty-behavior="undefined" />
       <Input
         :model-value="String(model.outputBudget)"
         label="输出预算"
         type="number"
         @update:model-value="model.outputBudget = num($event) ?? model.outputBudget"
       />
-      <Input v-model="model.reasoningEffort" label="推理强度" placeholder="low / medium / high" empty-behavior="undefined" />
       <Input
         :model-value="str(model.temperature)"
         label="Temperature"
@@ -90,26 +118,6 @@ function str(v: number | undefined) {
         @update:model-value="model.presencePenalty = num($event)"
       />
     </div>
-
-    <div class="mcf__row">
-      <span class="input-field__label">思考</span>
-      <ToggleButton v-model="model.thinkingEnabled">{{ model.thinkingEnabled ? '启用' : '关闭' }}</ToggleButton>
-    </div>
-
-    <template v-if="model.protocol === 'messages'">
-      <ToggleButtonGroup
-        :model-value="model.cacheTtl ?? ''"
-        :options="cacheOptions"
-        label="消息缓存"
-        @update:model-value="model.cacheTtl = ($event || undefined) as ModelConfig['cacheTtl']"
-      />
-      <ToggleButtonGroup
-        :model-value="model.systemCacheTtl ?? ''"
-        :options="cacheOptions"
-        label="System 缓存"
-        @update:model-value="model.systemCacheTtl = ($event || undefined) as ModelConfig['systemCacheTtl']"
-      />
-    </template>
   </div>
 </template>
 
@@ -128,7 +136,6 @@ function str(v: number | undefined) {
 .mcf__row {
   display: flex;
   align-items: center;
-  justify-content: space-between;
   gap: 0.5em;
 }
 </style>

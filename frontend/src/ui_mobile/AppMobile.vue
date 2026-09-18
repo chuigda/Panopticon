@@ -817,15 +817,9 @@ function preprocessStatusBar(text: string) {
           />
         </div>
 
-        <div class="m-api-dialog__globals">
-          <span class="input-field__label">直连模式</span>
-          <ToggleButton v-model="config.directConnect">
-            {{ config.directConnect ? '已启用' : '已关闭' }}
-          </ToggleButton>
-        </div>
-
         <div class="m-api-dialog__tabs">
           <ToggleButtonGroup
+            label="配置模型"
             :model-value="apiTab"
             :options="apiTabs"
             aria-label="配置目标模型"

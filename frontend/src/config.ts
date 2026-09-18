@@ -3,6 +3,7 @@ import { z } from 'zod'
 export interface ModelConfig {
   uri: string
   apiKey: string
+  direct?: boolean
 
   protocol: 'chat-completions' | 'messages'
   modelName: string
@@ -26,8 +27,6 @@ export interface Config {
   inlineMessageLimit: number
   compressionSize: number
   outputLength: number
-  // 直连远程端点，不经过本地代理；需要端点支持浏览器 CORS
-  directConnect: boolean
 
   chatModel: ModelConfig
   statusBarModel: ModelConfig
@@ -37,6 +36,7 @@ export interface Config {
 export const ModelConfigSchema = z.object({
   uri: z.string(),
   apiKey: z.string(),
+  direct: z.boolean().optional(),
   protocol: z.enum(['chat-completions', 'messages']),
   modelName: z.string(),
   outputBudget: z.number(),
@@ -67,11 +67,11 @@ export const defaultConfig: Config = {
   inlineMessageLimit: 12,
   compressionSize: 8,
   outputLength: 1200,
-  directConnect: false,
 
   chatModel: {
     uri: '',
     apiKey: '',
+    direct: true,
     protocol: 'messages',
     modelName: 'claude-opus-4-6',
     outputBudget: 8192,
@@ -83,6 +83,7 @@ export const defaultConfig: Config = {
   statusBarModel: {
     uri: 'https://api.deepseek.com',
     apiKey: '',
+    direct: true,
     protocol: 'chat-completions',
     modelName: 'deepseek-v4-flash',
     outputBudget: 8192,
@@ -93,6 +94,7 @@ export const defaultConfig: Config = {
   memoryModel: {
     uri: 'https://api.deepseek.com',
     apiKey: '',
+    direct: true,
     protocol: 'chat-completions',
     modelName: 'deepseek-v4-flash',
     outputBudget: 8192,
@@ -103,11 +105,11 @@ export const defaultConfig: Config = {
 }
 
 // 代理模式下请求发往同源，由后端按 X-Upstream-Base-Url 转发；直连模式下直接发往模型端点
-export function resolveEndpoint(config: Config, model: ModelConfig, pathSuffix = ''): {
+export function resolveEndpoint(model: ModelConfig, pathSuffix = ''): {
   baseURL: string
   headers: Record<string, string>
 } {
-  if (config.directConnect) {
+  if (model.direct) {
     return {
       baseURL: model.uri.replace(/\/+$/, '') + pathSuffix,
       headers: { ...model.headers }

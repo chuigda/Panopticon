@@ -638,11 +638,7 @@ function preprocessStatusBar(text: string) {
           <Input :model-value="String(config.compressionSize)" label="压缩条数" type="number" @update:model-value="setNum('compressionSize', $event)" />
           <Input :model-value="String(config.outputLength)" label="输出长度" type="number" @update:model-value="setNum('outputLength', $event)" />
         </div>
-        <div class="api__globals">
-          <span class="input-field__label">直连模式</span>
-          <ToggleButton v-model="config.directConnect">{{ config.directConnect ? '启用' : '关闭' }}</ToggleButton>
-        </div>
-        <ToggleButtonGroup :model-value="apiTab" :options="apiTabs" @update:model-value="apiTab = $event as ModelKey" />
+        <ToggleButtonGroup label="配置模型" :model-value="apiTab" :options="apiTabs" @update:model-value="apiTab = $event as ModelKey" />
         <ModelConfigForm v-model="config[apiTab]" />
       </div>
       <template #footer>

@@ -1,13 +1,17 @@
 <script setup lang="ts">
 import type { ModelConfig } from '../config.ts'
 import Input from './Input.vue'
-import ToggleButton from './ToggleButton.vue'
 import ToggleButtonGroup from './ToggleButtonGroup.vue'
 
 const model = defineModel<ModelConfig>({ required: true })
 
+const enableDisableOptions = [
+  { value: true, label: '启用' },
+  { value: false, label: '关闭' }
+] as const
+
 const protocolOptions = [
-  { value: 'messages', label: 'Messages' },
+  { value: 'messages', label: 'Anthropic' },
   { value: 'chat-completions', label: 'Chat Completions' },
 ] as const
 
@@ -54,6 +58,30 @@ function str(v: number | undefined) {
       label="协议"
       @update:model-value="model.protocol = $event as ModelConfig['protocol']"
     />
+
+    <div class="mcf-mobile__field-row">
+      <ToggleButtonGroup
+          v-model="model.direct"
+          :options="enableDisableOptions"
+          label="直连"
+      />
+      <ToggleButtonGroup v-model="model.thinkingEnabled" :options="enableDisableOptions" label="思考" />
+
+      <template v-if="model.protocol === 'messages'">
+        <ToggleButtonGroup
+          :model-value="model.cacheTtl ?? ''"
+          :options="cacheOptions"
+          label="消息缓存"
+          @update:model-value="model.cacheTtl = ($event || undefined) as ModelConfig['cacheTtl']"
+        />
+        <ToggleButtonGroup
+          :model-value="model.systemCacheTtl ?? ''"
+          :options="cacheOptions"
+          label="System 缓存"
+          @update:model-value="model.systemCacheTtl = ($event || undefined) as ModelConfig['systemCacheTtl']"
+        />
+      </template>
+    </div>
 
     <div class="mcf-mobile__grid">
       <Input
@@ -109,28 +137,6 @@ function str(v: number | undefined) {
         @update:model-value="model.presencePenalty = num($event)"
       />
     </div>
-
-    <div class="mcf-mobile__field-row">
-      <span class="input-field__label">思考 (Thinking)</span>
-      <ToggleButton v-model="model.thinkingEnabled">
-        {{ model.thinkingEnabled ? '已启用' : '已关闭' }}
-      </ToggleButton>
-    </div>
-
-    <template v-if="model.protocol === 'messages'">
-      <ToggleButtonGroup
-        :model-value="model.cacheTtl ?? ''"
-        :options="cacheOptions"
-        label="消息缓存 (TTL)"
-        @update:model-value="model.cacheTtl = ($event || undefined) as ModelConfig['cacheTtl']"
-      />
-      <ToggleButtonGroup
-        :model-value="model.systemCacheTtl ?? ''"
-        :options="cacheOptions"
-        label="System 缓存 (TTL)"
-        @update:model-value="model.systemCacheTtl = ($event || undefined) as ModelConfig['systemCacheTtl']"
-      />
-    </template>
   </div>
 </template>
 
@@ -150,7 +156,6 @@ function str(v: number | undefined) {
 .mcf-mobile__field-row {
   display: flex;
   align-items: center;
-  justify-content: space-between;
   gap: 0.5em;
   padding-block: 0.2em;
 }
