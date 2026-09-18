@@ -25,7 +25,6 @@ import Input from './Input.vue'
 import MarkdownEditMobile from './MarkdownEditMobile.vue'
 import ModelConfigFormMobile from './ModelConfigFormMobile.vue'
 import PlainTextEditMobile from './PlainTextEditMobile.vue'
-import ToggleButton from './ToggleButton.vue'
 import ToggleButtonGroup from './ToggleButtonGroup.vue'
 
 // ---------- 持久化 ----------
