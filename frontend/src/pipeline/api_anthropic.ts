@@ -28,7 +28,7 @@ export async function anthropicSimulate(
     'There must be a \'user\' message after the last assistant message'
   )
 
-  const client = createClient(config, config.chatModel)
+  const client = createClient(config.chatModel)
 
   const messages: MessageParam[] = []
 
@@ -277,7 +277,7 @@ export async function anthropicStatusBar(
   const lastChatMessage = chatMessages[chatMessages.length - 1] as ChatAssistantMessage
   assert(lastChatMessage.$k === 'assistant', 'The last assistant message must be \'assistant\'')
 
-  const client = createClient(config, config.statusBarModel)
+  const client = createClient(config.statusBarModel)
 
   let userMessage: MessageParam = {
     role: 'user',
@@ -368,7 +368,7 @@ export async function anthropicMemoryCompress(
   userString: string,
   signal: AbortSignal
 ): Promise<void> {
-  const client = createClient(config, config.memoryModel)
+  const client = createClient(config.memoryModel)
 
   let userMessage: MessageParam = {
     role: 'user',
@@ -460,8 +460,8 @@ function serializeToolContent(content: unknown): string {
     : JSON.stringify(content) ?? String(content)
 }
 
-function createClient(config: Config, model: ModelConfig): Anthropic {
-  const { baseURL, headers } = resolveEndpoint(config, model)
+function createClient(model: ModelConfig): Anthropic {
+  const { baseURL, headers } = resolveEndpoint(model)
   return new Anthropic({
     baseURL,
     apiKey: model.apiKey,
