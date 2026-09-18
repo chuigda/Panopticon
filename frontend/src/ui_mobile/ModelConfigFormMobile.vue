@@ -66,21 +66,21 @@ function str(v: number | undefined) {
           label="直连"
       />
       <ToggleButtonGroup v-model="model.thinkingEnabled" :options="enableDisableOptions" label="思考" />
+    </div>
 
-      <template v-if="model.protocol === 'messages'">
-        <ToggleButtonGroup
-          :model-value="model.cacheTtl ?? ''"
-          :options="cacheOptions"
-          label="消息缓存"
-          @update:model-value="model.cacheTtl = ($event || undefined) as ModelConfig['cacheTtl']"
-        />
-        <ToggleButtonGroup
-          :model-value="model.systemCacheTtl ?? ''"
-          :options="cacheOptions"
-          label="System 缓存"
-          @update:model-value="model.systemCacheTtl = ($event || undefined) as ModelConfig['systemCacheTtl']"
-        />
-      </template>
+    <div class="mcf-mobile__field-row" v-if="model.protocol === 'messages'">
+      <ToggleButtonGroup
+        :model-value="model.cacheTtl ?? ''"
+        :options="cacheOptions"
+        label="消息缓存"
+        @update:model-value="model.cacheTtl = ($event || undefined) as ModelConfig['cacheTtl']"
+      />
+      <ToggleButtonGroup
+        :model-value="model.systemCacheTtl ?? ''"
+        :options="cacheOptions"
+        label="System 缓存"
+        @update:model-value="model.systemCacheTtl = ($event || undefined) as ModelConfig['systemCacheTtl']"
+      />
     </div>
 
     <div class="mcf-mobile__grid">
