@@ -189,5 +189,5 @@ function buildIndented(strings: string[], indent: number): string {
   }
 
   const indentation = ' '.repeat(indent)
-  return indentation + strings.join('\n' + indentation)
+  return strings.join('\n' + indentation)
 }
