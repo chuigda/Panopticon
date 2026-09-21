@@ -5,11 +5,14 @@ import type {
   Tool,
   ToolResultBlockParam
 } from '@anthropic-ai/sdk/resources'
+import { Anthropic } from '@anthropic-ai/sdk'
+
 import { resolveEndpoint, type Config, type ModelConfig } from '../config'
 import type { ChatAssistantMessage, ChatMessage } from '../session/message'
 import type { ChatTool } from './tool'
-import { Anthropic } from '@anthropic-ai/sdk'
-import { assert } from '../util';
+import { assert } from '../util'
+
+import simulatorUserPromptCD from '../prompts/simulator.cd.user.xml?raw'
 
 export async function anthropicSimulate(
   config: Config,
@@ -85,6 +88,12 @@ export async function anthropicSimulate(
           type: 'text',
           text: `<${userString}>\n${chatMessage.content}\n</${userString}>`
         })
+        if (status) {
+          content.push({
+            type: 'text',
+            text: simulatorUserPromptCD
+          })
+        }
         break
       case 'memory':
         content.push({

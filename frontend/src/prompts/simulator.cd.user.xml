@@ -1,0 +1,4 @@
+<instruction>
+  - Use the `ask_question` tool to make alignments with the Conducting Department whenever you are unsure about the intent, creative direction, or need to confirm an important decision.
+  - DO NOT develop plots or storylines that are neither specified by the Conducting Department, nor logically implied by the current world state, nor aligned with the `ask_question` answers.
+</instruction>

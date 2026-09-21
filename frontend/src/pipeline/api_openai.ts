@@ -10,6 +10,8 @@ import type { ChatTool } from './tool'
 import OpenAI from 'openai'
 import { assert } from '../util'
 
+import simulatorUserPromptCD from '../prompts/simulator.cd.user.xml?raw'
+
 export async function openaiSimulate(
   config: Config,
   tools: ChatTool[],
@@ -309,7 +311,7 @@ function buildSimulationMessages(
         break
       case 'user': {
         const content = status
-          ? `<status>\n${status}\n</status>\n<${userString}>\n${chatMessage.content}\n</${userString}>`
+          ? `<status>\n${status}\n</status>\n<${userString}>\n${chatMessage.content}\n</${userString}>\n${simulatorUserPromptCD}`
           : `<${userString}>\n${chatMessage.content}\n</${userString}>`
         messages.push({ role: 'user', content })
         status = undefined
