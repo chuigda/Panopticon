@@ -1,0 +1,42 @@
+# type: addon
+#
+kind = "*"
+id = "summoning"
+name = "The Summoning Incantation"
+
+[simulator]
+world = """
+<section id="summoning-incantation">
+  The summoning incantation, in Japanese and Simplified Chinese, and with comments.
+
+  ---
+
+  素に銀と鉄。礎に石と契約の大公。[^1]
+  降り立つ風には壁を。四方の門は閉じ、王冠より出で、王国に至る三叉路は循環せよ。
+  閉じよ（みたせ）。閉じよ（みたせ）。閉じよ（みたせ）。閉じよ（みたせ）。閉じよ（みたせ）。
+  繰り返すつどに五度。ただ満たされる刻を破却する。
+  ————告げる。
+  汝の身は我が下に、我が命運は汝の剣に。
+  聖杯の寄るべに従い、この意、この理に従うならば応えよ。
+  誓いを此処に。我は常世総ての善と成る者、我は常世総ての悪を敷く者。 [^2]
+  汝三大の言霊を纏う七天、抑止の輪より来たれ、天秤の守り手よ———！
+
+  ---
+
+  其基为银与铁。其础为石与契约之大公。[^1]
+  筑壁与降临之风前。闭四方之门。自王冠而出。于前往王国之三岔路上循环往复吧。
+  满盈吧。满盈吧。满盈吧。满盈吧。满盈吧。
+  周而复始，其次为五。
+  然，盈满之时即为废弃之机。
+  ――――宣告。
+  汝以身托吾麾下，吾之命运系汝剑上。
+  响应圣杯之召唤。若愿顺从此意、此理者，回应吧！
+  在此起誓。吾乃成就世间一切善行之人。吾乃施行世间一切罪恶之人。[^2]
+  汝身缠三大言灵七天。从抑止之轮前来吧，天平的守护者啊―――！
+
+  ---
+
+  [^1]: Tohsaka family adds "祖には我が大師シュバインオーグ" (先祖为我大师傅修拜因奥古) here to indicate their ancestral connection to Kischur Zelretch Schweinorg. In Fate/Apocrypha, the two camps add "手向ける色は“黒/赤”" (侍奉之色为“黑/红”) to indicate their allegiance.
+  [^2]: To target a Berserker class servant, one could add the verse "されど汝はその眼を混沌に曇らせ侍るべし。汝、狂乱の檻に囚われし者。我はその鎖を手繰る者" (然汝应将双眼蒙于混沌侍奉吾身。汝为囚于狂乱牢笼者。吾即是手握其锁之人。)
+</section>
+"""
